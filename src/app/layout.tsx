@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://osirisai.live";
-const SITE_NAME = "OSIRIS";
-const SITE_TITLE = "OSIRIS — Open Source Intelligence Platform | Live Flight Tracking, CCTV, OSINT Tools & More";
-const SITE_DESCRIPTION = "The open-source Palantir alternative. Track 10,000+ aircraft, 2,000 satellites, and worldwide CCTV cameras in real-time on a 3D globe. Run Nmap scans, DNS lookups, WHOIS queries, SSL cert analysis & threat intelligence — all from your browser. 20+ live data feeds including earthquakes, wildfires, nuclear facilities, cyber threats, and global conflicts. Free & open source.";
+const SITE_URL = "https://blackglobe.vercel.app";
+const SITE_NAME = "BLACK GLOBE";
+const SITE_TITLE = "BLACK GLOBE — Cyber Intelligence Platform";
+const SITE_DESCRIPTION = "Live Tracking";
 
 export const viewport: Viewport = {
   themeColor: "#D4AF37",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_TITLE,
-    template: "%s | OSIRIS Intelligence",
+    template: "%s | BLACK GLOBE Intelligence",
   },
   description: SITE_DESCRIPTION,
   keywords: [
@@ -51,11 +51,11 @@ export const metadata: Metadata = {
     "defense stocks", "commodities tracker",
     
     // Brand
-    "osiris", "osirisai", "osirisai.live",
+    "blackglobe", "blackglobeio", "blackglobe.io",
   ],
-  authors: [{ name: "Osiris Project", url: SITE_URL }],
-  creator: "Osiris Project",
-  publisher: "Osiris Project",
+  authors: [{ name: "Black Globe", url: SITE_URL }],
+  creator: "Black Globe",
+  publisher: "Black Globe",
   robots: {
     index: true,
     follow: true,
@@ -90,8 +90,8 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "OSIRIS — The Open-Source Palantir Alternative | Live Flights, CCTV, Satellites & OSINT Tools",
-    description: "Track 10K+ aircraft, 2K satellites & worldwide CCTV on a 3D globe. Run Nmap, DNS, WHOIS & threat intel scans from your browser. 20+ live intelligence feeds. Free. Open source.",
+    title: "BLACK GLOBE — Cyber Intelligence Platform",
+    description: "Live Tracking",
     type: "website",
     siteName: SITE_NAME,
     locale: "en_US",
@@ -101,17 +101,17 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "OSIRIS — Open Source Intelligence Platform with Live Tracking & OSINT Tools",
+        alt: "BLACK GLOBE — Cyber Intelligence Platform",
         type: "image/png",
       },
     ],
   },
-  twitter: {
+  instagram: {
     card: "summary_large_image",
-    title: "🛰️ OSIRIS — Open Source Palantir Alternative | Live Tracking + OSINT Tools",
-    description: "Track 10K+ flights, satellites & CCTV worldwide. Run Nmap, DNS, WHOIS scans from your browser. 20+ live intel feeds. Free & open source.",
-    creator: "@simplifaisoul",
-    site: "@simplifaisoul",
+    title: "BLACK GLOBE — Cyber Intelligence Platform",
+    description: "Live Tracking",
+    creator: "@blackglobe.io",
+    site: "@blackglobe.io",
     images: [`${SITE_URL}/og-image.png`],
   },
   category: "technology",
@@ -130,8 +130,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "OSIRIS — OSINT Toolkit & Intelligence Platform",
-  alternateName: ["OSIRIS", "OsirisAI", "Osiris OSINT"],
+  name: "BLACK GLOBE — Cyber Intelligence Platform",
+  alternateName: ["BLACKGLOBE", "BLACKGLOBEIO", "BLACKGLOBE.IO"],
   url: SITE_URL,
   description: SITE_DESCRIPTION,
   applicationCategory: "SecurityApplication",
@@ -168,7 +168,7 @@ const jsonLd = {
   screenshot: `${SITE_URL}/og-image.png`,
   author: {
     "@type": "Organization",
-    name: "Osiris Project",
+    name: "Black Globe Project",
     url: SITE_URL,
   },
 };
@@ -200,7 +200,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ErrorBoundary name="OSIRIS Core">
+        <ErrorBoundary name="BLACK GLOBE Core">
           {children}
         </ErrorBoundary>
         <Analytics />
