@@ -688,7 +688,7 @@ export default function Dashboard() {
 
         <UptimeClock />
         
-        <a href='https://ko-fi.com/M8D41ZYW4Z' target='_blank' className="pointer-events-auto hover:opacity-80 transition-opacity ml-1 flex items-center">
+        <a href='https://t.me/blackglobeio' target='_blank' className="pointer-events-auto hover:opacity-80 transition-opacity ml-1 flex items-center">
           <span className="px-3 py-1 rounded-sm border border-[var(--gold-primary)]/40 bg-[var(--gold-primary)]/10 text-[var(--gold-primary)] text-[11px] font-bold tracking-[0.2em]">JOIN US</span>
         </a>
       </motion.div>
