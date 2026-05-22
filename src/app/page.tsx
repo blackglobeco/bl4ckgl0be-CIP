@@ -661,7 +661,7 @@ export default function Dashboard() {
               OPEN SOURCE
             </span>
           </div>
-          <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">GLOBAL INTELLIGENCE COMMAND</span>
+          <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">CYBER INTELLIGENCE PLATFORM</span>
         </div>
       </motion.div>
 
