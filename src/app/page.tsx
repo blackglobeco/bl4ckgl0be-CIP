@@ -652,11 +652,6 @@ export default function Dashboard() {
       draggable={false}
     />
 
-    {/* Tactical crosshair overlay */}
-    <div className="absolute w-[1px] h-full bg-[var(--gold-primary)]/20" />
-    <div className="absolute w-full h-[1px] bg-[var(--gold-primary)]/20" />
-  </div>
-
   {/* Horizontal rule extending from logo */}
   <div className="hidden md:block absolute top-1/2 left-[52px] w-[200px] h-[1px] bg-gradient-to-r from-[var(--gold-primary)]/40 via-[var(--gold-primary)]/15 to-transparent" />
 
