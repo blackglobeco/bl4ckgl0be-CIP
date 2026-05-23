@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
+  // ← ADD THIS
+  async rewrites() {
+    return [
+      {
+        source: '/proxy/insecam/:path*',
+        destination: 'http://www.insecam.org/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
