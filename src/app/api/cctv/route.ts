@@ -6,17 +6,29 @@ import { fetchSerbiaCameras } from './serbia';
 import { fetchMacedoniaCameras } from './macedonia';
 import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
+// ── New sources ──────────────────────────────────────────────────────────────
+import { fetchAustraliaCameras } from './australia';
+import { fetchNorwayCameras } from './norway';
+import { fetchSwedenCameras } from './sweden';
+import { fetchPolandCameras } from './poland';
+import { fetchIrelandCameras } from './ireland';
+import { fetchNewZealandCameras } from './new-zealand';
+import { fetchUSExtendedCameras } from './us-extended';
+import { fetchJapanCameras } from './japan';
+import { fetchCzechCameras } from './czech';
 
 /**
- * OSIRIS — Worldwide CCTV Camera API v2
+ * OSIRIS – Worldwide CCTV Camera API v3
  * Viewport-aware: pass ?region=xx to load cameras for specific regions
- * Supports: uk, us-east, us-west, us-central, canada, europe, asia
+ * Supports: uk, us-east, us-west, us-central, us-extended, canada, europe,
+ *           asia, australia, norway, sweden, poland, ireland, new-zealand,
+ *           japan, czech, bulgaria, greece, serbia, macedonia, turkey, romania
  * Or pass ?lat=x&lng=y&radius=5 for proximity-based loading
  */
 
-// ═══ CAMERA SOURCE DEFINITIONS ═══
+// ▄▄▄ CAMERA SOURCE DEFINITIONS ▄▄▄
 
-// ── UK: Transport for London JamCams (~900) ──
+// ── UK: Transport for London JamCams (~900) ──────────────────────────────────
 async function fetchTfLCameras(): Promise<any[]> {
   try {
     const res = await fetch('https://api.tfl.gov.uk/Place/Type/JamCam', { signal: AbortSignal.timeout(12000) });
@@ -35,7 +47,7 @@ async function fetchTfLCameras(): Promise<any[]> {
   } catch { return []; }
 }
 
-// ── US-WEST: WSDOT Washington State (~500) ──
+// ── US-WEST: WSDOT Washington State (~500) ───────────────────────────────────
 async function fetchWSDOTCameras(): Promise<any[]> {
   try {
     const res = await fetch('https://data.wsdot.wa.gov/log/public/cameras.json', { signal: AbortSignal.timeout(10000) });
@@ -49,7 +61,7 @@ async function fetchWSDOTCameras(): Promise<any[]> {
   } catch { return []; }
 }
 
-// ── US-WEST: Caltrans California Districts ──
+// ── US-WEST: Caltrans California Districts ───────────────────────────────────
 async function fetchCaltransCameras(): Promise<any[]> {
   const allCams: any[] = [];
   for (const dist of ['d03','d04','d05','d06','d07','d08','d10','d11','d12']) {
@@ -69,11 +81,11 @@ async function fetchCaltransCameras(): Promise<any[]> {
   return allCams;
 }
 
-// ── CANADA: Ottawa, Toronto, Montreal ──
+// ── CANADA: Ontario 511, Montréal, Ottawa, Alberta 511 ──────────────────────
 async function fetchCanadaCameras(): Promise<any[]> {
   const cams: any[] = [];
   
-  // Ottawa MTO Highway Cameras
+  // Ontario MTO Highway Cameras
   try {
     const res = await fetch('https://511on.ca/api/v2/get/cameras', { signal: AbortSignal.timeout(10000), headers: { 'Accept': 'application/json' } });
     if (res.ok) {
@@ -139,7 +151,7 @@ async function fetchCanadaCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── US-CENTRAL: Chicago, Houston, Dallas, Denver ──
+// ── US-CENTRAL: Chicago, Houston, Dallas, Denver ─────────────────────────────
 async function fetchUSCentralCameras(): Promise<any[]> {
   const cams: any[] = [];
   // Illinois DOT
@@ -161,7 +173,7 @@ async function fetchUSCentralCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── US-EAST: OH, DC, Florida, Georgia ──
+// ── US-EAST: OH, DC, Florida, Georgia ────────────────────────────────────────
 async function fetchUSEastCameras(): Promise<any[]> {
   const cams: any[] = [];
 
@@ -198,6 +210,7 @@ async function fetchUSEastCameras(): Promise<any[]> {
       source: 'Cincinnati, OH',
     },
   );
+
   // Florida 511
   try {
     const res = await fetch('https://fl511.com/api/v2/cameras', { signal: AbortSignal.timeout(8000), headers: { 'Accept': 'application/json' } });
@@ -217,7 +230,7 @@ async function fetchUSEastCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── EUROPE: Netherlands, Germany, France ──
+// ── EUROPE: Netherlands, Germany, France + Austria (ASFINAG) ─────────────────
 async function fetchEuropeCameras(): Promise<any[]> {
   const cams: any[] = [];
   
@@ -242,7 +255,7 @@ async function fetchEuropeCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── ASIA/PACIFIC ──
+// ── ASIA/PACIFIC ─────────────────────────────────────────────────────────────
 async function fetchAsiaCameras(): Promise<any[]> {
   const cams: any[] = [];
   
@@ -272,15 +285,26 @@ async function fetchAsiaCameras(): Promise<any[]> {
 }
 
 
-// ═══ REGION MAPPING ═══
+// ▄▄▄ REGION MAPPING ▄▄▄
 const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'uk': fetchTfLCameras,
   'us-west': async () => [...await fetchWSDOTCameras(), ...await fetchCaltransCameras()],
   'us-east': fetchUSEastCameras,
   'us-central': fetchUSCentralCameras,
+  'us-extended': fetchUSExtendedCameras,
   'canada': fetchCanadaCameras,
   'europe': fetchEuropeCameras,
   'asia': fetchAsiaCameras,
+  // ── New regions ────────────────────────────────────────────────────────────
+  'australia': fetchAustraliaCameras,
+  'norway': fetchNorwayCameras,
+  'sweden': fetchSwedenCameras,
+  'poland': fetchPolandCameras,
+  'ireland': fetchIrelandCameras,
+  'new-zealand': fetchNewZealandCameras,
+  'japan': fetchJapanCameras,
+  'czech': fetchCzechCameras,
+  // ── Balkan sources (unchanged) ─────────────────────────────────────────────
   'bulgaria': fetchBulgariaCameras,
   'greece': fetchGreeceCameras,
   'serbia': fetchSerbiaCameras,
@@ -294,37 +318,52 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   const regions: string[] = [];
   // UK
   if (lat > 49 && lat < 61 && lng > -8 && lng < 2) regions.push('uk');
+  // Ireland
+  if (lat > 51 && lat < 55.5 && lng > -11 && lng < -5.5) regions.push('ireland');
   // US-East
   if (lat > 24 && lat < 49 && lng > -85 && lng < -66) regions.push('us-east');
   // US-West
   if (lat > 24 && lat < 49 && lng > -125 && lng < -100) regions.push('us-west');
   // US-Central
   if (lat > 24 && lat < 49 && lng > -105 && lng < -80) regions.push('us-central');
+  // US Extended (Nevada, Utah, Colorado, Minnesota, Texas)
+  if (lat > 25 && lat < 49 && lng > -120 && lng < -90) regions.push('us-extended');
   // Canada
   if (lat > 42 && lat < 70 && lng > -141 && lng < -52) regions.push('canada');
-  // Europe
-  const inBulgaria = lat > 41 && lat < 44.5 && lng > 22 && lng < 29.5;
-  const inGreece = lat > 34.5 && lat < 41.8 && lng > 19 && lng < 30;
-  const inSerbia = lat > 42 && lat < 46.5 && lng > 18.8 && lng < 23.3;
+  // Norway
+  if (lat > 57 && lat < 72 && lng > 4 && lng < 31) regions.push('norway');
+  // Sweden
+  if (lat > 55 && lat < 69 && lng > 11 && lng < 24) regions.push('sweden');
+  // Poland
+  if (lat > 49 && lat < 55 && lng > 14 && lng < 24.2) regions.push('poland');
+  // Czech Republic
+  if (lat > 48.5 && lat < 51.1 && lng > 12.1 && lng < 18.9) regions.push('czech');
+
+  // Balkans (granular)
+  const inBulgaria  = lat > 41 && lat < 44.5 && lng > 22 && lng < 29.5;
+  const inGreece    = lat > 34.5 && lat < 41.8 && lng > 19 && lng < 30;
+  const inSerbia    = lat > 42 && lat < 46.5 && lng > 18.8 && lng < 23.3;
   const inMacedonia = lat > 40.8 && lat < 42.8 && lng > 20.4 && lng < 23.2;
-  const inRomania = lat > 43.5 && lat < 48.5 && lng > 20 && lng < 29.8;
-  const inTurkey = lat > 35.5 && lat < 42.5 && lng > 25.5 && lng < 45;
-  const inBalkans = inBulgaria || inGreece || inSerbia || inMacedonia || inRomania || inTurkey;
+  const inRomania   = lat > 43.5 && lat < 48.5 && lng > 20 && lng < 29.8;
+  const inTurkey    = lat > 35.5 && lat < 42.5 && lng > 25.5 && lng < 45;
+  const inBalkans   = inBulgaria || inGreece || inSerbia || inMacedonia || inRomania || inTurkey;
 
-  if (lat > 35 && lat < 72 && lng > -11 && lng < 40 && !inBalkans) {
-    regions.push('europe');
-  }
-  if (inBulgaria) regions.push('bulgaria');
-  if (inGreece) regions.push('greece');
-  if (inSerbia) regions.push('serbia');
+  if (lat > 35 && lat < 72 && lng > -11 && lng < 40 && !inBalkans) regions.push('europe');
+  if (inBulgaria)  regions.push('bulgaria');
+  if (inGreece)    regions.push('greece');
+  if (inSerbia)    regions.push('serbia');
   if (inMacedonia) regions.push('macedonia');
-  if (inRomania) regions.push('romania');
-  if (inTurkey) regions.push('turkey');
+  if (inRomania)   regions.push('romania');
+  if (inTurkey)    regions.push('turkey');
 
-  // Asia (includes Middle East, SE Asia, overriding parts of china but that's ok they can both load)
+  // Asia (includes Middle East, SE Asia)
   if ((lat > -10 && lat < 60 && lng > 60 && lng < 150)) regions.push('asia');
-  // Australia explicitly
-  if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('asia');
+  // Japan
+  if (lat > 30 && lat < 46 && lng > 129 && lng < 146) regions.push('japan');
+  // Australia
+  if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('australia');
+  // New Zealand
+  if (lat > -47 && lat < -34 && lng > 166 && lng < 178) regions.push('new-zealand');
   
   return regions.length > 0 ? regions : ['uk', 'us-east']; // Default fallback
 }
