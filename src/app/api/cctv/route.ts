@@ -7,11 +7,12 @@ import { fetchMacedoniaCameras } from './macedonia';
 import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
 import { fetchAustraliaCameras } from './australia';
+import { fetchInsecamCameras } from './insecam';
 
 /**
  * OSIRIS — Worldwide CCTV Camera API v2
  * Viewport-aware: pass ?region=xx to load cameras for specific regions
- * Supports: uk, us-east, us-west, us-central, canada, europe, asia
+ * Supports: uk, us-east, us-west, us-central, canada, europe, asia, insecam
  * Or pass ?lat=x&lng=y&radius=5 for proximity-based loading
  */
 
@@ -166,7 +167,7 @@ async function fetchUSCentralCameras(): Promise<any[]> {
 async function fetchUSEastCameras(): Promise<any[]> {
   const cams: any[] = [];
 
-  // Butler County, OH (from redhunt45 fork)
+  // Butler County, OH
   cams.push(
     {
       id: 'butler-oh-hamilton', lat: 39.3988617, lng: -84.5595353,
@@ -184,7 +185,7 @@ async function fetchUSEastCameras(): Promise<any[]> {
     },
   );
 
-  // Cincinnati, OH (from redhunt45 fork)
+  // Cincinnati, OH
   cams.push(
     {
       id: 'cincinnati-cincyvision-yt', lat: 39.089101, lng: -84.527943,
@@ -199,6 +200,7 @@ async function fetchUSEastCameras(): Promise<any[]> {
       source: 'Cincinnati, OH',
     },
   );
+
   // Florida 511
   try {
     const res = await fetch('https://fl511.com/api/v2/cameras', { signal: AbortSignal.timeout(8000), headers: { 'Accept': 'application/json' } });
@@ -263,7 +265,7 @@ async function fetchAsiaCameras(): Promise<any[]> {
           city: 'Singapore',
           country: 'Singapore',
           feed_url: cam.image,
-          source: 'LTA Singapore'
+          source: 'LTA Singapore',
         });
       }
     }
@@ -289,6 +291,8 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'turkey': fetchTurkeyCameras,
   'romania': fetchRomaniaCameras,
   'australia': fetchAustraliaCameras,
+  // ── Insecam: global IP-camera directory (scraped, 1-hour cache) ──
+  'insecam': fetchInsecamCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -323,12 +327,15 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (inRomania) regions.push('romania');
   if (inTurkey) regions.push('turkey');
 
-  // Asia (includes Middle East, SE Asia, overriding parts of china but that's ok they can both load)
+  // Asia (includes Middle East, SE Asia)
   if ((lat > -10 && lat < 60 && lng > 60 && lng < 150)) regions.push('asia');
   // Australia explicitly
   if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('asia');
 
-  return regions.length > 0 ? regions : ['uk', 'us-east']; // Default fallback
+  // Insecam supplements all viewports with globally scattered cameras
+  regions.push('insecam');
+
+  return regions.length > 0 ? regions : ['uk', 'us-east', 'insecam']; // Default fallback
 }
 
 export async function GET(request: Request) {
