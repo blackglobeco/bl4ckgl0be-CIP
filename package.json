@@ -2,9 +2,6 @@
   "name": "osiris",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,9 +10,9 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
-    "framer-motion": "^11.11.17",
+    "framer-motion": "^12.38.0",
     "hls.js": "^1.6.16",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^1.14.0",
     "maplibre-gl": "^5.24.0",
     "next": "16.2.6",
     "react": "19.2.4",
