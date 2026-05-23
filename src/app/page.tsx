@@ -640,9 +640,8 @@ export default function Dashboard() {
   initial={{ opacity: 0, y: -20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 1, delay: 2.5 }}
-  className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}
+  className="absolute top-3 left-3 md:top-5 md:left-5 z-[200] flex items-center gap-2 md:gap-3"
 >
-  <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center relative">
 
     {/* Animated GIF Logo */}
     <img
