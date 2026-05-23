@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+html, body {
+  background-color: #04040A !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    OSIRIS — Global Intelligence Platform Design System
    Egyptian Mythology × Dark Ops × Glassmorphism
