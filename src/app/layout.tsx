@@ -185,8 +185,11 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" style={{ backgroundColor: '#04040A' }}>
       <head>
-        <meta name="theme-color" content="#04040A" />
-        <style>{`html,body{background:#04040A !important}`}</style>
+        {/* CRITICAL: Inline style forces black background on the very first paint,
+            before any external CSS or JavaScript loads. This prevents the white
+            flash on Android Chrome and other mobile browsers. */}
+        <style dangerouslySetInnerHTML={{ __html: `html,body{background:#04040A !important;margin:0;padding:0;}` }} />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
