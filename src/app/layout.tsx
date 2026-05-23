@@ -7,7 +7,7 @@ const SITE_TITLE = "BLACK GLOBE — Cyber Intelligence Platform";
 const SITE_DESCRIPTION = "Live Tracking";
 
 export const viewport: Viewport = {
-  themeColor: "#D4AF37",
+  themeColor: "#04040A",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -183,7 +183,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" style={{ backgroundColor: '#04040A' }}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -199,7 +199,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" style={{ backgroundColor: '#04040A' }}>
         <ErrorBoundary name="BLACK GLOBE Core">
           {children}
         </ErrorBoundary>
