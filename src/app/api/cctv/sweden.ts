@@ -1,10 +1,42 @@
-// ── Sweden: Trafikverket Open API ────────────────────────────────────────────
+// ── Sweden: Trafikverket Open API ─────────────────────────────────────────────
+// Allowlist audit:
+//   api.trafikinfo.trafikverket.se → data fetch only (POST request for metadata)
+//   Trafikverket PhotoUrl hosts    → typically *.trafikverket.se — NOT allowlisted
+//   www.trafikverket.se            → NOT in allowlist
+// Fix: curated fallback uses Windy webcam embeds (www.windy.com + imgproxy.windy.com
+//      both ALLOWED) for Swedish cities and major roads.
+// Runtime: if Trafikverket API returns PhotoUrl on a non-allowlisted host, those
+//          records get external_url fallback so map nodes still render.
+
+/** Build Windy embed + imgproxy snapshot for a given Windy webcam ID */
+function windy(id: string) {
+  return {
+    stream_url: `https://www.windy.com/webcams/${id}/embed`,
+    stream_type: 'iframe' as const,
+    feed_url: `https://imgproxy.windy.com/${id.slice(0, 2)}/${id}/current/full/${id}.jpg`,
+    external_url: `https://www.windy.com/webcams/${id}`,
+    source: 'Windy / Trafikverket',
+  };
+}
+
+const NON_ALLOWLISTED_HOSTS = new Set([
+  'www.trafikverket.se',
+  'api.trafikinfo.trafikverket.se',
+  'regional.trafikverket.se',
+]);
+
+function hostAllowed(url: string): boolean {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    if (host === 'www.windy.com' || host === 'imgproxy.windy.com') return true;
+    return !NON_ALLOWLISTED_HOSTS.has(host) && !host.endsWith('.trafikverket.se');
+  } catch { return false; }
+}
 
 export async function fetchSwedenCameras(): Promise<any[]> {
   const cams: any[] = [];
 
   try {
-    // Trafikverket Open Data API – Camera objects
     const body = JSON.stringify({
       REQUEST: {
         LOGIN: { authenticationkey: process.env.TRAFIKVERKET_API_KEY || 'demo' },
@@ -12,7 +44,7 @@ export async function fetchSwedenCameras(): Promise<any[]> {
           objecttype: 'Camera',
           schemaversion: '1',
           FILTER: { EQ: { name: 'Active', value: 'true' } },
-          INCLUDE: ['Id', 'Name', 'IconId', 'Geometry.WGS84', 'PhotoUrl', 'Description'],
+          INCLUDE: ['Id', 'Name', 'Geometry.WGS84', 'PhotoUrl', 'Description'],
         },
       },
     });
@@ -28,34 +60,74 @@ export async function fetchSwedenCameras(): Promise<any[]> {
       const data = await res.json();
       const cameras = data?.RESPONSE?.RESULT?.[0]?.Camera || [];
       for (const cam of cameras) {
-        // WGS84 comes as "POINT (lng lat)"
         const wkt = cam['Geometry.WGS84'] || cam.Geometry?.WGS84 || '';
         const match = wkt.match(/POINT\s*\(([^ ]+)\s+([^ )]+)\)/);
         if (!match) continue;
         const lng = parseFloat(match[1]);
         const lat = parseFloat(match[2]);
+        const photoUrl: string = cam.PhotoUrl || '';
+        const allowed = photoUrl && hostAllowed(photoUrl);
         cams.push({
           id: `se-${cam.Id}`,
           lat, lng,
           name: cam.Name || cam.Description || 'Trafikverket Camera',
           city: 'Sweden',
           country: 'SE',
-          feed_url: cam.PhotoUrl || '',
+          feed_url: allowed ? photoUrl : '',
+          external_url: allowed ? undefined : 'https://www.trafikverket.se/trafikinformation/vag/',
           source: 'Trafikverket',
         });
       }
     }
   } catch { /* silent */ }
 
-  // Curated fallback
+  // Curated Windy fallback for Swedish cities — all on allowlisted hosts
   if (cams.length === 0) {
     const curated = [
-      { id: 'se-stockholm-1', lat: 59.3293, lng: 18.0686, name: 'Stockholm – Centralbron', city: 'Stockholm', feed_url: 'https://www.trafikverket.se/trafikinformation/vag/?TrafficType=personalTraffic&map=1/18.0686/59.3293' },
-      { id: 'se-gothenburg-1', lat: 57.7089, lng: 11.9746, name: 'Göteborg – Tingstad', city: 'Gothenburg', feed_url: '' },
-      { id: 'se-malmo-1', lat: 55.6050, lng: 13.0038, name: 'Malmö – E6 Yttre Ring', city: 'Malmö', feed_url: '' },
-      { id: 'se-e4-1', lat: 58.4108, lng: 15.6214, name: 'E4 – Linköping', city: 'Linköping', feed_url: '' },
+      {
+        id: 'se-stockholm-gamla-stan',
+        lat: 59.3250, lng: 18.0710,
+        name: 'Stockholm – Gamla Stan (Old Town)',
+        city: 'Stockholm',
+        ...windy('1511622527'),
+      },
+      {
+        id: 'se-stockholm-sergels',
+        lat: 59.3328, lng: 18.0649,
+        name: 'Stockholm – Sergels Torg',
+        city: 'Stockholm',
+        ...windy('1573537620'),
+      },
+      {
+        id: 'se-gothenburg-avenyn',
+        lat: 57.6970, lng: 11.9742,
+        name: 'Göteborg – Avenyn',
+        city: 'Gothenburg',
+        ...windy('1511775245'),
+      },
+      {
+        id: 'se-malmo-stortorget',
+        lat: 55.6050, lng: 13.0034,
+        name: 'Malmö – Stortorget',
+        city: 'Malmö',
+        ...windy('1594027166'),
+      },
+      {
+        id: 'se-are-ski',
+        lat: 63.3985, lng: 13.0818,
+        name: 'Åre – Ski Resort',
+        city: 'Åre',
+        ...windy('1481896280'),
+      },
+      {
+        id: 'se-kiruna-north',
+        lat: 67.8558, lng: 20.2253,
+        name: 'Kiruna – Arctic Circle',
+        city: 'Kiruna',
+        ...windy('1536233120'),
+      },
     ];
-    for (const c of curated) cams.push({ ...c, country: 'SE', source: 'Trafikverket' });
+    for (const c of curated) cams.push({ ...c, country: 'SE' });
   }
 
   return cams.filter((c: any) => c.lat && c.lng);

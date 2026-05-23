@@ -1,4 +1,8 @@
-// ── Australia: VicRoads (Victoria) + Transport for NSW ──────────────────────
+// ── Australia: VicRoads (Victoria) + Transport for NSW ───────────────────────
+// NOTE: No Australian image hosts are in _CCTV_PROXY_ALLOWED_HOSTS.
+// feed_url values are left empty and external_url is set for browser-side
+// fallback (user opens directly). The dynamic API fetches may return proxiable
+// URLs at runtime — those are forwarded as-is and handled by the CameraViewer.
 
 export async function fetchAustraliaCameras(): Promise<any[]> {
   const cams: any[] = [];
@@ -26,6 +30,7 @@ export async function fetchAustraliaCameras(): Promise<any[]> {
           name: cam.title || cam.name || 'NSW Camera',
           city: 'New South Wales',
           country: 'Australia',
+          // feed_url comes from the API response at runtime; kept as-is
           feed_url: cam.href || cam.imageUrl || '',
           source: 'Transport NSW',
         });
@@ -54,6 +59,7 @@ export async function fetchAustraliaCameras(): Promise<any[]> {
           name: props.cameraName || props.description || 'VicRoads Camera',
           city: 'Victoria',
           country: 'Australia',
+          // feed_url from API response; not pre-known so accepted as-is
           feed_url: props.imageUrl || props.feed_url || '',
           source: 'VicRoads',
         });
@@ -61,13 +67,29 @@ export async function fetchAustraliaCameras(): Promise<any[]> {
     }
   } catch { /* silent */ }
 
-  // Queensland (TMR) curated public cameras
+  // Queensland (TMR) – livestreams.tmr.qld.gov.au is NOT in the proxy allowlist.
+  // Use external_url so the CameraViewer can open the TMR page directly in a
+  // new tab rather than attempting a proxied image load that would be blocked.
   const qldCams = [
-    { id: 'qld-1', lat: -27.4698, lng: 153.0251, name: 'Brisbane CBD – George St', city: 'Brisbane', feed_url: 'https://livestreams.tmr.qld.gov.au/camimages/bnegeorge.jpg' },
-    { id: 'qld-2', lat: -27.4820, lng: 153.0111, name: 'Brisbane – Coronation Dr', city: 'Brisbane', feed_url: 'https://livestreams.tmr.qld.gov.au/camimages/bnecoronation.jpg' },
-    { id: 'qld-3', lat: -27.4753, lng: 153.0162, name: 'Inner City Bypass – Kelvin Grove', city: 'Brisbane', feed_url: 'https://livestreams.tmr.qld.gov.au/camimages/icbkelvin.jpg' },
+    {
+      id: 'qld-1', lat: -27.4698, lng: 153.0251,
+      name: 'Brisbane CBD – George St', city: 'Brisbane',
+      external_url: 'https://www.tmr.qld.gov.au/Travel-and-transport/Traffic-and-travel-information/Webcams/Brisbane/George-Street',
+    },
+    {
+      id: 'qld-2', lat: -27.4820, lng: 153.0111,
+      name: 'Brisbane – Coronation Dr', city: 'Brisbane',
+      external_url: 'https://www.tmr.qld.gov.au/Travel-and-transport/Traffic-and-travel-information/Webcams/Brisbane/Coronation-Drive',
+    },
+    {
+      id: 'qld-3', lat: -27.4753, lng: 153.0162,
+      name: 'Inner City Bypass – Kelvin Grove', city: 'Brisbane',
+      external_url: 'https://www.tmr.qld.gov.au/Travel-and-transport/Traffic-and-travel-information/Webcams/Brisbane/Inner-City-Bypass',
+    },
   ];
-  for (const c of qldCams) cams.push({ ...c, country: 'Australia', source: 'TMR Queensland' });
+  for (const c of qldCams) {
+    cams.push({ ...c, country: 'Australia', source: 'TMR Queensland' });
+  }
 
   return cams.filter((c: any) => c.lat && c.lng);
 }
