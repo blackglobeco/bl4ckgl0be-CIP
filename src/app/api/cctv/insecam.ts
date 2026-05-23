@@ -16,7 +16,7 @@ import type { CctvCamera } from './types';
 // loads directly without it.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const BASE = 'http://www.insecam.org';
+const BASE = '/proxy/insecam';
 
 const INSECAM_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
