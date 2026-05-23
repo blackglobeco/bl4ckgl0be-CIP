@@ -643,20 +643,6 @@ export default function Dashboard() {
   className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}
 >
   <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center relative">
-    {/* Ambient rotating rings */}
-    <div
-      className="absolute inset-[-4px] md:inset-[-5px] rounded-full border border-[var(--gold-primary)]/20"
-      style={{ animation: 'osiris-rotate 12s linear infinite' }}
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[var(--gold-primary)] shadow-[0_0_6px_var(--gold-primary)]" />
-    </div>
-
-    <div
-      className="absolute inset-[-8px] md:inset-[-10px] rounded-full border border-[var(--gold-primary)]/10"
-      style={{ animation: 'osiris-rotate 20s linear infinite reverse' }}
-    >
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-0.5 h-0.5 rounded-full bg-[var(--gold-primary)]/60" />
-    </div>
 
     {/* Animated GIF Logo */}
     <img
