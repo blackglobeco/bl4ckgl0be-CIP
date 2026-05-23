@@ -6,27 +6,32 @@ import { fetchSerbiaCameras } from './serbia';
 import { fetchMacedoniaCameras } from './macedonia';
 import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
-// ── New sources ──────────────────────────────────────────────────────────────
-import { fetchAustraliaCameras } from './australia';
-import { fetchNorwayCameras } from './norway';
-import { fetchSwedenCameras } from './sweden';
-import { fetchPolandCameras } from './poland';
-import { fetchIrelandCameras } from './ireland';
-import { fetchNewZealandCameras } from './new-zealand';
-import { fetchUSExtendedCameras } from './us-extended';
-import { fetchJapanCameras } from './japan';
-import { fetchCzechCameras } from './czech';
+// ── Sources derived from cctv.py proxy allowlist ─────────────────────────────
+import { fetchNYCCameras } from './nyc';
+import { fetchAustinCameras } from './austin';
+import { fetchGeorgiaCameras } from './georgia';
+import { fetchMichiganCameras } from './michigan';
+import { fetchColoradoCameras } from './colorado';
+import { fetchOregonCameras } from './oregon';
+import { fetchSpainCameras } from './spain';
+import { fetchWashingtonRegionalCameras, fetchNPSCameras } from './washington-regional';
 
 /**
  * OSIRIS – Worldwide CCTV Camera API v3
  * Viewport-aware: pass ?region=xx to load cameras for specific regions
- * Supports: uk, us-east, us-west, us-central, us-extended, canada, europe,
- *           asia, australia, norway, sweden, poland, ireland, new-zealand,
- *           japan, czech, bulgaria, greece, serbia, macedonia, turkey, romania
+ *
+ * Regions: uk, us-east, us-west, us-central, us-northwest, us-southeast,
+ *          us-georgia, us-michigan, us-colorado, us-oregon, canada, europe,
+ *          europe-spain, asia, balkans + individual Balkan sub-regions,
+ *          nps (National Parks)
+ *
  * Or pass ?lat=x&lng=y&radius=5 for proximity-based loading
+ *
+ * Proxy hosts (cctv.py _CCTV_PROXY_ALLOWED_HOSTS) are respected — all
+ * feed_url / stream_url values produced here use only allowlisted hostnames.
  */
 
-// ▄▄▄ CAMERA SOURCE DEFINITIONS ▄▄▄
+// ▄▄▄ EXISTING SOURCE FUNCTIONS ▄▄▄
 
 // ── UK: Transport for London JamCams (~900) ──────────────────────────────────
 async function fetchTfLCameras(): Promise<any[]> {
@@ -40,6 +45,7 @@ async function fetchTfLCameras(): Promise<any[]> {
       return {
         id: `tfl-${cam.id}`, lat: cam.lat, lng: cam.lon,
         name: cam.commonName || 'London JamCam', city: 'London', country: 'UK',
+        // s3-eu-west-1.amazonaws.com & jamcams.tfl.gov.uk — both on allowlist
         feed_url: imgProp?.value || `https://s3-eu-west-1.amazonaws.com/jamcams.tfl.gov.uk/${camId}.jpg`,
         source: 'TfL',
       };
@@ -48,46 +54,60 @@ async function fetchTfLCameras(): Promise<any[]> {
 }
 
 // ── US-WEST: WSDOT Washington State (~500) ───────────────────────────────────
+// images.wsdot.wa.gov — on allowlist, profile "wsdot"
 async function fetchWSDOTCameras(): Promise<any[]> {
   try {
     const res = await fetch('https://data.wsdot.wa.gov/log/public/cameras.json', { signal: AbortSignal.timeout(10000) });
     if (!res.ok) return [];
     const data = await res.json();
     return (data || []).map((cam: any) => ({
-      id: `wsdot-${cam.CameraID}`, lat: cam.CameraLocation?.Latitude, lng: cam.CameraLocation?.Longitude,
+      id: `wsdot-${cam.CameraID}`,
+      lat: cam.CameraLocation?.Latitude, lng: cam.CameraLocation?.Longitude,
       name: cam.Title || 'WSDOT Camera', city: 'Washington', country: 'US',
+      // images.wsdot.wa.gov is on the proxy allowlist
       feed_url: cam.ImageURL || '', source: 'WSDOT',
     })).filter((c: any) => c.lat && c.lng && c.feed_url);
   } catch { return []; }
 }
 
 // ── US-WEST: Caltrans California Districts ───────────────────────────────────
+// cwwp2.dot.ca.gov + wzmedia.dot.ca.gov — both on allowlist, profile "caltrans"
 async function fetchCaltransCameras(): Promise<any[]> {
   const allCams: any[] = [];
   for (const dist of ['d03','d04','d05','d06','d07','d08','d10','d11','d12']) {
     try {
-      const res = await fetch(`https://cwwp2.dot.ca.gov/data/${dist}/cctv/cctvStatus${dist.toUpperCase()}.json`, { signal: AbortSignal.timeout(8000) });
+      const res = await fetch(
+        `https://cwwp2.dot.ca.gov/data/${dist}/cctv/cctvStatus${dist.toUpperCase()}.json`,
+        { signal: AbortSignal.timeout(8000) }
+      );
       if (!res.ok) continue;
       const data = await res.json();
       for (const cam of (data?.data || [])) {
         const lat = parseFloat(cam.location?.latitude);
         const lng = parseFloat(cam.location?.longitude);
-        const url = cam.cctv?.imageData?.static?.currentImageURL;
+        // HLS streams served from wzmedia.dot.ca.gov (also allowlisted)
+        const url = cam.cctv?.imageData?.static?.currentImageURL
+          || cam.cctv?.streamData?.hls?.url;
         if (!lat || !lng || !url) continue;
-        allCams.push({ id: `cal-${allCams.length}`, lat, lng, name: cam.location?.locationName || 'Caltrans', city: 'California', country: 'US', feed_url: url, source: 'Caltrans' });
+        allCams.push({
+          id: `cal-${allCams.length}`, lat, lng,
+          name: cam.location?.locationName || 'Caltrans', city: 'California', country: 'US',
+          feed_url: url, source: 'Caltrans',
+        });
       }
     } catch { /* silent */ }
   }
   return allCams;
 }
 
-// ── CANADA: Ontario 511, Montréal, Ottawa, Alberta 511 ──────────────────────
+// ── CANADA: Ontario 511, Montréal, Ottawa curated, Alberta 511 ───────────────
 async function fetchCanadaCameras(): Promise<any[]> {
   const cams: any[] = [];
-  
-  // Ontario MTO Highway Cameras
+
   try {
-    const res = await fetch('https://511on.ca/api/v2/get/cameras', { signal: AbortSignal.timeout(10000), headers: { 'Accept': 'application/json' } });
+    const res = await fetch('https://511on.ca/api/v2/get/cameras', {
+      signal: AbortSignal.timeout(10000), headers: { Accept: 'application/json' },
+    });
     if (res.ok) {
       const data = await res.json();
       for (const cam of (data || [])) {
@@ -101,9 +121,11 @@ async function fetchCanadaCameras(): Promise<any[]> {
     }
   } catch { /* silent */ }
 
-  // Ville de Montréal cameras
   try {
-    const res = await fetch('https://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras.json', { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(
+      'https://ville.montreal.qc.ca/circulation/sites/ville.montreal.qc.ca.circulation/files/cameras.json',
+      { signal: AbortSignal.timeout(8000) }
+    );
     if (res.ok) {
       const data = await res.json();
       for (const cam of (data || [])) {
@@ -116,25 +138,25 @@ async function fetchCanadaCameras(): Promise<any[]> {
     }
   } catch { /* silent */ }
 
-  // Curated Ottawa/Toronto cameras from known public feeds
-  const curated = [
-    { id: 'ott-1', lat: 45.4215, lng: -75.6972, name: 'Parliament Hill / Wellington', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=1', source: 'Ottawa' },
-    { id: 'ott-2', lat: 45.4231, lng: -75.6831, name: 'Rideau / Sussex', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=2', source: 'Ottawa' },
-    { id: 'ott-3', lat: 45.4195, lng: -75.7009, name: 'Bank / Sparks', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=3', source: 'Ottawa' },
-    { id: 'ott-4', lat: 45.4249, lng: -75.6950, name: 'King Edward / Rideau', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=4', source: 'Ottawa' },
-    { id: 'ott-5', lat: 45.3968, lng: -75.7398, name: 'Merivale / Baseline', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=5', source: 'Ottawa' },
-    { id: 'ott-6', lat: 45.3484, lng: -75.7580, name: 'Fallowfield / Woodroffe', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=6', source: 'Ottawa' },
-    { id: 'ott-7', lat: 45.4012, lng: -75.6518, name: 'Hwy 417 / Vanier Pkwy', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=7', source: 'Ottawa' },
-    { id: 'ott-8', lat: 45.4475, lng: -75.4822, name: 'Innes / Orleans Blvd', city: 'Ottawa', country: 'Canada', feed_url: 'https://traffic.ottawa.ca/map/camera?id=8', source: 'Ottawa' },
-    { id: 'tor-1', lat: 43.6532, lng: -79.3832, name: 'Yonge / Dundas Square', city: 'Toronto', country: 'Canada', feed_url: 'https://511on.ca/api/v2/get/cameras', source: '511 Ontario' },
-    { id: 'tor-2', lat: 43.6426, lng: -79.3871, name: 'CN Tower / Lakeshore', city: 'Toronto', country: 'Canada', feed_url: 'https://511on.ca/api/v2/get/cameras', source: '511 Ontario' },
-    { id: 'tor-3', lat: 43.6711, lng: -79.3868, name: 'Bloor / Yonge', city: 'Toronto', country: 'Canada', feed_url: 'https://511on.ca/api/v2/get/cameras', source: '511 Ontario' },
+  const ottawaCurated = [
+    { id: 'ott-1', lat: 45.4215, lng: -75.6972, name: 'Parliament Hill / Wellington', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=1' },
+    { id: 'ott-2', lat: 45.4231, lng: -75.6831, name: 'Rideau / Sussex', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=2' },
+    { id: 'ott-3', lat: 45.4195, lng: -75.7009, name: 'Bank / Sparks', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=3' },
+    { id: 'ott-4', lat: 45.4249, lng: -75.6950, name: 'King Edward / Rideau', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=4' },
+    { id: 'ott-5', lat: 45.3968, lng: -75.7398, name: 'Merivale / Baseline', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=5' },
+    { id: 'ott-6', lat: 45.3484, lng: -75.7580, name: 'Fallowfield / Woodroffe', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=6' },
+    { id: 'ott-7', lat: 45.4012, lng: -75.6518, name: 'Hwy 417 / Vanier Pkwy', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=7' },
+    { id: 'ott-8', lat: 45.4475, lng: -75.4822, name: 'Innes / Orleans Blvd', city: 'Ottawa', feed_url: 'https://traffic.ottawa.ca/map/camera?id=8' },
+    { id: 'tor-1', lat: 43.6532, lng: -79.3832, name: 'Yonge / Dundas Square', city: 'Toronto', feed_url: 'https://511on.ca/api/v2/get/cameras' },
+    { id: 'tor-2', lat: 43.6426, lng: -79.3871, name: 'CN Tower / Lakeshore', city: 'Toronto', feed_url: 'https://511on.ca/api/v2/get/cameras' },
+    { id: 'tor-3', lat: 43.6711, lng: -79.3868, name: 'Bloor / Yonge', city: 'Toronto', feed_url: 'https://511on.ca/api/v2/get/cameras' },
   ];
-  cams.push(...curated);
+  cams.push(...ottawaCurated.map(c => ({ ...c, country: 'Canada', source: 'Ottawa' })));
 
-  // Alberta 511
   try {
-    const res = await fetch('https://511.alberta.ca/api/v2/get/cameras', { signal: AbortSignal.timeout(10000), headers: { 'Accept': 'application/json' } });
+    const res = await fetch('https://511.alberta.ca/api/v2/get/cameras', {
+      signal: AbortSignal.timeout(10000), headers: { Accept: 'application/json' },
+    });
     if (res.ok) {
       const data = await res.json();
       for (const cam of (data || [])) {
@@ -151,12 +173,17 @@ async function fetchCanadaCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── US-CENTRAL: Chicago, Houston, Dallas, Denver ─────────────────────────────
+// ── US-CENTRAL: Illinois DOT (gettingaroundillinois.com / cctv.travelmidwest.com) ──
+// Both hosts on _CCTV_PROXY_ALLOWED_HOSTS, profile "illinois-dot"
 async function fetchUSCentralCameras(): Promise<any[]> {
   const cams: any[] = [];
-  // Illinois DOT
+
+  // Primary: gettingaroundillinois.com (direct JPEG image host)
   try {
-    const res = await fetch('https://www.travelmidwest.com/lmiga/cameraReport.json', { signal: AbortSignal.timeout(8000) });
+    const res = await fetch(
+      'https://www.gettingaroundillinois.com/lmiga/cameraReport.json',
+      { signal: AbortSignal.timeout(8000) }
+    );
     if (res.ok) {
       const data = await res.json();
       for (const cam of (data?.cameraReports || data || []).slice(0, 800)) {
@@ -164,20 +191,47 @@ async function fetchUSCentralCameras(): Promise<any[]> {
         cams.push({
           id: `ildot-${cams.length}`, lat: cam.latitude, lng: cam.longitude,
           name: cam.cameraName || cam.description || 'IDOT Camera', city: 'Illinois', country: 'US',
-          feed_url: cam.imageUrl || cam.url || '', source: 'IDOT',
+          // gettingaroundillinois.com is on the allowlist for image proxy
+          feed_url: cam.imageUrl
+            || (cam.cameraId ? `https://gettingaroundillinois.com/images/${cam.cameraId}.jpg` : '')
+            || cam.url || '',
+          source: 'IDOT',
         });
       }
     }
   } catch { /* silent */ }
 
+  // Fallback: cctv.travelmidwest.com (covers IL + IN + OH)
+  if (cams.length === 0) {
+    try {
+      const res = await fetch(
+        'https://www.travelmidwest.com/lmiga/cameraReport.json',
+        { signal: AbortSignal.timeout(8000) }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        for (const cam of (data?.cameraReports || data || []).slice(0, 800)) {
+          if (!cam.latitude || !cam.longitude) continue;
+          cams.push({
+            id: `mw-${cams.length}`, lat: cam.latitude, lng: cam.longitude,
+            name: cam.cameraName || cam.description || 'Midwest Camera', city: 'Illinois', country: 'US',
+            feed_url: cam.imageUrl
+              ? `https://cctv.travelmidwest.com${cam.imageUrl.startsWith('/') ? '' : '/'}${cam.imageUrl}`
+              : '',
+            source: 'Travel Midwest',
+          });
+        }
+      }
+    } catch { /* silent */ }
+  }
+
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── US-EAST: OH, DC, Florida, Georgia ────────────────────────────────────────
+// ── US-EAST: Butler County OH, Cincinnati, Florida 511 ───────────────────────
 async function fetchUSEastCameras(): Promise<any[]> {
   const cams: any[] = [];
 
-  // Butler County, OH (from redhunt45 fork)
   cams.push(
     {
       id: 'butler-oh-hamilton', lat: 39.3988617, lng: -84.5595353,
@@ -193,10 +247,6 @@ async function fetchUSEastCameras(): Promise<any[]> {
       external_url: 'https://towercam.butlersheriff.org/aca/index.html#view',
       source: 'Butler County, OH',
     },
-  );
-
-  // Cincinnati, OH (from redhunt45 fork)
-  cams.push(
     {
       id: 'cincinnati-cincyvision-yt', lat: 39.089101, lng: -84.527943,
       name: 'CincyVision YT', city: 'Cincinnati', country: 'US',
@@ -211,9 +261,10 @@ async function fetchUSEastCameras(): Promise<any[]> {
     },
   );
 
-  // Florida 511
   try {
-    const res = await fetch('https://fl511.com/api/v2/cameras', { signal: AbortSignal.timeout(8000), headers: { 'Accept': 'application/json' } });
+    const res = await fetch('https://fl511.com/api/v2/cameras', {
+      signal: AbortSignal.timeout(8000), headers: { Accept: 'application/json' },
+    });
     if (res.ok) {
       const data = await res.json();
       for (const cam of (data || []).slice(0, 800)) {
@@ -230,11 +281,9 @@ async function fetchUSEastCameras(): Promise<any[]> {
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── EUROPE: Netherlands, Germany, France + Austria (ASFINAG) ─────────────────
+// ── EUROPE: Netherlands RWS + ASFINAG Austria ─────────────────────────────────
 async function fetchEuropeCameras(): Promise<any[]> {
   const cams: any[] = [];
-  
-  // Netherlands Rijkswaterstaat
   try {
     const res = await fetch('https://opendata.ndw.nu/cameras.json', { signal: AbortSignal.timeout(8000) });
     if (res.ok) {
@@ -249,17 +298,14 @@ async function fetchEuropeCameras(): Promise<any[]> {
       }
     }
   } catch { /* silent */ }
-
   cams.push(...await fetchAsfinagCameras());
-
   return cams.filter((c: any) => c.lat && c.lng);
 }
 
-// ── ASIA/PACIFIC ─────────────────────────────────────────────────────────────
+// ── ASIA/PACIFIC: Singapore LTA ───────────────────────────────────────────────
+// images.data.gov.sg — on allowlist, profile "lta-singapore"
 async function fetchAsiaCameras(): Promise<any[]> {
   const cams: any[] = [];
-  
-  // Singapore Live Traffic Images
   try {
     const res = await fetch('https://api.data.gov.sg/v1/transport/traffic-images', { signal: AbortSignal.timeout(10000) });
     if (res.ok) {
@@ -269,77 +315,84 @@ async function fetchAsiaCameras(): Promise<any[]> {
         if (!cam.location?.latitude || !cam.location?.longitude || !cam.image) continue;
         cams.push({
           id: `sin-${cam.camera_id}`,
-          lat: cam.location.latitude,
-          lng: cam.location.longitude,
-          name: `Camera ${cam.camera_id}`,
-          city: 'Singapore',
-          country: 'Singapore',
+          lat: cam.location.latitude, lng: cam.location.longitude,
+          name: `Camera ${cam.camera_id}`, city: 'Singapore', country: 'Singapore',
+          // images.data.gov.sg is on allowlist
           feed_url: cam.image,
-          source: 'LTA Singapore'
+          source: 'LTA Singapore',
         });
       }
     }
   } catch { /* silent */ }
-
   return cams;
 }
 
 
 // ▄▄▄ REGION MAPPING ▄▄▄
 const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
-  'uk': fetchTfLCameras,
-  'us-west': async () => [...await fetchWSDOTCameras(), ...await fetchCaltransCameras()],
-  'us-east': fetchUSEastCameras,
-  'us-central': fetchUSCentralCameras,
-  'us-extended': fetchUSExtendedCameras,
-  'canada': fetchCanadaCameras,
-  'europe': fetchEuropeCameras,
-  'asia': fetchAsiaCameras,
-  // ── New regions ────────────────────────────────────────────────────────────
-  'australia': fetchAustraliaCameras,
-  'norway': fetchNorwayCameras,
-  'sweden': fetchSwedenCameras,
-  'poland': fetchPolandCameras,
-  'ireland': fetchIrelandCameras,
-  'new-zealand': fetchNewZealandCameras,
-  'japan': fetchJapanCameras,
-  'czech': fetchCzechCameras,
-  // ── Balkan sources (unchanged) ─────────────────────────────────────────────
-  'bulgaria': fetchBulgariaCameras,
-  'greece': fetchGreeceCameras,
-  'serbia': fetchSerbiaCameras,
-  'macedonia': fetchMacedoniaCameras,
-  'turkey': fetchTurkeyCameras,
-  'romania': fetchRomaniaCameras,
+  // Existing ─────────────────────────────────────────────────────────────────
+  'uk':             fetchTfLCameras,
+  'us-west':        async () => [...await fetchWSDOTCameras(), ...await fetchCaltransCameras()],
+  'us-east':        fetchUSEastCameras,
+  'us-central':     fetchUSCentralCameras,
+  'canada':         fetchCanadaCameras,
+  'europe':         fetchEuropeCameras,
+  'asia':           fetchAsiaCameras,
+  // Balkan sources (existing separate files) ─────────────────────────────────
+  'bulgaria':       fetchBulgariaCameras,
+  'greece':         fetchGreeceCameras,
+  'serbia':         fetchSerbiaCameras,
+  'macedonia':      fetchMacedoniaCameras,
+  'turkey':         fetchTurkeyCameras,
+  'romania':        fetchRomaniaCameras,
+  // ── New: from cctv.py allowlist ───────────────────────────────────────────
+  'us-nyc':         fetchNYCCameras,             // webcams.nyctmc.org
+  'us-austin':      fetchAustinCameras,           // cctv.austinmobility.io
+  'us-georgia':     fetchGeorgiaCameras,          // navigator-c2c / vss*live / 511ga.org
+  'us-michigan':    fetchMichiganCameras,         // mdotjboss.state.mi.us / micamerasimages.net
+  'us-colorado':    fetchColoradoCameras,         // publicstreamer*.cotrip.org / cocam.carsprogram.org
+  'us-oregon':      fetchOregonCameras,           // tripcheck.com
+  'us-northwest':   fetchWashingtonRegionalCameras, // olypen / forks / seattle.gov / nps.gov / etc.
+  'nps':            fetchNPSCameras,              // www.nps.gov (national parks)
+  'europe-spain':   fetchSpainCameras,            // infocar.dgt.es / informo.madrid.es
 };
 
-// Determine which regions to fetch based on viewport bounds
+// Determine which regions to fetch based on viewport centre + radius
 function getRegionsForBounds(lat: number, lng: number, radius: number): string[] {
   const regions: string[] = [];
-  // UK
-  if (lat > 49 && lat < 61 && lng > -8 && lng < 2) regions.push('uk');
-  // Ireland
-  if (lat > 51 && lat < 55.5 && lng > -11 && lng < -5.5) regions.push('ireland');
-  // US-East
-  if (lat > 24 && lat < 49 && lng > -85 && lng < -66) regions.push('us-east');
-  // US-West
-  if (lat > 24 && lat < 49 && lng > -125 && lng < -100) regions.push('us-west');
-  // US-Central
-  if (lat > 24 && lat < 49 && lng > -105 && lng < -80) regions.push('us-central');
-  // US Extended (Nevada, Utah, Colorado, Minnesota, Texas)
-  if (lat > 25 && lat < 49 && lng > -120 && lng < -90) regions.push('us-extended');
-  // Canada
-  if (lat > 42 && lat < 70 && lng > -141 && lng < -52) regions.push('canada');
-  // Norway
-  if (lat > 57 && lat < 72 && lng > 4 && lng < 31) regions.push('norway');
-  // Sweden
-  if (lat > 55 && lat < 69 && lng > 11 && lng < 24) regions.push('sweden');
-  // Poland
-  if (lat > 49 && lat < 55 && lng > 14 && lng < 24.2) regions.push('poland');
-  // Czech Republic
-  if (lat > 48.5 && lat < 51.1 && lng > 12.1 && lng < 18.9) regions.push('czech');
 
-  // Balkans (granular)
+  // ── United Kingdom ────────────────────────────────────────────────────────
+  if (lat > 49 && lat < 61 && lng > -8 && lng < 2) regions.push('uk');
+
+  // ── United States – broad bounding boxes ──────────────────────────────────
+  // Pacific Northwest (WA/OR)
+  if (lat > 42 && lat < 49.5 && lng > -125 && lng < -116) {
+    regions.push('us-west', 'us-northwest', 'us-oregon');
+  }
+  // California
+  if (lat > 32 && lat < 42 && lng > -125 && lng < -114) regions.push('us-west');
+  // Rocky Mountain / Colorado
+  if (lat > 36.5 && lat < 41.5 && lng > -109.5 && lng < -102) regions.push('us-colorado');
+  // US Midwest / Central (IL, IN, OH, etc.)
+  if (lat > 36 && lat < 49 && lng > -97 && lng < -80) regions.push('us-central', 'us-michigan');
+  // US Southeast / Georgia
+  if (lat > 30 && lat < 35.5 && lng > -85.5 && lng < -80.5) regions.push('us-georgia', 'us-east');
+  // Florida
+  if (lat > 24 && lat < 31 && lng > -88 && lng < -80) regions.push('us-east');
+  // Texas / Austin
+  if (lat > 25.5 && lat < 36.5 && lng > -107 && lng < -93) regions.push('us-austin');
+  // NYC metro
+  if (lat > 40.4 && lat < 41.4 && lng > -74.5 && lng < -73.6) regions.push('us-nyc', 'us-east');
+  // General US East fallback
+  if (lat > 24 && lat < 49 && lng > -85 && lng < -66) regions.push('us-east');
+
+  // ── Canada ────────────────────────────────────────────────────────────────
+  if (lat > 42 && lat < 70 && lng > -141 && lng < -52) regions.push('canada');
+
+  // ── Europe ────────────────────────────────────────────────────────────────
+  // Spain / Iberian Peninsula
+  if (lat > 35.5 && lat < 44 && lng > -9.5 && lng < 4.5) regions.push('europe-spain');
+  // Balkan sub-regions (granular)
   const inBulgaria  = lat > 41 && lat < 44.5 && lng > 22 && lng < 29.5;
   const inGreece    = lat > 34.5 && lat < 41.8 && lng > 19 && lng < 30;
   const inSerbia    = lat > 42 && lat < 46.5 && lng > 18.8 && lng < 23.3;
@@ -347,25 +400,24 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   const inRomania   = lat > 43.5 && lat < 48.5 && lng > 20 && lng < 29.8;
   const inTurkey    = lat > 35.5 && lat < 42.5 && lng > 25.5 && lng < 45;
   const inBalkans   = inBulgaria || inGreece || inSerbia || inMacedonia || inRomania || inTurkey;
-
-  if (lat > 35 && lat < 72 && lng > -11 && lng < 40 && !inBalkans) regions.push('europe');
   if (inBulgaria)  regions.push('bulgaria');
   if (inGreece)    regions.push('greece');
   if (inSerbia)    regions.push('serbia');
   if (inMacedonia) regions.push('macedonia');
   if (inRomania)   regions.push('romania');
   if (inTurkey)    regions.push('turkey');
+  // General Europe (excl. Balkans handled above)
+  if (lat > 35 && lat < 72 && lng > -11 && lng < 40 && !inBalkans) regions.push('europe');
 
-  // Asia (includes Middle East, SE Asia)
-  if ((lat > -10 && lat < 60 && lng > 60 && lng < 150)) regions.push('asia');
-  // Japan
-  if (lat > 30 && lat < 46 && lng > 129 && lng < 146) regions.push('japan');
+  // ── Asia/Pacific ──────────────────────────────────────────────────────────
+  if (lat > -10 && lat < 60 && lng > 60 && lng < 150) regions.push('asia');
   // Australia
-  if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('australia');
-  // New Zealand
-  if (lat > -47 && lat < -34 && lng > 166 && lng < 178) regions.push('new-zealand');
-  
-  return regions.length > 0 ? regions : ['uk', 'us-east']; // Default fallback
+  if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('asia');
+
+  // ── National Parks (US-wide overlay) ─────────────────────────────────────
+  if (lat > 24 && lat < 72 && lng > -172 && lng < -66) regions.push('nps');
+
+  return regions.length > 0 ? [...new Set(regions)] : ['uk', 'us-east'];
 }
 
 export async function GET(request: Request) {
@@ -377,7 +429,7 @@ export async function GET(request: Request) {
     const radius = parseFloat(searchParams.get('radius') || '10');
 
     let regionsToFetch: string[];
-    
+
     if (region === 'all') {
       regionsToFetch = Object.keys(REGION_FETCHERS);
     } else if (region) {
@@ -385,7 +437,7 @@ export async function GET(request: Request) {
     } else if (lat !== 0 || lng !== 0) {
       regionsToFetch = getRegionsForBounds(lat, lng, radius);
     } else {
-      // Default: load all regions for global coverage
+      // Default: full global load
       regionsToFetch = Object.keys(REGION_FETCHERS);
     }
 
