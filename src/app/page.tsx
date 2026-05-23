@@ -15,6 +15,10 @@ import KeyboardShortcuts from '@/components/KeyboardShortcuts';
 import GlobalStatusBar from '@/components/GlobalStatusBar';
 import LiveAlerts from '@/components/LiveAlerts';
 
+import PASSCODES_CONFIG from '@/lib/passcodes';
+import type { PasscodeEntry } from '@/lib/passcodes';
+import PasscodeManager from '@/components/PasscodeManager';
+
 const OsirisMap = dynamic(() => import('@/components/OsirisMap'), { ssr: false });
 const LayerPanel = dynamic(() => import('@/components/LayerPanel'));
 const CameraViewer = dynamic(() => import('@/components/CameraViewer'));
@@ -89,6 +93,13 @@ export default function Dashboard() {
   const [regionDossier, setRegionDossier] = useState<any>(null);
   const [dossierLoading, setDossierLoading] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [showLock, setShowLock] = useState(true);
+  const [passcode, setPasscode] = useState('');
+  const [lockError, setLockError] = useState(false);
+  const [lockShake, setLockShake] = useState(false);
+  const [showPasscodeManager, setShowPasscodeManager] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [runtimePasscodes, setRuntimePasscodes] = useState<PasscodeEntry[]>(PASSCODES_CONFIG);
   const [activeCamera, setActiveCamera] = useState<any>(null);
   const [spaceWeather, setSpaceWeather] = useState<any>(null);
   const [showLayers, setShowLayers] = useState(true);
@@ -137,6 +148,34 @@ export default function Dashboard() {
     const splashTimer = setTimeout(() => setShowSplash(false), 2500);
     return () => clearTimeout(splashTimer);
   }, []);
+
+  // Lock screen passcode handler — multi-passcode support
+  const handlePasscodeInput = (digit: string) => {
+    if (lockShake) return;
+    const next = passcode + digit;
+    setPasscode(next);
+    if (next.length === 4) {
+      const match = runtimePasscodes.find(p => p.code === next && p.active);
+      if (match) {
+        setLockError(false);
+        setIsAdmin(match.admin);
+        setTimeout(() => setShowLock(false), 400);
+      } else {
+        setLockShake(true);
+        setLockError(true);
+        setTimeout(() => {
+          setPasscode('');
+          setLockError(false);
+          setLockShake(false);
+        }, 800);
+      }
+    }
+  };
+
+  const handlePasscodeDelete = () => {
+    setPasscode(p => p.slice(0, -1));
+    setLockError(false);
+  };
 
   // URL state: parse on mount
   useEffect(() => {
@@ -525,6 +564,179 @@ export default function Dashboard() {
       </AnimatePresence>
 
 
+
+
+
+
+      {/* ── LOCK SCREEN ── */}
+      <AnimatePresence>
+        {!showSplash && showLock && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            className="absolute inset-0 z-[998] flex flex-col items-center justify-center overflow-hidden"
+          >
+            {/* Blurred background — shows the map beneath */}
+            <div className="absolute inset-0" style={{
+              backdropFilter: 'blur(24px) brightness(0.45) saturate(1.2)',
+              WebkitBackdropFilter: 'blur(24px) brightness(0.45) saturate(1.2)',
+              background: 'rgba(4,4,10,0.55)',
+            }} />
+
+            {/* CRT scanlines overlay */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px)',
+              zIndex: 1,
+            }} />
+
+            {/* Vignette */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              background: 'radial-gradient(ellipse at center, transparent 30%, rgba(4,4,10,0.7) 100%)',
+              zIndex: 1,
+            }} />
+
+            {/* Corner accents */}
+            {[
+              { top: '16px', left: '16px', borderWidth: '2px 0 0 2px' },
+              { top: '16px', right: '16px', borderWidth: '2px 2px 0 0' },
+              { bottom: '16px', left: '16px', borderWidth: '0 0 2px 2px' },
+              { bottom: '16px', right: '16px', borderWidth: '0 2px 2px 0' },
+            ].map((pos, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                transition={{ delay: 0.3 + i * 0.08 }}
+                className="absolute w-10 h-10"
+                style={{ ...pos, borderStyle: 'solid', borderColor: 'var(--gold-primary)', zIndex: 2 }}
+              />
+            ))}
+
+            {/* Lock panel */}
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 0.15, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="relative z-[3] flex flex-col items-center"
+              style={{ minWidth: '320px' }}
+            >
+              {/* Logo + title */}
+              <img
+                src="/blackglobe.gif"
+                alt="Black Globe"
+                className="w-14 h-14 object-contain mb-5"
+                draggable={false}
+                style={{ filter: 'drop-shadow(0 0 16px rgba(255,255,255,0.25))' }}
+              />
+              <div className="text-[11px] font-mono tracking-[0.5em] text-[var(--text-heading)] mb-1 font-bold">BLACK GLOBE</div>
+              <div className="text-[8px] font-mono tracking-[0.3em] text-[var(--gold-primary)] mb-8 opacity-60">SECURE ACCESS REQUIRED</div>
+
+              {/* Glass card */}
+              <div
+                className="glass-panel px-8 py-8 flex flex-col items-center gap-6 osiris-glow"
+                style={{ minWidth: '300px' }}
+              >
+                {/* Lock icon */}
+                <div className="flex flex-col items-center gap-2">
+                  <motion.div
+                    animate={lockShake ? { x: [-8, 8, -6, 6, -4, 4, 0] } : { x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="flex flex-col items-center gap-3"
+                  >
+                    {/* PIN dots */}
+                    <div className="flex gap-4">
+                      {[0,1,2,3].map(i => (
+                        <motion.div
+                          key={i}
+                          animate={{
+                            scale: passcode.length > i ? 1.15 : 1,
+                            background: lockError
+                              ? '#FF3D3D'
+                              : passcode.length > i
+                              ? 'var(--gold-primary)'
+                              : 'rgba(255,255,255,0.12)',
+                            boxShadow: passcode.length > i && !lockError
+                              ? '0 0 12px rgba(255,255,255,0.5)'
+                              : lockError
+                              ? '0 0 12px rgba(255,61,61,0.5)'
+                              : 'none',
+                          }}
+                          transition={{ duration: 0.15 }}
+                          style={{
+                            width: '14px', height: '14px', borderRadius: '50%',
+                            border: '1.5px solid rgba(255,255,255,0.25)',
+                          }}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Error message */}
+                    <motion.div
+                      animate={{ opacity: lockError ? 1 : 0, y: lockError ? 0 : -4 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-[9px] font-mono tracking-[0.2em] text-[#FF3D3D] h-4"
+                    >
+                      {lockError ? 'INVALID PASSCODE' : ''}
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Numpad */}
+                <div className="grid grid-cols-3 gap-3">
+                  {['1','2','3','4','5','6','7','8','9','','0','⌫'].map((key, i) => (
+                    <motion.button
+                      key={i}
+                      whileTap={key ? { scale: 0.88 } : {}}
+                      onClick={() => {
+                        if (!key) return;
+                        if (key === '⌫') handlePasscodeDelete();
+                        else handlePasscodeInput(key);
+                      }}
+                      disabled={!key}
+                      className="relative flex items-center justify-center font-mono font-bold select-none"
+                      style={{
+                        width: '64px', height: '64px', borderRadius: '14px',
+                        fontSize: key === '⌫' ? '18px' : '20px',
+                        background: !key
+                          ? 'transparent'
+                          : 'rgba(255,255,255,0.06)',
+                        border: !key ? 'none' : '1px solid rgba(255,255,255,0.1)',
+                        color: key === '⌫' ? 'var(--text-muted)' : 'var(--text-heading)',
+                        cursor: !key ? 'default' : 'pointer',
+                        transition: 'background 0.15s, border-color 0.15s, box-shadow 0.15s',
+                        boxShadow: 'none',
+                      }}
+                      onMouseEnter={e => {
+                        if (key && key !== '⌫') (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.12)';
+                        if (key && key !== '⌫') (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.25)';
+                      }}
+                      onMouseLeave={e => {
+                        if (key) (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,0.06)';
+                        if (key) (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)';
+                      }}
+                    >
+                      {key}
+                    </motion.button>
+                  ))}
+                </div>
+
+                {/* Hint */}
+                <div className="text-[7px] font-mono tracking-[0.2em] text-[var(--text-muted)] opacity-50 mt-1">
+                  ENTER 4-DIGIT PASSCODE
+                </div>
+              </div>
+
+              {/* Bottom status */}
+              <div className="mt-5 flex items-center gap-2 opacity-40">
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--gold-primary)] animate-osiris-pulse" />
+                <span className="text-[7px] font-mono tracking-[0.25em] text-[var(--text-muted)]">SYSTEM LOCKED · BLACK GLOBE V4.2</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── MAP ── */}
       <ErrorBoundary name="Map">
@@ -997,6 +1209,36 @@ export default function Dashboard() {
         [?] SHORTCUTS · [F] FULLSCREEN · [S] SHARE · [R] RESET VIEW
       </div>
 
+      {/* ── ADMIN: Passcode Manager trigger (only visible to admin-role users) ── */}
+      {isAdmin && !showLock && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          onClick={() => setShowPasscodeManager(true)}
+          className="desktop-only absolute bottom-[42px] right-5 z-[200] flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg font-mono text-[8px] tracking-[0.15em] transition-all group"
+          style={{
+            background: 'rgba(255,215,0,0.08)',
+            border: '1px solid rgba(255,215,0,0.2)',
+            color: 'rgba(255,215,0,0.5)',
+          }}
+          title="Manage Passcodes"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          PASSCODES
+        </motion.button>
+      )}
+
+      {/* ── PasscodeManager overlay ── */}
+      <PasscodeManager
+        isOpen={showPasscodeManager}
+        onClose={() => setShowPasscodeManager(false)}
+        passcodes={runtimePasscodes}
+        onSave={(updated) => {
+          setRuntimePasscodes(updated);
+          setShowPasscodeManager(false);
+        }}
+      />
 
     </main>
   );
