@@ -462,7 +462,7 @@ export default function Dashboard() {
                   animate={{ width: ['0%', '25%', '50%', '78%', '100%'] }}
                   transition={{ duration: 2.2, delay: 0.5, times: [0, 0.25, 0.5, 0.75, 1], ease: 'easeInOut' }}
                   className="absolute inset-y-0 left-0 rounded-full"
-                  style={{ background: 'linear-gradient(90deg, var(--gold-primary), var(--cyan-primary), var(--gold-primary))', boxShadow: '0 0 12px rgba(212,175,55,0.4)' }}
+                  style={{ background: 'linear-gradient(90deg, var(--gold-primary), #ffffff, var(--gold-primary))', boxShadow: '0 0 12px rgba(255,255,255,0.4)' }}
                 />
               </div>
 
@@ -480,7 +480,7 @@ export default function Dashboard() {
                     animate={{ opacity: [0, 1, 1, 0] }}
                     transition={{ delay: stage.delay, duration: 0.6, times: [0, 0.1, 0.7, 1] }}
                     className="absolute text-[9px] font-mono tracking-[0.25em]"
-                    style={{ color: i === 3 ? 'var(--cyan-primary)' : 'var(--text-muted)' }}
+                    style={{ color: i === 3 ? '#ffffff' : 'var(--text-muted)' }}
                   >
                     {stage.text}
                   </motion.span>
