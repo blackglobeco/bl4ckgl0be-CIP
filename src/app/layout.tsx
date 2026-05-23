@@ -185,6 +185,8 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" style={{ backgroundColor: '#04040A' }}>
       <head>
+        <meta name="theme-color" content="#04040A" />
+        <style>{`html,body{background:#04040A !important}`}</style>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
