@@ -636,30 +636,56 @@ export default function Dashboard() {
       </motion.div>
 
       {/* ── HEADER ── */}
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 2.5 }} className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}>
-        <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center relative">
-          {/* Ambient glow ring — slow rotating */}
-          <div className="absolute inset-[-4px] md:inset-[-5px] rounded-full border border-[var(--gold-primary)]/20" style={{ animation: 'osiris-rotate 12s linear infinite' }}>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[var(--gold-primary)] shadow-[0_0_6px_var(--gold-primary)]" />
-          </div>
-          <div className="absolute inset-[-8px] md:inset-[-10px] rounded-full border border-[var(--gold-primary)]/10" style={{ animation: 'osiris-rotate 20s linear infinite reverse' }}>
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-0.5 h-0.5 rounded-full bg-[var(--gold-primary)]/60" />
-          </div>
-          <div className="w-5 h-5 md:w-7 md:h-7 rounded-full border-2 border-[var(--gold-primary)] flex items-center justify-center animate-glow-pulse">
-            <div className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 rounded-full bg-[var(--gold-primary)]/30 border border-[var(--gold-primary)]/60" />
-          </div>
-          <div className="absolute w-[1px] h-full bg-[var(--gold-primary)]/30" />
-          <div className="absolute w-full h-[1px] bg-[var(--gold-primary)]/30" />
-        </div>
-        {/* Horizontal rule extending from logo */}
-        <div className="hidden md:block absolute top-1/2 left-[52px] w-[200px] h-[1px] bg-gradient-to-r from-[var(--gold-primary)]/40 via-[var(--gold-primary)]/15 to-transparent" />
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <h1 className="text-base md:text-xl font-bold tracking-[0.4em] md:tracking-[0.5em] text-[var(--text-heading)] font-mono">BLACK GLOBE</h1>
-          </div>
-          <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">CYBER INTELLIGENCE PLATFORM</span>
-        </div>
-      </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1, delay: 2.5 }}
+  className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}
+>
+  <div className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center relative">
+    {/* Ambient rotating rings */}
+    <div
+      className="absolute inset-[-4px] md:inset-[-5px] rounded-full border border-[var(--gold-primary)]/20"
+      style={{ animation: 'osiris-rotate 12s linear infinite' }}
+    >
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-[var(--gold-primary)] shadow-[0_0_6px_var(--gold-primary)]" />
+    </div>
+
+    <div
+      className="absolute inset-[-8px] md:inset-[-10px] rounded-full border border-[var(--gold-primary)]/10"
+      style={{ animation: 'osiris-rotate 20s linear infinite reverse' }}
+    >
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-0.5 h-0.5 rounded-full bg-[var(--gold-primary)]/60" />
+    </div>
+
+    {/* Animated GIF Logo */}
+    <img
+      src="/blackglobe.gif"
+      alt="Black Globe Logo"
+      className="relative z-10 w-6 h-6 md:w-8 md:h-8 object-contain rounded-full animate-glow-pulse"
+      draggable={false}
+    />
+
+    {/* Tactical crosshair overlay */}
+    <div className="absolute w-[1px] h-full bg-[var(--gold-primary)]/20" />
+    <div className="absolute w-full h-[1px] bg-[var(--gold-primary)]/20" />
+  </div>
+
+  {/* Horizontal rule extending from logo */}
+  <div className="hidden md:block absolute top-1/2 left-[52px] w-[200px] h-[1px] bg-gradient-to-r from-[var(--gold-primary)]/40 via-[var(--gold-primary)]/15 to-transparent" />
+
+  <div className="flex flex-col">
+    <div className="flex items-center gap-2">
+      <h1 className="text-base md:text-xl font-bold tracking-[0.4em] md:tracking-[0.5em] text-[var(--text-heading)] font-mono">
+        BLACK GLOBE
+      </h1>
+    </div>
+
+    <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">
+      CYBER INTELLIGENCE PLATFORM
+    </span>
+  </div>
+</motion.div>
 
       {/* ── TOP-RIGHT STATUS (desktop) — C2 DISPLAY ── */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }} className="status-bar-desktop absolute top-3 right-3 md:top-4 md:right-5 z-[200] pointer-events-none flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-muted)]">
