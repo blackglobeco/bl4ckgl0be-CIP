@@ -1,15 +1,11 @@
-// ── Malaysia CCTV Cameras ──────────────────────────────────────────────────
-// Sources:
-//   • KLCCC  – Kuala Lumpur Command & Control Centre (DBKL)
-//     https://klccc.dbkl.gov.my/cctv-images/
-//   • MBJB   – Majlis Bandaraya Johor Bahru (via jalanow.com)
-//     https://www.jalanow.com/MBJB-live-traffic-city-center.htm
-
+const PROXY = (url: string) =>
+  `/api/cctv/proxy?url=${encodeURIComponent(url)}`;
+ 
 export async function fetchMalaysiaCameras(): Promise<any[]> {
   const cams: any[] = [];
 
-  // ── MBJB: Majlis Bandaraya Johor Bahru – City Centre cameras ─────────────
-  // Images are served as refreshing JPGs from c10.fgies.com/mbjb2/
+// ── MBJB: Majlis Bandaraya Johor Bahru – City Centre cameras ─────────────
+  // Images at c10.fgies.com require Referer: jalanow.com — proxied via /api/cctv/proxy
   const mbjbCameras = [
     // Jalan Wong Ah Fook (Hadapan JBCC)
     {
@@ -19,7 +15,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Wong Ah Fook / JBCC (L3C1)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/05W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/05W.jpg'),
       source: 'MBJB',
     },
     {
@@ -29,7 +25,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Wong Ah Fook / JBCC (L3C2)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/06W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/06W.jpg'),
       source: 'MBJB',
     },
     // Jalan Ibrahim / Jalan Pahang
@@ -40,7 +36,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Ibrahim / Jalan Pahang (L8C1)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/13W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/13W.jpg'),
       source: 'MBJB',
     },
     {
@@ -50,7 +46,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Ibrahim / Jalan Pahang (L8C2)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/14W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/14W.jpg'),
       source: 'MBJB',
     },
     // Lorong Jalan Dhoby (Parking)
@@ -61,7 +57,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Lorong Jalan Dhoby Parking (L9C1)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/15W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/15W.jpg'),
       source: 'MBJB',
     },
     {
@@ -71,7 +67,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Lorong Jalan Dhoby Parking (L9C2)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/16W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/16W.jpg'),
       source: 'MBJB',
     },
     // Jalan Abdullah Ibrahim / Ungku Puan
@@ -82,7 +78,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Abdullah Ibrahim / Ungku Puan (L10C2)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/18W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/18W.jpg'),
       source: 'MBJB',
     },
     // Jalan Abdullah Ibrahim (Persada)
@@ -93,7 +89,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Abdullah Ibrahim / Persada (L11C1)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/19W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/19W.jpg'),
       source: 'MBJB',
     },
     {
@@ -103,11 +99,11 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
       name: 'MBJB – Jalan Abdullah Ibrahim / Persada (L11C2)',
       city: 'Johor Bahru',
       country: 'Malaysia',
-      feed_url: 'https://c10.fgies.com/mbjb2/20W.jpg',
+      feed_url: PROXY('https://c10.fgies.com/mbjb2/20W.jpg'),
       source: 'MBJB',
     },
   ];
   cams.push(...mbjbCameras);
-
+ 
   return cams.filter((c: any) => c.lat && c.lng);
 }
