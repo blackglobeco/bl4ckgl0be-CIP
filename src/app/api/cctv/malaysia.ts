@@ -19,8 +19,8 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
     // L1 – Jalan Skudai / Jalan Impian Utama
     // Taman Impian Skudai centroid (OpenStreetMap via mapcarta.com): 1.52856, 103.68052
     // Jalan Impian Utama is the main road through this taman, which fronts Jalan Skudai
-    { id: 'mbjb-L1C1',  lat: 1.5286, lng: 103.6805, name: 'Jalan Skudai / Jalan Impian Utama (L1C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L01_Cam1'), source: 'MBJB' },
-    { id: 'mbjb-L1C2',  lat: 1.5286, lng: 103.6808, name: 'Jalan Skudai / Jalan Impian Utama (L1C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L01_Cam2'), source: 'MBJB' },
+    { id: 'mbjb-L1C1',  lat: 1.5258, lng: 103.6763, name: 'Jalan Skudai / Jalan Impian Utama (L1C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L01_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L1C2',  lat: 1.5260, lng: 103.6761, name: 'Jalan Skudai / Jalan Impian Utama (L1C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L01_Cam2'), source: 'MBJB' },
  
     // L2 – Jalan Skudai (Paradigm Mall)
     // Paradigm Mall JB confirmed: 1.515153, 103.685767 (distancesto.com)
@@ -30,16 +30,16 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
     // L4 – Jalan Skudai / Jalan Padi
     // Tampoi Wikipedia: 1.4928, 103.7059. Jalan Padi runs through Tampoi / UDA area.
     // Jalan Skudai passes through Tampoi — intersection with Jalan Padi at ~1.4930, 103.7065
-    { id: 'mbjb-L4C1',  lat: 1.4930, lng: 103.7065, name: 'Jalan Skudai / Jalan Padi (L4C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L04_Cam1'), source: 'MBJB' },
-    { id: 'mbjb-L4C2',  lat: 1.4930, lng: 103.7068, name: 'Jalan Skudai / Jalan Padi (L4C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L04_Cam2'), source: 'MBJB' },
+    { id: 'mbjb-L4C1',  lat: 1.4890, lng: 103.7126, name: 'Jalan Skudai / Jalan Padi (L4C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L04_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L4C2',  lat: 1.4889, lng: 103.7126, name: 'Jalan Skudai / Jalan Padi (L4C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L04_Cam2'), source: 'MBJB' },
  
     // L5 – Jalan Abu Bakar Sultan / Laman Serene
     // Laman Serene is a condo development on Jalan Abu Bakar Sultan, north of Country Garden
     // (Country Garden: 1.4742, 103.7236) and south of Dataran Bandaraya (1.4635, 103.7468)
     // Laman Serene sits roughly midway at ~1.4700, 103.7340
-    { id: 'mbjb-L5C1',  lat: 1.4700, lng: 103.7340, name: 'Jalan Abu Bakar Sultan / Laman Serene (L5C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L05_Cam1'), source: 'MBJB' },
-    { id: 'mbjb-L5C2',  lat: 1.4700, lng: 103.7343, name: 'Jalan Abu Bakar Sultan / Laman Serene (L5C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L05_Cam2'), source: 'MBJB' },
- 
+    { id: 'mbjb-L5C1',  lat: 1.5162, lng: 103.6837, name: 'Jalan Abu Bakar Sultan / Laman Serene (L5C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L05_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L5C2',  lat: 1.5163, lng: 103.6836, name: 'Jalan Abu Bakar Sultan / Laman Serene (L5C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L05_Cam2'), source: 'MBJB' },
+
     // L6 – Jalan Abu Bakar Sultan (Country Garden)
     // Country Garden Danga Bay GPS confirmed: 1.47420, 103.72359 (gites.fr booking site)
     // Danga Bay Wikipedia: 1.475000, 103.724000
@@ -57,7 +57,7 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
     // Jalan Kebun Teh Wikipedia: west end = Skudai Hwy (FT1), east end = Tebrau Hwy (FT3)
     // Jalan Tun Abdul Razak (TAR) is the north–south arterial; its junction with Kebun Teh
     // is in the Larkin / Taman Century area at ~1.5010, 103.7350
-    { id: 'mbjb-L24C1', lat: 1.4843 lng: 103.7526, name: 'Jalan TAR / Jalan Kebun Teh (L24C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L24_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L24C1', lat: 1.4843, lng: 103.7526, name: 'Jalan TAR / Jalan Kebun Teh (L24C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L24_Cam1'), source: 'MBJB' },
     { id: 'mbjb-L24C2', lat: 1.4842, lng: 103.7527, name: 'Jalan TAR / Jalan Kebun Teh (L24C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L24_Cam2'), source: 'MBJB' },
  
     // L25 – Jalan Mutiara Emas Utama (Roundabout)
@@ -69,14 +69,14 @@ export async function fetchMalaysiaCameras(): Promise<any[]> {
     // L26 – Lbh Iskandar Puteri / Jalan TAR
     // Lebuhraya Iskandar Puteri meets Jalan Tun Abdul Razak near the Larkin area
     // This is the flyover/interchange north of Larkin terminal at ~1.5030, 103.7310
-    { id: 'mbjb-L26C1', lat: 1.5030, lng: 103.7310, name: 'Lbh Iskandar Puteri / Jalan TAR (L26C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L26_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L26C1', lat: 1.4862, lng: 103.7168, name: 'Lbh Iskandar Puteri / Jalan TAR (L26C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L26_Cam1'), source: 'MBJB' },
     { id: 'mbjb-L26C2', lat: 1.4864, lng: 103.7170, name: 'Lbh Iskandar Puteri / Jalan TAR (L26C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L26_Cam2'), source: 'MBJB' },
- 
+
     // L27 – Jalan Lingkaran Dalam (Menara MBJB)
     // Official MBJB address: No. 1, Jalan Lingkaran Dalam, Bukit Senyum, 80300 JB
     // Menara MBJB (the new MBJB HQ tower) at Bukit Senyum: 1.4888, 103.7513
-    { id: 'mbjb-L27C1', lat: 1.4888, lng: 103.7513, name: 'Jalan Lingkaran Dalam / Menara MBJB (L27C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L27_Cam1'), source: 'MBJB' },
-    { id: 'mbjb-L27C2', lat: 1.4888, lng: 103.7516, name: 'Jalan Lingkaran Dalam / Menara MBJB (L27C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L27_Cam2'), source: 'MBJB' },
+    { id: 'mbjb-L27C1', lat: 1.5035, lng: 103.7131, name: 'Jalan Lingkaran Dalam / Menara MBJB (L27C1)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L27_Cam1'), source: 'MBJB' },
+    { id: 'mbjb-L27C2', lat: 1.5034, lng: 103.7130, name: 'Jalan Lingkaran Dalam / Menara MBJB (L27C2)', city: 'Johor Bahru', country: 'Malaysia', feed_url: MBJB('L27_Cam2'), source: 'MBJB' },
  
     // ── Pusat Bandar (City Centre) ─────────────────────────────────────────
  
