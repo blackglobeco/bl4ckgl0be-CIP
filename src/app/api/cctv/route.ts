@@ -8,6 +8,7 @@ import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
 import { fetchMalaysiaCameras } from './malaysia';
 import { fetchAustraliaCameras } from './australia';
+import { getBlackeyeCameras } from './blackeye';
 
 /**
  * OSIRIS — Worldwide CCTV Camera API v2
@@ -274,6 +275,11 @@ async function fetchAsiaCameras(): Promise<any[]> {
 }
 
 
+
+// ── GLOBAL: Blackeye RTSP cameras via rtsp.me WebRTC iframe proxy ──
+function fetchBlackeyeCameras(): Promise<any[]> {
+  return Promise.resolve(getBlackeyeCameras());
+}
 // ═══ REGION MAPPING ═══
 const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'uk': fetchTfLCameras,
@@ -291,6 +297,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'romania': fetchRomaniaCameras,
   'malaysia': fetchMalaysiaCameras,
   'australia': fetchAustraliaCameras,
+  'blackeye': fetchBlackeyeCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -332,7 +339,10 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   // Malaysia explicitly
   if (lat > 1.0 && lat < 7.5 && lng > 99.5 && lng < 119.5) regions.push('malaysia');
 
-  return regions.length > 0 ? regions : ['uk', 'us-east']; // Default fallback
+  // Blackeye global RTSP cameras — always include regardless of viewport
+  if (!regions.includes('blackeye')) regions.push('blackeye');
+
+  return regions.length > 0 ? regions : ['uk', 'us-east', 'blackeye']; // Default fallback
 }
 
 export async function GET(request: Request) {
