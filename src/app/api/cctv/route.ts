@@ -6,6 +6,7 @@ import { fetchSerbiaCameras } from './serbia';
 import { fetchMacedoniaCameras } from './macedonia';
 import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
+import { fetchMalaysiaCameras } from './malaysia';
 import { fetchAustraliaCameras } from './australia';
 
 /**
@@ -288,6 +289,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'macedonia': fetchMacedoniaCameras,
   'turkey': fetchTurkeyCameras,
   'romania': fetchRomaniaCameras,
+  'malaysia': fetchMalaysiaCameras,
   'australia': fetchAustraliaCameras,
 };
 
@@ -327,6 +329,8 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if ((lat > -10 && lat < 60 && lng > 60 && lng < 150)) regions.push('asia');
   // Australia explicitly
   if (lat > -45 && lat < -10 && lng > 110 && lng < 155) regions.push('asia');
+  // Malaysia explicitly
+  if (lat > 1.0 && lat < 7.5 && lng > 99.5 && lng < 119.5) regions.push('malaysia');
 
   return regions.length > 0 ? regions : ['uk', 'us-east']; // Default fallback
 }
