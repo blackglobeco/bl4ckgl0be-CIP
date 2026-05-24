@@ -8,43 +8,6 @@
 export async function fetchMalaysiaCameras(): Promise<any[]> {
   const cams: any[] = [];
 
-  // ── KLCCC: Kuala Lumpur Command & Control Centre ──────────────────────────
-  // The KLCCC site streams live HLS video. Camera IDs (CN030F, CN033F, CN407F)
-  // don't have public static-image endpoints, so we expose them via external_url.
-  const klcccCameras = [
-    {
-      id: 'klccc-CN030F',
-      lat: 3.1319,
-      lng: 101.6841,
-      name: 'KLCCC – CN030F (Bukit Jalil)',
-      city: 'Kuala Lumpur',
-      country: 'Malaysia',
-      external_url: 'https://klccc.dbkl.gov.my/cctv-images/',
-      source: 'KLCCC',
-    },
-    {
-      id: 'klccc-CN033F',
-      lat: 3.1350,
-      lng: 101.6870,
-      name: 'KLCCC – CN033F (Bukit Jalil)',
-      city: 'Kuala Lumpur',
-      country: 'Malaysia',
-      external_url: 'https://klccc.dbkl.gov.my/cctv-images/',
-      source: 'KLCCC',
-    },
-    {
-      id: 'klccc-CN407F',
-      lat: 3.1480,
-      lng: 101.6950,
-      name: 'KLCCC – CN407F (Lebuhraya Bukit Jalil)',
-      city: 'Kuala Lumpur',
-      country: 'Malaysia',
-      external_url: 'https://klccc.dbkl.gov.my/cctv-images/',
-      source: 'KLCCC',
-    },
-  ];
-  cams.push(...klcccCameras);
-
   // ── MBJB: Majlis Bandaraya Johor Bahru – City Centre cameras ─────────────
   // Images are served as refreshing JPGs from c10.fgies.com/mbjb2/
   const mbjbCameras = [
