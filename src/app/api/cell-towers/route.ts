@@ -12,12 +12,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const OPENCELLID_TOKEN = process.env.OPENCELLID_TOKEN || '';
 
-// Fallback: Mozilla Location Service (MLS) — no key needed, community data
-// MLS geolocate returns nearest towers for a given lat/lng
-const MLS_URL = 'https://location.services.mozilla.com/v1/geolocate?key=test';
-
-// OpenCelliD bbox endpoint
-const OCID_BBOX_URL = 'https://opencellid.org/api/getStationsInArea.php';
+// OpenCelliD cell area query endpoint (correct v2 endpoint)
+// Params: token, BBOX=latmin,lonmin,latmax,lonmax (lat-first), format, limit
+const OCID_BBOX_URL = 'https://opencellid.org/ajax/exportCells.php';
 
 // Network type labels
 const RADIO_LABELS: Record<string, string> = {
@@ -92,41 +89,48 @@ export async function GET(req: NextRequest) {
   // Try live OpenCelliD API if token is configured and lat/lng provided
   if (OPENCELLID_TOKEN && !isNaN(lat) && !isNaN(lng)) {
     try {
-      const degOffset = (radius / 111320); // rough meters → degrees
-      const bbox = `${lng - degOffset},${lat - degOffset},${lng + degOffset},${lat + degOffset}`;
-      const url = `${OCID_BBOX_URL}?key=${OPENCELLID_TOKEN}&BBOX=${bbox}&format=json&limit=500`;
+      const degOffset = radius / 111320; // rough meters → degrees
+
+      // FIX 1: Correct BBOX order is latmin,lonmin,latmax,lonmax (lat-first, not lng-first)
+      // FIX 2: Use `token=` param, not `key=`
+      // FIX 3: Use correct endpoint: /ajax/exportCells.php (not /api/getStationsInArea.php)
+      const bbox = `${lat - degOffset},${lng - degOffset},${lat + degOffset},${lng + degOffset}`;
+      const url = `${OCID_BBOX_URL}?token=${OPENCELLID_TOKEN}&BBOX=${bbox}&format=json&limit=500`;
 
       const res = await fetch(url, {
         headers: { 'Accept': 'application/json' },
         signal: AbortSignal.timeout(8000),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const towers = (data.cells || []).map((cell: any) => ({
-          id: `ct-live-${cell.radio}-${cell.mcc}-${cell.mnc}-${cell.lac}-${cell.cid}`,
-          radio: cell.radio,
-          mcc: cell.mcc,
-          mnc: cell.mnc,
-          lac: cell.lac,
-          cid: cell.cid,
-          lat: cell.lat,
-          lng: cell.lon,
-          range: cell.range || 1000,
-          samples: cell.samples || 0,
-          updated: cell.updated ? new Date(cell.updated * 1000).toISOString().split('T')[0] : 'Unknown',
-          operator: cell.averageSignal ? `Signal: ${cell.averageSignal} dBm` : '',
-          country: cell.country || '',
-          city: '',
-        }));
-
-        return NextResponse.json(
-          { towers, total: towers.length, source: 'opencellid_live', timestamp: new Date().toISOString() },
-          { headers: { 'Cache-Control': 'public, s-maxage=900' } } // 15 min cache
-        );
+      if (!res.ok) {
+        console.error(`[cell-towers] OpenCelliD API error: ${res.status} ${res.statusText}`);
+        throw new Error(`OpenCelliD responded with ${res.status}`);
       }
-    } catch (_) {
-      // fall through to sample data
+
+      const data = await res.json();
+      const towers = (data.cells || []).map((cell: any) => ({
+        id: `ct-live-${cell.radio}-${cell.mcc}-${cell.mnc}-${cell.lac}-${cell.cid}`,
+        radio: cell.radio,
+        mcc: cell.mcc,
+        mnc: cell.mnc,
+        lac: cell.lac,
+        cid: cell.cid,
+        lat: cell.lat,
+        lng: cell.lon,
+        range: cell.range || 1000,
+        samples: cell.samples || 0,
+        updated: cell.updated ? new Date(cell.updated * 1000).toISOString().split('T')[0] : 'Unknown',
+        operator: cell.averageSignal ? `Signal: ${cell.averageSignal} dBm` : '',
+        country: cell.country || '',
+        city: '',
+      }));
+
+      return NextResponse.json(
+        { towers, total: towers.length, source: 'opencellid_live', timestamp: new Date().toISOString() },
+        { headers: { 'Cache-Control': 'public, s-maxage=900' } } // 15 min cache
+      );
+    } catch (err) {
+      console.error('[cell-towers] Live fetch failed, falling back to sample data:', err);
     }
   }
 
