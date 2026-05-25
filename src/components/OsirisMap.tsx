@@ -108,7 +108,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'cell-towers'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── CONFLICT ZONES — small warning markers (not polygons) ──
@@ -222,6 +222,29 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'circle-radius': 4, 'circle-color': '#FF3D3D', 'circle-opacity': 0.5, 'circle-stroke-width': 1, 'circle-stroke-color': '#FF3D3D', 'circle-stroke-opacity': 0.3,
       }});
 
+      // Cell Towers — radio-type colored markers with glow
+       map.addLayer({ id: 'cell-tower-glow', type: 'circle', source: 'cell-towers', paint: {
+         'circle-radius': ['interpolate',['linear'],['zoom'], 1,8, 5,14, 10,22],
+         'circle-color': ['match', ['get','radio'], 'NR','#B388FF', 'LTE','#39FF14', 'UMTS','#00E5FF', 'GSM','#FF9500', 'CDMA','#FFD700', '#AAAAAA'],
+         'circle-opacity': 0.08, 'circle-blur': 1,
+       }});
+       map.addLayer({ id: 'cell-tower-dots', type: 'circle', source: 'cell-towers', paint: {
+         'circle-radius': ['interpolate',['linear'],['zoom'], 1,3, 5,5, 10,8, 14,12],
+         'circle-color': ['match', ['get','radio'], 'NR','#B388FF', 'LTE','#39FF14', 'UMTS','#00E5FF', 'GSM','#FF9500', 'CDMA','#FFD700', '#AAAAAA'],
+         'circle-opacity': 0.85,
+         'circle-stroke-width': 1.5,
+         'circle-stroke-color': ['match', ['get','radio'], 'NR','#B388FF', 'LTE','#39FF14', 'UMTS','#00E5FF', 'GSM','#FF9500', 'CDMA','#FFD700', '#AAAAAA'],
+         'circle-stroke-opacity': 0.5,
+       }});
+       map.addLayer({ id: 'cell-tower-label', type: 'symbol', source: 'cell-towers', minzoom: 9, layout: {
+         'text-field': ['concat', ['get','radio'], ' ', ['get','city']],
+         'text-size': 9, 'text-font': ['Open Sans Regular'],
+         'text-offset': [0, 1.8], 'text-max-width': 12, 'text-allow-overlap': false,
+       }, paint: {
+         'text-color': ['match', ['get','radio'], 'NR','#B388FF', 'LTE','#39FF14', 'UMTS','#00E5FF', 'GSM','#FF9500', '#AAAAAA'],
+         'text-halo-color': '#000', 'text-halo-width': 1, 'text-opacity': 0.8,
+       }});
+      
       // GPS Jamming
       map.addLayer({ id: 'jam-fill', type: 'circle', source: 'gps-jamming', paint: { 'circle-radius': 30, 'circle-color': '#FF0000', 'circle-opacity': 0.15, 'circle-blur': 1 }});
       map.addLayer({ id: 'jam-label', type: 'symbol', source: 'gps-jamming', layout: {
@@ -564,9 +587,33 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
-
+    // ── Cell Towers (info popup) ──
+     map.on('click', 'cell-tower-dots', e => {
+       if (!e.features?.length) return;
+       const p = e.features[0].properties as any;
+       const coords = (e.features[0].geometry as any).coordinates;
+       const radioColor: Record<string,string> = { NR:'#B388FF', LTE:'#39FF14', UMTS:'#00E5FF', GSM:'#FF9500', CDMA:'#FFD700' };
+       const col = radioColor[p.radio] || '#AAAAAA';
+       popup(coords, `<div style="${pStyle}border:1px solid ${col}33;">
+         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+           <span style="color:${col};font-size:15px;font-weight:700;letter-spacing:0.1em;">📡 ${p.radio || 'CELL'} TOWER</span>
+           <span style="color:#5C5A54;font-size:10px;">${p.country}</span>
+         </div>
+         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;margin-bottom:10px;">
+           <div><span style="color:#5C5A54;font-size:9px;">MCC/MNC</span><br/><span style="color:#E8E6E0;">${p.mcc}/${p.mnc}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">LAC / CID</span><br/><span style="color:#E8E6E0;">${p.lac} / ${p.cid}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">RANGE</span><br/><span style="color:#E8E6E0;">${p.range ? p.range + 'm' : '—'}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">SAMPLES</span><br/><span style="color:#E8E6E0;">${p.samples ?? '—'}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">UPDATED</span><br/><span style="color:#E8E6E0;">${p.updated || '—'}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">OPERATOR</span><br/><span style="color:#E8E6E0;">${p.operator || '—'}</span></div>
+         </div>
+         ${p.city ? `<div style="color:#5C5A54;font-size:10px;border-top:1px solid #333;padding-top:8px;">📍 ${p.city}</div>` : ''}
+       </div>`);
+       onEntityClick?.({ type: 'cell_tower', ...p });
+     });
+           
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','cell-tower-dots'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -792,6 +839,18 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   }, [mapReady, data.gdelt, activeLayers.global_incidents, setGeo]);
 
   useEffect(() => {
+     if (!mapReady) return;
+     setGeo('cell-towers', activeLayers.cell_towers && data.cell_towers ? data.cell_towers.map((t: any) => ({
+       type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] },
+       properties: { id: t.id, radio: t.radio, mcc: t.mcc, mnc: t.mnc, lac: t.lac, cid: t.cid, range: t.range, samples: t.samples, updated: t.updated, operator: t.operator, country: t.country, city: t.city || '' },
+     })) : []);
+   }, [mapReady, data.cell_towers, activeLayers.cell_towers, setGeo]);
+
+   useEffect(() => {
+     if (!mapReady) return;
+     setGeo('gps-jamming',
+           
+  useEffect(() => {
     if (!mapReady) return;
     setGeo('gps-jamming', activeLayers.gps_jamming && data.gps_jamming ? data.gps_jamming.map((z: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [z.lng, z.lat] }, properties: { severity: z.severity } })) : []);
   }, [mapReady, data.gps_jamming, activeLayers.gps_jamming, setGeo]);
@@ -899,6 +958,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], activeLayers.conflict_zones !== false);
+    setVis(['cell-tower-glow','cell-tower-dots','cell-tower-label'], activeLayers.cell_towers);
 
     setVis(['balloon-dots','balloon-label'], activeLayers.balloons);
     setVis(['rad-glow','rad-dots','rad-label'], activeLayers.radiation);
