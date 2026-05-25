@@ -120,124 +120,35 @@ async function fetchFromOpenCelliD(): Promise<Tower[]> {
 
   for (const region of GLOBAL_BBOXES) {
     try {
-      // OpenCelliD API requires lowercase "bbox"
-      const url =
-        `${OCID_BBOX_URL}?key=${OPENCELLID_TOKEN}&bbox=${region.bbox}&format=json&limit=1000`;
-
-      console.log(`[OpenCelliD] Fetching region: ${region.name}`);
-      console.log(`[OpenCelliD] URL: ${url}`);
-
+      const url = `${OCID_BBOX_URL}?key=${OPENCELLID_TOKEN}&BBOX=${region.bbox}&format=json&limit=1000`;
       const res = await fetch(url, {
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: 'application/json' },
         signal: AbortSignal.timeout(12000),
       });
+      if (!res.ok) continue;
 
-      console.log(`[OpenCelliD] Status (${region.name}):`, res.status);
-
-      if (!res.ok) {
-        console.error(
-          `[OpenCelliD] HTTP Error (${region.name}):`,
-          res.status,
-          res.statusText
-        );
-        continue;
-      }
-
-      // Read raw response first for debugging
-      const raw = await res.text();
-
-      console.log(
-        `[OpenCelliD] Raw response (${region.name}):`,
-        raw.slice(0, 500)
-      );
-
-      // Detect non-JSON responses
-      if (
-        raw.startsWith('<') ||
-        raw.toLowerCase().includes('<html')
-      ) {
-        console.error(
-          `[OpenCelliD] Non-JSON response received (${region.name})`
-        );
-        continue;
-      }
-
-      let data: any;
-
-      try {
-        data = JSON.parse(raw);
-      } catch (jsonError) {
-        console.error(
-          `[OpenCelliD] JSON parse failed (${region.name}):`,
-          jsonError
-        );
-        continue;
-      }
-
-      // API may return error payload
-      if (data.error) {
-        console.error(
-          `[OpenCelliD] API Error (${region.name}):`,
-          data.error
-        );
-        continue;
-      }
-
+      const data = await res.json();
       const towers: Tower[] = (data.cells || []).map((cell: any) => ({
-        id: `ct-${cell.radio}-${cell.mcc}-${cell.mnc}-${cell.lac}-${cell.cid}`,
-
-        radio: cell.radio || 'LTE',
-
-        mcc: cell.mcc || 0,
-
-        mnc: cell.mnc || 0,
-
-        lac: cell.lac || 0,
-
-        cid: cell.cid || 0,
-
-        lat: cell.lat,
-
-        lng: cell.lon,
-
-        range: cell.range || 1000,
-
-        samples: cell.samples || 0,
-
-        updated: cell.updated
-          ? new Date(cell.updated * 1000)
-              .toISOString()
-              .split('T')[0]
-          : 'Unknown',
-
-        operator: cell.averageSignal
-          ? `Avg signal: ${cell.averageSignal} dBm`
-          : '',
-
-        country: cell.country || '',
-
-        city: '',
+        id:       `ct-${cell.radio}-${cell.mcc}-${cell.mnc}-${cell.lac}-${cell.cid}`,
+        radio:    cell.radio    || 'LTE',
+        mcc:      cell.mcc      || 0,
+        mnc:      cell.mnc      || 0,
+        lac:      cell.lac      || 0,
+        cid:      cell.cid      || 0,
+        lat:      cell.lat,
+        lng:      cell.lon,
+        range:    cell.range    || 1000,
+        samples:  cell.samples  || 0,
+        updated:  cell.updated  ? new Date(cell.updated * 1000).toISOString().split('T')[0] : 'Unknown',
+        operator: cell.averageSignal ? `Avg signal: ${cell.averageSignal} dBm` : '',
+        country:  cell.country  || '',
+        city:     '',
       }));
-
-      console.log(
-        `[OpenCelliD] ${region.name}: ${towers.length} towers loaded`
-      );
-
       all.push(...towers);
-
-    } catch (err) {
-      console.error(
-        `[OpenCelliD] Region fetch failed (${region.name}):`,
-        err
-      );
-
+    } catch {
       // Skip failed regions — partial data is still useful
     }
   }
-
-  console.log(`[OpenCelliD] Total towers loaded: ${all.length}`);
 
   return all;
 }
