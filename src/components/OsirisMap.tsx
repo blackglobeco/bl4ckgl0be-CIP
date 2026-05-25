@@ -845,10 +845,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
        properties: { id: t.id, radio: t.radio, mcc: t.mcc, mnc: t.mnc, lac: t.lac, cid: t.cid, range: t.range, samples: t.samples, updated: t.updated, operator: t.operator, country: t.country, city: t.city || '' },
      })) : []);
    }, [mapReady, data.cell_towers, activeLayers.cell_towers, setGeo]);
-
-   useEffect(() => {
-     if (!mapReady) return;
-     setGeo('gps-jamming',
            
   useEffect(() => {
     if (!mapReady) return;
