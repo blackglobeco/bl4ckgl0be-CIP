@@ -126,6 +126,7 @@ export default function Dashboard() {
     global_incidents: true,
     war_alerts: false,
     gps_jamming: false,
+    cell_towers: false,
     day_night: true,
   });
   const [liveFeedUrl, setLiveFeedUrl] = useState<string | null>(null);
@@ -341,6 +342,11 @@ export default function Dashboard() {
     if (activeLayers.infrastructure && !layerFetchedRef.current.has('infrastructure')) {
       fetchEndpoint('/api/infrastructure', d => ({ infrastructure: d.infrastructure }));
       layerFetchedRef.current.add('infrastructure');
+    }
+    // Cell Towers
+    if (activeLayers.cell_towers && !layerFetchedRef.current.has('cell_towers')) {
+      fetchEndpoint('/api/cell-towers', d => ({ cell_towers: d.towers }));
+      layerFetchedRef.current.add('cell_towers');
     }
     // Global Incidents (GDELT)
     if (activeLayers.global_incidents && !layerFetchedRef.current.has('gdelt')) {
