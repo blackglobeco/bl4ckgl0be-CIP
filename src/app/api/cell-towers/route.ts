@@ -3,14 +3,14 @@ import { createClient } from '@libsql/client';
 
 /**
  * OSIRIS — Cell Tower Intelligence API
- * Source: Local Turso (libSQL) database — populated from OpenCelliD community CSV
+ * Source: Turso (libSQL) database — populated from OpenCelliD community CSV
  *
  * DB schema:
  *   cell_towers(id, radio, mcc, mnc, lac, cell, lon, lat, range, samples,
  *               created, updated, avg_signal)
- *   Indexes: idx_lat_lon (primary bbox queries), idx_mcc, idx_radio
+ *   Indexes: idx_lat_lon, idx_mcc, idx_radio
  *
- * Query pattern: BBOX lat/lon range scan → fast with compound index
+ * Fetches the top towers globally by sample count — no BBOX, no position needed.
  */
 
 // ── Turso client (module-level singleton) ────────────────────────────────────
@@ -32,13 +32,13 @@ interface Tower {
   range: number;
   samples: number;
   updated: string;
-  signal: string;   // avg_signal in dBm — renamed from operator (was semantically wrong)
-  operator: string; // kept empty; OpenCelliD CSV has no operator field
+  signal: string;
+  operator: string;
   country: string;
   city: string;
 }
 
-// MCC → country code map (top MCCs in the dataset)
+// MCC → country code map
 const MCC_COUNTRY: Record<number, string> = {
   202: 'GR', 204: 'NL', 206: 'BE', 208: 'FR', 212: 'MC', 213: 'AD',
   214: 'ES', 216: 'HU', 218: 'BA', 219: 'HR', 220: 'RS', 222: 'IT',
@@ -80,28 +80,7 @@ const MCC_COUNTRY: Record<number, string> = {
   746: 'SR', 748: 'UY', 750: 'FK',
 };
 
-// ── Fallback sample data (used only if DB is unreachable) ────────────────────
-const SAMPLE_TOWERS: Tower[] = [
-  { id: 'ct-us-nyc-1',          radio: 'LTE',  mcc: 310, mnc: 260, lac: 1234, cid: 98765, lat:  40.7128, lng:  -74.0060, range: 1200, samples: 342, updated: '2024-01-15', signal: '-85 dBm', operator: 'T-Mobile US', country: 'US', city: 'New York' },
-  { id: 'ct-us-nyc-2',          radio: 'NR',   mcc: 311, mnc: 480, lac: 1234, cid: 11223, lat:  40.7589, lng:  -73.9851, range:  800, samples:  89, updated: '2024-02-01', signal: '',        operator: 'Verizon',      country: 'US', city: 'New York' },
-  { id: 'ct-us-la-1',           radio: 'LTE',  mcc: 310, mnc: 410, lac: 5678, cid: 44556, lat:  34.0522, lng: -118.2437, range: 1500, samples: 215, updated: '2024-01-20', signal: '-92 dBm', operator: 'AT&T',          country: 'US', city: 'Los Angeles' },
-  { id: 'ct-uk-london-1',       radio: 'NR',   mcc: 234, mnc:  30, lac: 7890, cid: 55667, lat:  51.5074, lng:   -0.1278, range:  600, samples: 412, updated: '2024-02-05', signal: '',        operator: 'EE',            country: 'GB', city: 'London' },
-  { id: 'ct-de-berlin-1',       radio: 'NR',   mcc: 262, mnc:   1, lac: 1122, cid: 33445, lat:  52.5200, lng:   13.4050, range:  700, samples: 334, updated: '2024-02-03', signal: '',        operator: 'Telekom DE',    country: 'DE', city: 'Berlin' },
-  { id: 'ct-fr-paris-1',        radio: 'LTE',  mcc: 208, mnc:   1, lac: 3344, cid: 66778, lat:  48.8566, lng:    2.3522, range:  800, samples: 267, updated: '2024-01-22', signal: '',        operator: 'Orange FR',     country: 'FR', city: 'Paris' },
-  { id: 'ct-cn-beijing-1',      radio: 'NR',   mcc: 460, mnc:   0, lac: 8899, cid: 21098, lat:  39.9042, lng:  116.4074, range:  600, samples: 567, updated: '2024-02-08', signal: '',        operator: 'China Mobile',  country: 'CN', city: 'Beijing' },
-  { id: 'ct-jp-tokyo-1',        radio: 'NR',   mcc: 440, mnc:  10, lac: 1213, cid: 43210, lat:  35.6762, lng:  139.6503, range:  550, samples: 678, updated: '2024-02-09', signal: '',        operator: 'NTT Docomo',    country: 'JP', city: 'Tokyo' },
-  { id: 'ct-sg-1',              radio: 'NR',   mcc: 525, mnc:   1, lac: 2021, cid: 89765, lat:   1.3521, lng:  103.8198, range:  500, samples: 387, updated: '2024-02-04', signal: '',        operator: 'Singtel',        country: 'SG', city: 'Singapore' },
-  { id: 'ct-my-kl-1',           radio: 'LTE',  mcc: 502, mnc:  12, lac: 2223, cid: 43876, lat:   3.1390, lng:  101.6869, range: 1400, samples: 198, updated: '2024-01-21', signal: '',        operator: 'Maxis',          country: 'MY', city: 'Kuala Lumpur' },
-  { id: 'ct-br-saopaulo-1',     radio: 'LTE',  mcc: 724, mnc:   6, lac: 3031, cid: 78901, lat: -23.5505, lng:  -46.6333, range: 1300, samples: 267, updated: '2024-01-24', signal: '',        operator: 'Vivo BR',        country: 'BR', city: 'São Paulo' },
-  { id: 'ct-za-johannesburg-1', radio: 'LTE',  mcc: 655, mnc:   1, lac: 2425, cid: 67543, lat: -26.2041, lng:   28.0473, range: 1600, samples: 156, updated: '2024-01-16', signal: '',        operator: 'Vodacom ZA',    country: 'ZA', city: 'Johannesburg' },
-  { id: 'ct-ua-kyiv-1',         radio: 'LTE',  mcc: 255, mnc:   6, lac: 7788, cid: 11234, lat:  50.4501, lng:   30.5234, range: 1100, samples: 123, updated: '2024-01-08', signal: '',        operator: 'Kyivstar',       country: 'UA', city: 'Kyiv' },
-  { id: 'ct-ua-kharkiv-1',      radio: 'GSM',  mcc: 255, mnc:   3, lac: 3637, cid:  9876, lat:  49.9935, lng:   36.2304, range: 3500, samples:  34, updated: '2023-12-01', signal: '',        operator: 'Lifecell UA',   country: 'UA', city: 'Kharkiv' },
-  { id: 'ct-iq-baghdad-1',      radio: 'LTE',  mcc: 418, mnc:  20, lac: 4243, cid:  6543, lat:  33.3152, lng:   44.3661, range: 2100, samples:  78, updated: '2024-01-05', signal: '',        operator: 'Asiacell',       country: 'IQ', city: 'Baghdad' },
-];
-
 // ── Query Turso — global fetch, no BBOX ──────────────────────────────────────
-// Fetches all towers ordered by sample count (most-observed first).
-// Limit 5000 gives a dense global map without overloading the client.
 async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
   const radioClause = radioFilter ? `WHERE radio = ?` : '';
   const args: string[] = radioFilter ? [radioFilter] : [];
@@ -135,7 +114,7 @@ async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
       samples:  Number(row.samples) || 0,
       updated,
       signal:   rawSignal ? `${rawSignal} dBm` : '',
-      operator: '',  // OpenCelliD CSV does not include operator name
+      operator: '',
       country:  MCC_COUNTRY[mcc] ?? '',
       city:     '',
     };
@@ -145,18 +124,15 @@ async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
 // ── Route handler ─────────────────────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const radio = searchParams.get('radio') || undefined; // e.g. ?radio=NR
+  const radio = searchParams.get('radio') || undefined;
 
-  // ── Check DB is configured ────────────────────────────────────────────────
+  // ── DB not configured ─────────────────────────────────────────────────────
   if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
-    console.warn('[cell-towers] TURSO_DATABASE_URL or TURSO_AUTH_TOKEN not set — serving sample data');
-    return NextResponse.json({
-      towers:    SAMPLE_TOWERS,
-      total:     SAMPLE_TOWERS.length,
-      source:    'sample_data',
-      note:      'Set TURSO_DATABASE_URL and TURSO_AUTH_TOKEN env vars to enable live data',
-      timestamp: new Date().toISOString(),
-    });
+    console.warn('[cell-towers] TURSO_DATABASE_URL or TURSO_AUTH_TOKEN not set');
+    return NextResponse.json(
+      { towers: [], total: 0, source: 'no_db_config', timestamp: new Date().toISOString() },
+      { status: 200 },
+    );
   }
 
   // ── Query DB ──────────────────────────────────────────────────────────────
@@ -164,15 +140,9 @@ export async function GET(req: NextRequest) {
     const towers = await queryAllTowers(radio);
 
     return NextResponse.json(
-      {
-        towers,
-        total:     towers.length,
-        source:    'turso_db',
-        timestamp: new Date().toISOString(),
-      },
+      { towers, total: towers.length, source: 'turso_db', timestamp: new Date().toISOString() },
       {
         headers: {
-          // Cache aggressively — global tower data changes very slowly
           'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
         },
       },
@@ -181,9 +151,9 @@ export async function GET(req: NextRequest) {
     console.error('[cell-towers] Turso query failed:', err);
     return NextResponse.json(
       {
-        towers:    SAMPLE_TOWERS,
-        total:     SAMPLE_TOWERS.length,
-        source:    'sample_data_db_error',
+        towers:    [],
+        total:     0,
+        source:    'db_error',
         error:     err instanceof Error ? err.message : 'Unknown DB error',
         timestamp: new Date().toISOString(),
       },
