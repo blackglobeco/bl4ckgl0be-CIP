@@ -10,8 +10,7 @@ interface OsirisMapProps {
   onEntityClick?: (entity: any) => void;
   onMouseCoords?: (coords: { lat: number; lng: number }) => void;
   onRightClick?: (coords: { lat: number; lng: number }) => void;
-  // FIX 1: added longitude? so page.tsx can track map center for cell tower fetch
-  onViewStateChange?: (vs: { zoom: number; latitude: number; longitude?: number }) => void;
+  onViewStateChange?: (vs: { zoom: number; latitude: number; longitude?: number; bounds?: { minLat: number; maxLat: number; minLng: number; maxLng: number } }) => void;
   flyToLocation?: { lat: number; lng: number; ts: number } | null;
   projection?: 'mercator' | 'globe';
   mapStyle?: string;
@@ -446,8 +445,21 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }
     });
     map.on('contextmenu', e => { e.preventDefault(); onRightClick?.({ lat: e.lngLat.lat, lng: e.lngLat.lng }); });
-    // FIX 2: emit longitude so page.tsx can use it for cell tower fetch coords
-    map.on('moveend', () => { const c = map.getCenter(); onViewStateChange?.({ zoom: map.getZoom(), latitude: c.lat, longitude: c.lng }); });
+    map.on('moveend', () => {
+      const c = map.getCenter();
+      const b = map.getBounds();
+      onViewStateChange?.({
+        zoom: map.getZoom(),
+        latitude: c.lat,
+        longitude: c.lng,
+        bounds: {
+          minLat: b.getSouth(),
+          maxLat: b.getNorth(),
+          minLng: b.getWest(),
+          maxLng: b.getEast(),
+        },
+      });
+    });
 
     // ── POPUP HELPER ──
     const popup = (coords: any, html: string) => {
