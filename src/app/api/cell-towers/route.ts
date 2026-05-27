@@ -80,19 +80,27 @@ const MCC_COUNTRY: Record<number, string> = {
   746: 'SR', 748: 'UY', 750: 'FK',
 };
 
-// ── Query Turso — fetch all towers, no BBOX ──────────────────────────────────
-// No artificial limit — returns every row in the DB ordered by sample count
-// (most-verified towers first). If your DB has more than ~100K rows you may
-// want to add a LIMIT to avoid browser memory pressure.
-async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
-  const radioClause = radioFilter ? `WHERE radio = ?` : '';
-  const args: string[] = radioFilter ? [radioFilter] : [];
+// ── Query Turso — BBOX fetch, up to 100K towers ──────────────────────────────
+// Queries only the visible map bounds so results are always relevant to what
+// the user sees. Limit 100000 covers dense urban areas without overloading
+// the browser. Ordered by samples DESC so best-verified towers show first.
+async function queryTowersByBounds(
+  minLat: number, maxLat: number,
+  minLng: number, maxLng: number,
+  radioFilter?: string,
+): Promise<Tower[]> {
+  const radioClause = radioFilter ? `AND radio = ?` : '';
+  const args: (number | string)[] = [minLat, maxLat, minLng, maxLng];
+  if (radioFilter) args.push(radioFilter);
 
   const result = await db.execute({
     sql: `SELECT radio, mcc, mnc, lac, cell, lon, lat, range, samples, updated, avg_signal
           FROM   cell_towers
+          WHERE  lat BETWEEN ? AND ?
+          AND    lon BETWEEN ? AND ?
           ${radioClause}
-          ORDER  BY samples DESC`,
+          ORDER  BY samples DESC
+          LIMIT  100000`,
     args,
   });
 
@@ -126,7 +134,19 @@ async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
 // ── Route handler ─────────────────────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const radio = searchParams.get('radio') || undefined;
+  const minLat = parseFloat(searchParams.get('minLat') || '');
+  const maxLat = parseFloat(searchParams.get('maxLat') || '');
+  const minLng = parseFloat(searchParams.get('minLng') || '');
+  const maxLng = parseFloat(searchParams.get('maxLng') || '');
+  const radio  = searchParams.get('radio') || undefined;
+
+  // Require map bounds
+  if (isNaN(minLat) || isNaN(maxLat) || isNaN(minLng) || isNaN(maxLng)) {
+    return NextResponse.json(
+      { error: 'minLat, maxLat, minLng, maxLng query params are required' },
+      { status: 400 },
+    );
+  }
 
   // ── DB not configured ─────────────────────────────────────────────────────
   if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
@@ -139,13 +159,14 @@ export async function GET(req: NextRequest) {
 
   // ── Query DB ──────────────────────────────────────────────────────────────
   try {
-    const towers = await queryAllTowers(radio);
+    const towers = await queryTowersByBounds(minLat, maxLat, minLng, maxLng, radio);
 
     return NextResponse.json(
       { towers, total: towers.length, source: 'turso_db', timestamp: new Date().toISOString() },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+          // Cache per unique bounds — 5 min TTL since users pan frequently
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=900',
         },
       },
     );
