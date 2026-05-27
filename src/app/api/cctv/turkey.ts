@@ -56,25 +56,7 @@ const TURKEY_CAMERAS: CctvCamera[] = [
     city: 'Edirne', country: 'Turkey',
     ...windy('1375653055'),
   },
-  // tr-kapikule-entry: removed — lh3.googleusercontent.com feed was Google login wall
-  {
-    id: 'tr-kapikule-entry',
-    lat: 41.716, lng: 26.334,
-    name: 'Kapikule - Entry Queue (TR)',
-    city: 'Edirne', country: 'Turkey',
-    // No inline feed available (Google Drive link removed).
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/bulgaristan/turkiye/kapikule-kapitan-andreevo/',
-    source: 'alltrafficcams.com',
-  },
-  // tr-kapikule-exit: removed lh3 feed_url
-  {
-    id: 'tr-kapikule-exit',
-    lat: 41.714, lng: 26.328,
-    name: 'Kapikule - Exit Lane (TR)',
-    city: 'Edirne', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/bulgaristan/turkiye/kapikule-kapitan-andreevo/',
-    source: 'alltrafficcams.com',
-  },
+  
   {
     id: 'tr-hamzabeyli-windy',
     lat: 41.97, lng: 26.388,
@@ -82,51 +64,6 @@ const TURKEY_CAMERAS: CctvCamera[] = [
     city: 'Edirne', country: 'Turkey',
     ...windy('1639080445'),
     external_url: 'https://weather-webcam.eu/lesovo-hamzabeyli-live-kamera-balgaria-turcia-granica-trafik-vremeto/',
-  },
-  // tr-hamzabeyli-queue: removed lh3 feed_url
-  {
-    id: 'tr-hamzabeyli-queue',
-    lat: 41.968, lng: 26.385,
-    name: 'Hamzabeyli - Queue (TR)',
-    city: 'Edirne', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/bulgaristan/turkiye/hamzabeyli-lesovo/',
-    source: 'alltrafficcams.com',
-  },
-  // tr-derekoy-live: removed lh3 feed_url
-  {
-    id: 'tr-derekoy-live',
-    lat: 41.405, lng: 27.521,
-    name: 'Derekoy - Border Queue (TR)',
-    city: 'Kirklareli', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/bulgaristan/turkiye/derekoy-malko-tarnovo/',
-    source: 'alltrafficcams.com',
-  },
-
-  // ── European Thrace — GR border (Edirne) ──────────────────────────────────
-  // tr-ipsala-exit, tr-ipsala-truck, tr-pazarkule: removed lh3 feed_urls
-  {
-    id: 'tr-ipsala-exit',
-    lat: 40.928, lng: 26.245,
-    name: 'Ipsala - Passenger Exit (TR)',
-    city: 'Edirne', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/yunanistan/turkiye/ipsala-kipi/',
-    source: 'alltrafficcams.com',
-  },
-  {
-    id: 'tr-ipsala-truck',
-    lat: 40.925, lng: 26.248,
-    name: 'Ipsala - Truck Park (TR)',
-    city: 'Edirne', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/yunanistan/turkiye/ipsala-kipi/',
-    source: 'alltrafficcams.com',
-  },
-  {
-    id: 'tr-pazarkule',
-    lat: 41.645, lng: 26.478,
-    name: 'Pazarkule - Kastanies Border (TR)',
-    city: 'Edirne', country: 'Turkey',
-    external_url: 'http://alltrafficcams.com/tr/canli/sinir-kapisi-gumruk/yunanistan/turkiye/pazarkule-kestanelik/',
-    source: 'alltrafficcams.com',
   },
 
   // ── Tekirdag (European coast) ──────────────────────────────────────────────
