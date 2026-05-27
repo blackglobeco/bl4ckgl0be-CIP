@@ -80,7 +80,10 @@ const MCC_COUNTRY: Record<number, string> = {
   746: 'SR', 748: 'UY', 750: 'FK',
 };
 
-// ── Query Turso — global fetch, no BBOX ──────────────────────────────────────
+// ── Query Turso — fetch all towers, no BBOX ──────────────────────────────────
+// No artificial limit — returns every row in the DB ordered by sample count
+// (most-verified towers first). If your DB has more than ~100K rows you may
+// want to add a LIMIT to avoid browser memory pressure.
 async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
   const radioClause = radioFilter ? `WHERE radio = ?` : '';
   const args: string[] = radioFilter ? [radioFilter] : [];
@@ -89,8 +92,7 @@ async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
     sql: `SELECT radio, mcc, mnc, lac, cell, lon, lat, range, samples, updated, avg_signal
           FROM   cell_towers
           ${radioClause}
-          ORDER  BY samples DESC
-          LIMIT  5000`,
+          ORDER  BY samples DESC`,
     args,
   });
 
