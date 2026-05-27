@@ -2,7 +2,7 @@ import type { CctvCamera } from './types';
 
 // ── Austin, TX — City of Austin Traffic Cameras ─────────────────────────────
 // Source: data.austintexas.gov open data API (public domain)
-// Image proxy: cctv.austinmobility.io
+// Only TURNED_ON cameras have live feeds; DESIRED/VOID/REMOVED do not.
 
 export async function fetchAustinTXCameras(): Promise<CctvCamera[]> {
   try {
@@ -15,8 +15,10 @@ export async function fetchAustinTXCameras(): Promise<CctvCamera[]> {
 
     return data
       .filter((item) => {
+        // Only TURNED_ON cameras have active feeds.
+        // DESIRED = planned but not yet active, VOID/REMOVED = decommissioned.
         const status = String(item.camera_status || '').trim().toUpperCase();
-        return item.camera_id && (!status || status === 'TURNED_ON');
+        return item.camera_id && status === 'TURNED_ON';
       })
       .map((item) => {
         const coords: number[] = item.location?.coordinates || [];
@@ -44,6 +46,7 @@ export async function fetchAustinTXCameras(): Promise<CctvCamera[]> {
 
 // ── NYC DOT — New York City Traffic Cameras ──────────────────────────────────
 // Source: webcams.nyctmc.org public API
+// Images proxied via /api/cctv/nyc-snapshot (CORS + Referer enforcement on upstream).
 
 export async function fetchNYCDOTCameras(): Promise<CctvCamera[]> {
   try {
@@ -56,6 +59,7 @@ export async function fetchNYCDOTCameras(): Promise<CctvCamera[]> {
     return data
       .filter((item) => {
         if (!item.id || !item.latitude || !item.longitude) return false;
+        // isOnline is a string "true"/"false" in the API, not a boolean
         if (String(item.isOnline) === 'false') return false;
         return true;
       })
@@ -67,7 +71,7 @@ export async function fetchNYCDOTCameras(): Promise<CctvCamera[]> {
         city: item.area ? `NYC – ${item.area}` : 'New York City',
         country: 'US',
         // webcams.nyctmc.org blocks direct browser requests (CORS + Referer enforcement).
-        // Use the dedicated server-side proxy at /api/cctv/nyc-snapshot.
+        // Server-side proxy at /api/cctv/nyc-snapshot handles the fetch with correct headers.
         feed_url: `/api/cctv/nyc-snapshot?cam=${item.id}`,
         source: 'NYC DOT',
       }));
@@ -77,7 +81,8 @@ export async function fetchNYCDOTCameras(): Promise<CctvCamera[]> {
 }
 
 // ── Georgia DOT — 511GA Camera Network ──────────────────────────────────────
-// Source: 511ga.org/List/GetData/Cameras (paginated POST API)
+// Source: 511ga.org/List/GetData/Cameras (paginated POST API, ~3,938 cameras)
+// Coordinates encoded as WKT POINT in nested geography field.
 
 const POINT_WKT_RE = /POINT\s*\(\s*([-+]?\d+(?:\.\d+)?)\s+([-+]?\d+(?:\.\d+)?)\s*\)/i;
 
@@ -124,15 +129,11 @@ export async function fetchGeorgiaDOTCameras(): Promise<CctvCamera[]> {
         const [lat, lng] = coords;
 
         const images: any[] = row.images || [];
-        const image = images.find(
-          (img) => img.imageUrl && !img.blocked
-        );
+        const image = images.find((img) => img.imageUrl && !img.blocked);
         if (!image || !siteId) continue;
 
         const rawUrl = String(image.imageUrl || '').trim();
-        const feedUrl = rawUrl.startsWith('http')
-          ? rawUrl
-          : `https://511ga.org${rawUrl}`;
+        const feedUrl = rawUrl.startsWith('http') ? rawUrl : `https://511ga.org${rawUrl}`;
 
         cameras.push({
           id: `gdot-${siteId}`,
@@ -158,7 +159,7 @@ export async function fetchGeorgiaDOTCameras(): Promise<CctvCamera[]> {
 }
 
 // ── Illinois DOT — ArcGIS FeatureServer (~3,400 cameras) ────────────────────
-// Source: services2.arcgis.com/aIrBD8yn1TDTEXoz (public open data)
+// Source: services2.arcgis.com (public ArcGIS open data, no auth needed)
 
 export async function fetchIllinoisDOTCameras(): Promise<CctvCamera[]> {
   try {
@@ -197,7 +198,11 @@ export async function fetchIllinoisDOTCameras(): Promise<CctvCamera[]> {
 }
 
 // ── Michigan DOT — MiDrive Camera List ──────────────────────────────────────
-// Source: mdotjboss.state.mi.us/MiDrive/camera/list (public JSON + HTML snippets)
+// Source: mdotjboss.state.mi.us/MiDrive/camera/list
+// Response: JSON array with HTML snippets in `image` field and coordinates in `county` URL.
+// Two image hosts used:
+//   - micamerasimages.net  → CORS-blocked, needs proxy via /api/cctv/michigan-snapshot
+//   - mdotjboss.state.mi.us/docs/drive/camfiles/ → also CORS-blocked, same proxy
 
 export async function fetchMichiganDOTCameras(): Promise<CctvCamera[]> {
   try {
@@ -210,6 +215,7 @@ export async function fetchMichiganDOTCameras(): Promise<CctvCamera[]> {
 
     const cameras: CctvCamera[] = [];
     for (const cam of data) {
+      // Coordinates are embedded in the county field as a URL with lat/lon params
       const county: string = cam.county || '';
       const latLonMatch = /lat=([\d.-]+)&lon=([\d.-]+)/.exec(county);
       if (!latLonMatch) continue;
@@ -217,14 +223,21 @@ export async function fetchMichiganDOTCameras(): Promise<CctvCamera[]> {
       const lng = parseFloat(latLonMatch[2]);
       if (isNaN(lat) || isNaN(lng)) continue;
 
+      // Camera ID is also in the county URL
+      const idMatch = /id=(\d+)/.exec(county);
+      const camId = idMatch ? idMatch[1] : null;
+      if (!camId) continue;
+
+      // Extract image src from the HTML img snippet
       const imgMatch = /src="([^"]+)"/.exec(cam.image || '');
       if (!imgMatch) continue;
 
-      const idMatch = /id=(\d+)/.exec(county);
-      const camId = idMatch ? idMatch[1] : String(cameras.length);
-      const mediaUrl = imgMatch[1].startsWith('http')
-        ? imgMatch[1]
-        : `https://mdotjboss.state.mi.us${imgMatch[1]}`;
+      const rawSrc = imgMatch[1];
+      // Both micamerasimages.net and mdotjboss.state.mi.us images are
+      // blocked by CORS. Use the michigan-snapshot proxy for all of them.
+      const absoluteSrc = rawSrc.startsWith('http')
+        ? rawSrc
+        : `https://mdotjboss.state.mi.us${rawSrc}`;
 
       cameras.push({
         id: `mdot-${camId}`,
@@ -233,7 +246,7 @@ export async function fetchMichiganDOTCameras(): Promise<CctvCamera[]> {
         name: `${cam.route || ''} ${cam.location || ''}`.trim() || 'MI Camera',
         city: 'Michigan',
         country: 'US',
-        feed_url: mediaUrl,
+        feed_url: `/api/cctv/michigan-snapshot?url=${encodeURIComponent(absoluteSrc)}`,
         source: 'Michigan DOT',
       });
     }
