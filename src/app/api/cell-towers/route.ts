@@ -14,9 +14,6 @@ import { createClient } from '@libsql/client';
  */
 
 // ── Turso client (module-level singleton) ────────────────────────────────────
-// Set in Vercel env vars:
-//   TURSO_DATABASE_URL  = libsql://your-db-name-yourorg.turso.io
-//   TURSO_AUTH_TOKEN    = eyJ...
 const db = createClient({
   url:       process.env.TURSO_DATABASE_URL!,
   authToken: process.env.TURSO_AUTH_TOKEN!,
@@ -35,7 +32,8 @@ interface Tower {
   range: number;
   samples: number;
   updated: string;
-  operator: string;
+  signal: string;   // avg_signal in dBm — renamed from operator (was semantically wrong)
+  operator: string; // kept empty; OpenCelliD CSV has no operator field
   country: string;
   city: string;
 }
@@ -84,21 +82,21 @@ const MCC_COUNTRY: Record<number, string> = {
 
 // ── Fallback sample data (used only if DB is unreachable) ────────────────────
 const SAMPLE_TOWERS: Tower[] = [
-  { id: 'ct-us-nyc-1',          radio: 'LTE',  mcc: 310, mnc: 260, lac: 1234, cid: 98765, lat:  40.7128, lng:  -74.0060, range: 1200, samples: 342, updated: '2024-01-15', operator: 'T-Mobile US', country: 'US', city: 'New York' },
-  { id: 'ct-us-nyc-2',          radio: 'NR',   mcc: 311, mnc: 480, lac: 1234, cid: 11223, lat:  40.7589, lng:  -73.9851, range:  800, samples:  89, updated: '2024-02-01', operator: 'Verizon',      country: 'US', city: 'New York' },
-  { id: 'ct-us-la-1',           radio: 'LTE',  mcc: 310, mnc: 410, lac: 5678, cid: 44556, lat:  34.0522, lng: -118.2437, range: 1500, samples: 215, updated: '2024-01-20', operator: 'AT&T',          country: 'US', city: 'Los Angeles' },
-  { id: 'ct-uk-london-1',       radio: 'NR',   mcc: 234, mnc:  30, lac: 7890, cid: 55667, lat:  51.5074, lng:   -0.1278, range:  600, samples: 412, updated: '2024-02-05', operator: 'EE',            country: 'GB', city: 'London' },
-  { id: 'ct-de-berlin-1',       radio: 'NR',   mcc: 262, mnc:   1, lac: 1122, cid: 33445, lat:  52.5200, lng:   13.4050, range:  700, samples: 334, updated: '2024-02-03', operator: 'Telekom DE',    country: 'DE', city: 'Berlin' },
-  { id: 'ct-fr-paris-1',        radio: 'LTE',  mcc: 208, mnc:   1, lac: 3344, cid: 66778, lat:  48.8566, lng:    2.3522, range:  800, samples: 267, updated: '2024-01-22', operator: 'Orange FR',     country: 'FR', city: 'Paris' },
-  { id: 'ct-cn-beijing-1',      radio: 'NR',   mcc: 460, mnc:   0, lac: 8899, cid: 21098, lat:  39.9042, lng:  116.4074, range:  600, samples: 567, updated: '2024-02-08', operator: 'China Mobile',  country: 'CN', city: 'Beijing' },
-  { id: 'ct-jp-tokyo-1',        radio: 'NR',   mcc: 440, mnc:  10, lac: 1213, cid: 43210, lat:  35.6762, lng:  139.6503, range:  550, samples: 678, updated: '2024-02-09', operator: 'NTT Docomo',    country: 'JP', city: 'Tokyo' },
-  { id: 'ct-sg-1',              radio: 'NR',   mcc: 525, mnc:   1, lac: 2021, cid: 89765, lat:   1.3521, lng:  103.8198, range:  500, samples: 387, updated: '2024-02-04', operator: 'Singtel',        country: 'SG', city: 'Singapore' },
-  { id: 'ct-my-kl-1',           radio: 'LTE',  mcc: 502, mnc:  12, lac: 2223, cid: 43876, lat:   3.1390, lng:  101.6869, range: 1400, samples: 198, updated: '2024-01-21', operator: 'Maxis',          country: 'MY', city: 'Kuala Lumpur' },
-  { id: 'ct-br-saopaulo-1',     radio: 'LTE',  mcc: 724, mnc:   6, lac: 3031, cid: 78901, lat: -23.5505, lng:  -46.6333, range: 1300, samples: 267, updated: '2024-01-24', operator: 'Vivo BR',        country: 'BR', city: 'São Paulo' },
-  { id: 'ct-za-johannesburg-1', radio: 'LTE',  mcc: 655, mnc:   1, lac: 2425, cid: 67543, lat: -26.2041, lng:   28.0473, range: 1600, samples: 156, updated: '2024-01-16', operator: 'Vodacom ZA',    country: 'ZA', city: 'Johannesburg' },
-  { id: 'ct-ua-kyiv-1',         radio: 'LTE',  mcc: 255, mnc:   6, lac: 7788, cid: 11234, lat:  50.4501, lng:   30.5234, range: 1100, samples: 123, updated: '2024-01-08', operator: 'Kyivstar',       country: 'UA', city: 'Kyiv' },
-  { id: 'ct-ua-kharkiv-1',      radio: 'GSM',  mcc: 255, mnc:   3, lac: 3637, cid:  9876, lat:  49.9935, lng:   36.2304, range: 3500, samples:  34, updated: '2023-12-01', operator: 'Lifecell UA',   country: 'UA', city: 'Kharkiv' },
-  { id: 'ct-iq-baghdad-1',      radio: 'LTE',  mcc: 418, mnc:  20, lac: 4243, cid:  6543, lat:  33.3152, lng:   44.3661, range: 2100, samples:  78, updated: '2024-01-05', operator: 'Asiacell',       country: 'IQ', city: 'Baghdad' },
+  { id: 'ct-us-nyc-1',          radio: 'LTE',  mcc: 310, mnc: 260, lac: 1234, cid: 98765, lat:  40.7128, lng:  -74.0060, range: 1200, samples: 342, updated: '2024-01-15', signal: '-85 dBm', operator: 'T-Mobile US', country: 'US', city: 'New York' },
+  { id: 'ct-us-nyc-2',          radio: 'NR',   mcc: 311, mnc: 480, lac: 1234, cid: 11223, lat:  40.7589, lng:  -73.9851, range:  800, samples:  89, updated: '2024-02-01', signal: '',        operator: 'Verizon',      country: 'US', city: 'New York' },
+  { id: 'ct-us-la-1',           radio: 'LTE',  mcc: 310, mnc: 410, lac: 5678, cid: 44556, lat:  34.0522, lng: -118.2437, range: 1500, samples: 215, updated: '2024-01-20', signal: '-92 dBm', operator: 'AT&T',          country: 'US', city: 'Los Angeles' },
+  { id: 'ct-uk-london-1',       radio: 'NR',   mcc: 234, mnc:  30, lac: 7890, cid: 55667, lat:  51.5074, lng:   -0.1278, range:  600, samples: 412, updated: '2024-02-05', signal: '',        operator: 'EE',            country: 'GB', city: 'London' },
+  { id: 'ct-de-berlin-1',       radio: 'NR',   mcc: 262, mnc:   1, lac: 1122, cid: 33445, lat:  52.5200, lng:   13.4050, range:  700, samples: 334, updated: '2024-02-03', signal: '',        operator: 'Telekom DE',    country: 'DE', city: 'Berlin' },
+  { id: 'ct-fr-paris-1',        radio: 'LTE',  mcc: 208, mnc:   1, lac: 3344, cid: 66778, lat:  48.8566, lng:    2.3522, range:  800, samples: 267, updated: '2024-01-22', signal: '',        operator: 'Orange FR',     country: 'FR', city: 'Paris' },
+  { id: 'ct-cn-beijing-1',      radio: 'NR',   mcc: 460, mnc:   0, lac: 8899, cid: 21098, lat:  39.9042, lng:  116.4074, range:  600, samples: 567, updated: '2024-02-08', signal: '',        operator: 'China Mobile',  country: 'CN', city: 'Beijing' },
+  { id: 'ct-jp-tokyo-1',        radio: 'NR',   mcc: 440, mnc:  10, lac: 1213, cid: 43210, lat:  35.6762, lng:  139.6503, range:  550, samples: 678, updated: '2024-02-09', signal: '',        operator: 'NTT Docomo',    country: 'JP', city: 'Tokyo' },
+  { id: 'ct-sg-1',              radio: 'NR',   mcc: 525, mnc:   1, lac: 2021, cid: 89765, lat:   1.3521, lng:  103.8198, range:  500, samples: 387, updated: '2024-02-04', signal: '',        operator: 'Singtel',        country: 'SG', city: 'Singapore' },
+  { id: 'ct-my-kl-1',           radio: 'LTE',  mcc: 502, mnc:  12, lac: 2223, cid: 43876, lat:   3.1390, lng:  101.6869, range: 1400, samples: 198, updated: '2024-01-21', signal: '',        operator: 'Maxis',          country: 'MY', city: 'Kuala Lumpur' },
+  { id: 'ct-br-saopaulo-1',     radio: 'LTE',  mcc: 724, mnc:   6, lac: 3031, cid: 78901, lat: -23.5505, lng:  -46.6333, range: 1300, samples: 267, updated: '2024-01-24', signal: '',        operator: 'Vivo BR',        country: 'BR', city: 'São Paulo' },
+  { id: 'ct-za-johannesburg-1', radio: 'LTE',  mcc: 655, mnc:   1, lac: 2425, cid: 67543, lat: -26.2041, lng:   28.0473, range: 1600, samples: 156, updated: '2024-01-16', signal: '',        operator: 'Vodacom ZA',    country: 'ZA', city: 'Johannesburg' },
+  { id: 'ct-ua-kyiv-1',         radio: 'LTE',  mcc: 255, mnc:   6, lac: 7788, cid: 11234, lat:  50.4501, lng:   30.5234, range: 1100, samples: 123, updated: '2024-01-08', signal: '',        operator: 'Kyivstar',       country: 'UA', city: 'Kyiv' },
+  { id: 'ct-ua-kharkiv-1',      radio: 'GSM',  mcc: 255, mnc:   3, lac: 3637, cid:  9876, lat:  49.9935, lng:   36.2304, range: 3500, samples:  34, updated: '2023-12-01', signal: '',        operator: 'Lifecell UA',   country: 'UA', city: 'Kharkiv' },
+  { id: 'ct-iq-baghdad-1',      radio: 'LTE',  mcc: 418, mnc:  20, lac: 4243, cid:  6543, lat:  33.3152, lng:   44.3661, range: 2100, samples:  78, updated: '2024-01-05', signal: '',        operator: 'Asiacell',       country: 'IQ', city: 'Baghdad' },
 ];
 
 // ── Query Turso ───────────────────────────────────────────────────────────────
@@ -108,11 +106,15 @@ async function queryTowers(
   radius: number,
   radioFilter?: string,
 ): Promise<Tower[]> {
-  const degOffset = radius / 111320;
-  const latMin = lat - degOffset;
-  const latMax = lat + degOffset;
-  const lonMin = lng - degOffset;
-  const lonMax = lng + degOffset;
+  const latOffset = radius / 111320;
+  // FIX: longitude degrees per meter shrinks with cos(lat) — without this correction
+  // the BBOX is too wide near the poles and too narrow near the equator
+  const lngOffset = radius / (111320 * Math.cos(lat * Math.PI / 180));
+
+  const latMin = lat - latOffset;
+  const latMax = lat + latOffset;
+  const lonMin = lng - lngOffset;
+  const lonMax = lng + lngOffset;
 
   const radioClause = radioFilter ? `AND radio = ?` : '';
   const args: (number | string)[] = [latMin, latMax, lonMin, lonMax];
@@ -135,7 +137,7 @@ async function queryTowers(
     const updated = row.updated
       ? new Date(Number(row.updated) * 1000).toISOString().split('T')[0]
       : 'Unknown';
-    const signal  = Number(row.avg_signal);
+    const rawSignal = Number(row.avg_signal);
 
     return {
       id:       `ct-db-${i}-${row.cell}`,
@@ -149,7 +151,9 @@ async function queryTowers(
       range:    Number(row.range)   || 1000,
       samples:  Number(row.samples) || 0,
       updated,
-      operator: signal ? `Avg signal: ${signal} dBm` : '',
+      // FIX: signal and operator are now separate fields
+      signal:   rawSignal ? `${rawSignal} dBm` : '',
+      operator: '',  // OpenCelliD CSV does not include operator name
       country:  MCC_COUNTRY[mcc] ?? '',
       city:     '',
     };
