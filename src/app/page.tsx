@@ -343,14 +343,9 @@ export default function Dashboard() {
       fetchEndpoint('/api/infrastructure', d => ({ infrastructure: d.infrastructure }));
       layerFetchedRef.current.add('infrastructure');
     }
-    // Cell Towers — FIX: pass current map center lat/lng so the route doesn't 400
-    // radius=100000 (100 km) gives good coverage at zoom ~6–8; the API caps at 200 km
+    // Cell Towers — fetch all towers globally, no position dependency
     if (activeLayers.cell_towers && !layerFetchedRef.current.has('cell_towers')) {
-      const { latitude, longitude } = mapView;
-      fetchEndpoint(
-        `/api/cell-towers?lat=${latitude.toFixed(4)}&lng=${longitude.toFixed(4)}&radius=100000`,
-        d => ({ cell_towers: d.towers }),
-      );
+      fetchEndpoint('/api/cell-towers', d => ({ cell_towers: d.towers }));
       layerFetchedRef.current.add('cell_towers');
     }
     // Global Incidents (GDELT)
