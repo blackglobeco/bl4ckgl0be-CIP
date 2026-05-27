@@ -10,7 +10,8 @@ interface OsirisMapProps {
   onEntityClick?: (entity: any) => void;
   onMouseCoords?: (coords: { lat: number; lng: number }) => void;
   onRightClick?: (coords: { lat: number; lng: number }) => void;
-  onViewStateChange?: (vs: { zoom: number; latitude: number }) => void;
+  // FIX 1: added longitude? so page.tsx can track map center for cell tower fetch
+  onViewStateChange?: (vs: { zoom: number; latitude: number; longitude?: number }) => void;
   flyToLocation?: { lat: number; lng: number; ts: number } | null;
   projection?: 'mercator' | 'globe';
   mapStyle?: string;
@@ -237,7 +238,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
          'circle-stroke-opacity': 0.5,
        }});
        map.addLayer({ id: 'cell-tower-label', type: 'symbol', source: 'cell-towers', minzoom: 9, layout: {
-         'text-field': ['concat', ['get','radio'], ' ', ['get','city']],
+         // FIX 5: city is always empty from OpenCelliD — fall back to country code
+         'text-field': ['concat', ['get','radio'], ' ', ['case', ['!=', ['get','city'], ''], ['get','city'], ['get','country']]],
          'text-size': 9, 'text-font': ['Open Sans Regular'],
          'text-offset': [0, 1.8], 'text-max-width': 12, 'text-allow-overlap': false,
        }, paint: {
@@ -444,7 +446,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }
     });
     map.on('contextmenu', e => { e.preventDefault(); onRightClick?.({ lat: e.lngLat.lat, lng: e.lngLat.lng }); });
-    map.on('moveend', () => { const c = map.getCenter(); onViewStateChange?.({ zoom: map.getZoom(), latitude: c.lat }); });
+    // FIX 2: emit longitude so page.tsx can use it for cell tower fetch coords
+    map.on('moveend', () => { const c = map.getCenter(); onViewStateChange?.({ zoom: map.getZoom(), latitude: c.lat, longitude: c.lng }); });
 
     // ── POPUP HELPER ──
     const popup = (coords: any, html: string) => {
@@ -605,7 +608,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
            <div><span style="color:#5C5A54;font-size:9px;">RANGE</span><br/><span style="color:#E8E6E0;">${p.range ? p.range + 'm' : '—'}</span></div>
            <div><span style="color:#5C5A54;font-size:9px;">SAMPLES</span><br/><span style="color:#E8E6E0;">${p.samples ?? '—'}</span></div>
            <div><span style="color:#5C5A54;font-size:9px;">UPDATED</span><br/><span style="color:#E8E6E0;">${p.updated || '—'}</span></div>
-           <div><span style="color:#5C5A54;font-size:9px;">OPERATOR</span><br/><span style="color:#E8E6E0;">${p.operator || '—'}</span></div>
+           <div><span style="color:#5C5A54;font-size:9px;">AVG SIGNAL</span><br/><span style="color:${col};">${p.signal || '—'}</span></div>
          </div>
          ${p.city ? `<div style="color:#5C5A54;font-size:10px;border-top:1px solid #333;padding-top:8px;">📍 ${p.city}</div>` : ''}
        </div>`);
@@ -839,12 +842,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   }, [mapReady, data.gdelt, activeLayers.global_incidents, setGeo]);
 
   useEffect(() => {
-     if (!mapReady) return;
-     setGeo('cell-towers', activeLayers.cell_towers && data.cell_towers ? data.cell_towers.map((t: any) => ({
-       type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] },
-       properties: { id: t.id, radio: t.radio, mcc: t.mcc, mnc: t.mnc, lac: t.lac, cid: t.cid, range: t.range, samples: t.samples, updated: t.updated, operator: t.operator, country: t.country, city: t.city || '' },
-     })) : []);
-   }, [mapReady, data.cell_towers, activeLayers.cell_towers, setGeo]);
+    if (!mapReady) return;
+    // FIX 3: include signal field; null-coalesce operator so MapLibre doesn't get undefined
+    setGeo('cell-towers', activeLayers.cell_towers && data.cell_towers ? data.cell_towers.map((t: any) => ({
+      type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] },
+      properties: { id: t.id, radio: t.radio, mcc: t.mcc, mnc: t.mnc, lac: t.lac, cid: t.cid, range: t.range, samples: t.samples, updated: t.updated, signal: t.signal || '', operator: t.operator || '', country: t.country, city: t.city || '' },
+    })) : []);
+  }, [mapReady, data.cell_towers, activeLayers.cell_towers, setGeo]);
            
   useEffect(() => {
     if (!mapReady) return;
