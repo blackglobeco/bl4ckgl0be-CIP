@@ -83,6 +83,7 @@ export default function Dashboard() {
 
   const [backendStatus, setBackendStatus] = useState<'connecting' | 'connected' | 'error'>('connecting');
   const [mapView, setMapView] = useState({ zoom: 2.5, latitude: 20, longitude: 0 });
+  const [mapBounds, setMapBounds] = useState<{ minLat: number; maxLat: number; minLng: number; maxLng: number } | null>(null);
   const [flyToLocation, setFlyToLocation] = useState<{ lat: number; lng: number; ts: number } | null>(null);
   const [mouseCoords, setMouseCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [locationLabel, setLocationLabel] = useState('');
@@ -343,10 +344,13 @@ export default function Dashboard() {
       fetchEndpoint('/api/infrastructure', d => ({ infrastructure: d.infrastructure }));
       layerFetchedRef.current.add('infrastructure');
     }
-    // Cell Towers — fetch all towers globally, no position dependency
-    if (activeLayers.cell_towers && !layerFetchedRef.current.has('cell_towers')) {
-      fetchEndpoint('/api/cell-towers', d => ({ cell_towers: d.towers }));
-      layerFetchedRef.current.add('cell_towers');
+    // Cell Towers — fetch towers for current map bounds, up to 100K
+    if (activeLayers.cell_towers && mapBounds) {
+      const { minLat, maxLat, minLng, maxLng } = mapBounds;
+      fetchEndpoint(
+        `/api/cell-towers?minLat=${minLat.toFixed(4)}&maxLat=${maxLat.toFixed(4)}&minLng=${minLng.toFixed(4)}&maxLng=${maxLng.toFixed(4)}`,
+        d => ({ cell_towers: d.towers }),
+      );
     }
     // Global Incidents (GDELT)
     if (activeLayers.global_incidents && !layerFetchedRef.current.has('gdelt')) {
@@ -354,7 +358,7 @@ export default function Dashboard() {
       layerFetchedRef.current.add('gdelt');
     }
 
-  }, [activeLayers, mapView, fetchEndpoint]);
+  }, [activeLayers, mapView, mapBounds, fetchEndpoint]);
 
   // ── LAYER-AWARE POLLING — only poll data for active layers ──
   useEffect(() => {
@@ -384,9 +388,9 @@ export default function Dashboard() {
     (data.commercial_flights?.length||0)+(data.private_flights?.length||0)+(data.private_jets?.length||0)+(data.military_flights?.length||0)
   ), [data.commercial_flights, data.private_flights, data.private_jets, data.military_flights]);
 
-  // ── Track map center longitude (needed for cell tower fetch) ──
-  const handleViewStateChange = useCallback((vs: { zoom: number; latitude: number; longitude?: number }) => {
+  const handleViewStateChange = useCallback((vs: { zoom: number; latitude: number; longitude?: number; bounds?: { minLat: number; maxLat: number; minLng: number; maxLng: number } }) => {
     setMapView(prev => ({ ...prev, ...vs, longitude: vs.longitude ?? prev.longitude }));
+    if (vs.bounds) setMapBounds(vs.bounds);
   }, []);
 
   return (
