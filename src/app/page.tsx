@@ -82,7 +82,7 @@ export default function Dashboard() {
   const data = dataRef.current;
 
   const [backendStatus, setBackendStatus] = useState<'connecting' | 'connected' | 'error'>('connecting');
-  const [mapView, setMapView] = useState({ zoom: 2.5, latitude: 20 });
+  const [mapView, setMapView] = useState({ zoom: 2.5, latitude: 20, longitude: 0 });
   const [flyToLocation, setFlyToLocation] = useState<{ lat: number; lng: number; ts: number } | null>(null);
   const [mouseCoords, setMouseCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [locationLabel, setLocationLabel] = useState('');
@@ -343,9 +343,14 @@ export default function Dashboard() {
       fetchEndpoint('/api/infrastructure', d => ({ infrastructure: d.infrastructure }));
       layerFetchedRef.current.add('infrastructure');
     }
-    // Cell Towers
+    // Cell Towers — FIX: pass current map center lat/lng so the route doesn't 400
+    // radius=100000 (100 km) gives good coverage at zoom ~6–8; the API caps at 200 km
     if (activeLayers.cell_towers && !layerFetchedRef.current.has('cell_towers')) {
-      fetchEndpoint('/api/cell-towers', d => ({ cell_towers: d.towers }));
+      const { latitude, longitude } = mapView;
+      fetchEndpoint(
+        `/api/cell-towers?lat=${latitude.toFixed(4)}&lng=${longitude.toFixed(4)}&radius=100000`,
+        d => ({ cell_towers: d.towers }),
+      );
       layerFetchedRef.current.add('cell_towers');
     }
     // Global Incidents (GDELT)
@@ -354,7 +359,7 @@ export default function Dashboard() {
       layerFetchedRef.current.add('gdelt');
     }
 
-  }, [activeLayers]);
+  }, [activeLayers, mapView, fetchEndpoint]);
 
   // ── LAYER-AWARE POLLING — only poll data for active layers ──
   useEffect(() => {
@@ -384,6 +389,10 @@ export default function Dashboard() {
     (data.commercial_flights?.length||0)+(data.private_flights?.length||0)+(data.private_jets?.length||0)+(data.military_flights?.length||0)
   ), [data.commercial_flights, data.private_flights, data.private_jets, data.military_flights]);
 
+  // ── Track map center longitude (needed for cell tower fetch) ──
+  const handleViewStateChange = useCallback((vs: { zoom: number; latitude: number; longitude?: number }) => {
+    setMapView(prev => ({ ...prev, ...vs, longitude: vs.longitude ?? prev.longitude }));
+  }, []);
 
   return (
     <main className="fixed inset-0 w-full h-full bg-[var(--bg-void)] overflow-hidden">
@@ -542,7 +551,7 @@ export default function Dashboard() {
           onEntityClick={handleEntityClick} 
           onMouseCoords={handleMouseCoords} 
           onRightClick={handleRightClick} 
-          onViewStateChange={setMapView} 
+          onViewStateChange={handleViewStateChange} 
           flyToLocation={flyToLocation}
           sweepData={sweepData}
         />
