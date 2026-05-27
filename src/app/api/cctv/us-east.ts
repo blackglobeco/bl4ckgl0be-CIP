@@ -54,17 +54,29 @@ export async function fetchNYCDOTCameras(): Promise<CctvCamera[]> {
     const data: any[] = await res.json();
 
     return data
-      .filter((item) => item.id && item.latitude && item.longitude)
-      .map((item) => ({
-        id: `nyc-${item.id}`,
-        lat: Number(item.latitude),
-        lng: Number(item.longitude),
-        name: item.name || `NYC Camera ${item.id}`,
-        city: 'New York City',
-        country: 'US',
-        feed_url: `https://webcams.nyctmc.org/api/cameras/${item.id}/image`,
-        source: 'NYC DOT',
-      }));
+      .filter((item) => {
+        // isOnline is a string "true"/"false" in the API response
+        if (!item.id || !item.latitude || !item.longitude) return false;
+        if (String(item.isOnline) === 'false') return false;
+        return true;
+      })
+      .map((item) => {
+        // webcams.nyctmc.org blocks direct browser requests (CORS + Referer check).
+        // Route all image fetches through the existing /api/cctv/media proxy which
+        // already has webcams.nyctmc.org in its allowlist and sends the correct headers.
+        const directUrl = `https://webcams.nyctmc.org/api/cameras/${item.id}/image`;
+        const proxiedUrl = `/api/cctv/media?url=${encodeURIComponent(directUrl)}`;
+        return {
+          id: `nyc-${item.id}`,
+          lat: Number(item.latitude),
+          lng: Number(item.longitude),
+          name: item.name || `NYC Camera ${item.id}`,
+          city: item.area ? `NYC – ${item.area}` : 'New York City',
+          country: 'US',
+          feed_url: proxiedUrl,
+          source: 'NYC DOT',
+        };
+      });
   } catch {
     return [];
   }
