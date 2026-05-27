@@ -99,42 +99,25 @@ const SAMPLE_TOWERS: Tower[] = [
   { id: 'ct-iq-baghdad-1',      radio: 'LTE',  mcc: 418, mnc:  20, lac: 4243, cid:  6543, lat:  33.3152, lng:   44.3661, range: 2100, samples:  78, updated: '2024-01-05', signal: '',        operator: 'Asiacell',       country: 'IQ', city: 'Baghdad' },
 ];
 
-// ── Query Turso ───────────────────────────────────────────────────────────────
-async function queryTowers(
-  lat: number,
-  lng: number,
-  radius: number,
-  radioFilter?: string,
-): Promise<Tower[]> {
-  const latOffset = radius / 111320;
-  // FIX: longitude degrees per meter shrinks with cos(lat) — without this correction
-  // the BBOX is too wide near the poles and too narrow near the equator
-  const lngOffset = radius / (111320 * Math.cos(lat * Math.PI / 180));
+// ── Query Turso — global fetch, no BBOX ──────────────────────────────────────
+// Fetches all towers ordered by sample count (most-observed first).
+// Limit 5000 gives a dense global map without overloading the client.
+async function queryAllTowers(radioFilter?: string): Promise<Tower[]> {
+  const radioClause = radioFilter ? `WHERE radio = ?` : '';
+  const args: string[] = radioFilter ? [radioFilter] : [];
 
-  const latMin = lat - latOffset;
-  const latMax = lat + latOffset;
-  const lonMin = lng - lngOffset;
-  const lonMax = lng + lngOffset;
-
-  const radioClause = radioFilter ? `AND radio = ?` : '';
-  const args: (number | string)[] = [latMin, latMax, lonMin, lonMax];
-  if (radioFilter) args.push(radioFilter);
-
-  // Limit 500 — enough for a dense city view, keeps response snappy
   const result = await db.execute({
     sql: `SELECT radio, mcc, mnc, lac, cell, lon, lat, range, samples, updated, avg_signal
           FROM   cell_towers
-          WHERE  lat BETWEEN ? AND ?
-          AND    lon BETWEEN ? AND ?
           ${radioClause}
           ORDER  BY samples DESC
-          LIMIT  500`,
+          LIMIT  5000`,
     args,
   });
 
   return result.rows.map((row, i) => {
-    const mcc     = Number(row.mcc);
-    const updated = row.updated
+    const mcc       = Number(row.mcc);
+    const updated   = row.updated
       ? new Date(Number(row.updated) * 1000).toISOString().split('T')[0]
       : 'Unknown';
     const rawSignal = Number(row.avg_signal);
@@ -151,7 +134,6 @@ async function queryTowers(
       range:    Number(row.range)   || 1000,
       samples:  Number(row.samples) || 0,
       updated,
-      // FIX: signal and operator are now separate fields
       signal:   rawSignal ? `${rawSignal} dBm` : '',
       operator: '',  // OpenCelliD CSV does not include operator name
       country:  MCC_COUNTRY[mcc] ?? '',
@@ -163,18 +145,7 @@ async function queryTowers(
 // ── Route handler ─────────────────────────────────────────────────────────────
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const lat    = parseFloat(searchParams.get('lat')    || '');
-  const lng    = parseFloat(searchParams.get('lng')    || '');
-  const radius = Math.min(parseInt(searchParams.get('radius') || '50000'), 200000);
-  const radio  = searchParams.get('radio') || undefined; // e.g. ?radio=NR
-
-  // Require lat/lng — no point returning 500 random global towers
-  if (isNaN(lat) || isNaN(lng)) {
-    return NextResponse.json(
-      { error: 'lat and lng query params are required' },
-      { status: 400 },
-    );
-  }
+  const radio = searchParams.get('radio') || undefined; // e.g. ?radio=NR
 
   // ── Check DB is configured ────────────────────────────────────────────────
   if (!process.env.TURSO_DATABASE_URL || !process.env.TURSO_AUTH_TOKEN) {
@@ -190,7 +161,7 @@ export async function GET(req: NextRequest) {
 
   // ── Query DB ──────────────────────────────────────────────────────────────
   try {
-    const towers = await queryTowers(lat, lng, radius, radio);
+    const towers = await queryAllTowers(radio);
 
     return NextResponse.json(
       {
@@ -201,8 +172,8 @@ export async function GET(req: NextRequest) {
       },
       {
         headers: {
-          // Cache at CDN edge for 15 min — cell tower data changes slowly
-          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+          // Cache aggressively — global tower data changes very slowly
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
         },
       },
     );
@@ -216,7 +187,7 @@ export async function GET(req: NextRequest) {
         error:     err instanceof Error ? err.message : 'Unknown DB error',
         timestamp: new Date().toISOString(),
       },
-      { status: 200 }, // return 200 so the client still renders something
+      { status: 200 },
     );
   }
 }
