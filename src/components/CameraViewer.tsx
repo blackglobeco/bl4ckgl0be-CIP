@@ -134,7 +134,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
-          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
+          <div className={`relative bg-black flex items-center justify-center ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
