@@ -4,9 +4,11 @@ import type { CctvCamera } from './types';
 // Source: infocar.dgt.es/etraffic/data/camaras/{id}.jpg
 // Open data under DGT / Ley 37/2007 (Spanish public sector information reuse).
 // Camera IDs and coordinates verified against DGT open data catalog.
+//
+// infocar.dgt.es blocks direct browser requests (CORS + Referer enforcement).
+// Images served through /api/cctv/dgt-snapshot?id={id} proxy.
 
 const DGT_CAMERAS: Array<[number, number, number, string]> = [
-  // [id, lat, lng, description]
   [1398, 36.7213, -4.4214, 'MA-19 Málaga'],
   [1001, 40.4168, -3.7038, 'A-6 Madrid'],
   [1002, 40.4500, -3.6800, 'A-2 Madrid'],
@@ -27,7 +29,6 @@ const DGT_CAMERAS: Array<[number, number, number, string]> = [
   [1090, 43.3623, -8.4115, 'A-6 A Coruña'],
   [1100, 38.9942, -1.8585, 'A-31 Albacete'],
   [1110, 39.8628, -4.0273, 'A-4 Toledo'],
-  // Additional DGT cameras across Spain
   [1120, 37.1773, -3.5986, 'A-44 Granada'],
   [1130, 40.9646, -5.6642, 'A-62 Salamanca'],
   [1140, 43.5479, -5.6716, 'A-8 Oviedo / Gijón'],
@@ -39,7 +40,6 @@ const DGT_CAMERAS: Array<[number, number, number, string]> = [
   [1200, 39.5732,  2.6527, 'MA-19 Palma de Mallorca'],
 ];
 
-// DGT camera availability can vary; we include all and let the proxy handle 404s gracefully.
 export async function fetchDGTSpainCameras(): Promise<CctvCamera[]> {
   return DGT_CAMERAS.map(([id, lat, lng, description]) => ({
     id: `dgt-${id}`,
@@ -48,7 +48,8 @@ export async function fetchDGTSpainCameras(): Promise<CctvCamera[]> {
     name: description,
     city: 'Spain',
     country: 'Spain',
-    feed_url: `https://infocar.dgt.es/etraffic/data/camaras/${id}.jpg`,
+    // DGT direct URL is CORS-blocked in browsers — proxy via dgt-snapshot
+    feed_url: `/api/cctv/dgt-snapshot?id=${id}`,
     source: 'DGT Spain',
   }));
 }
@@ -56,6 +57,9 @@ export async function fetchDGTSpainCameras(): Promise<CctvCamera[]> {
 // ── Madrid City Hall — Traffic Camera KML Feed ───────────────────────────────
 // Source: datos.madrid.es open data KML (~357 cameras)
 // Licence: Madrid Open Data / EU PSI Directive 2019/1024
+//
+// KML image URLs point to informo.munimadrid.es which is CORS-blocked.
+// Proxied via /api/cctv/dgt-snapshot?url={encoded-url}.
 
 function extractImgSrc(html: string): string {
   const match = html.match(/src=["']([^"']+)["']/i);
@@ -65,7 +69,6 @@ function extractImgSrc(html: string): string {
 }
 
 function findKmlElement(xml: string, tag: string): string {
-  // Minimal KML text parser — extracts first text content of a tag
   const re = new RegExp(`<(?:[^:>]+:)?${tag}[^>]*>([\\s\\S]*?)</(?:[^:>]+:)?${tag}>`, 'i');
   const m = re.exec(xml);
   return m ? m[1].trim() : '';
@@ -77,6 +80,26 @@ function extractPlacemarks(kml: string): string[] {
   let m;
   while ((m = re.exec(kml)) !== null) results.push(m[0]);
   return results;
+}
+
+/** Proxy an image URL through dgt-snapshot if it's from a CORS-blocked host */
+function proxyMadridImageUrl(rawUrl: string): string {
+  if (!rawUrl) return '';
+  try {
+    const parsed = new URL(rawUrl);
+    const blockedHosts = new Set([
+      'informo.munimadrid.es',
+      'www.munimadrid.es',
+      'trafico.munimadrid.es',
+      'datos.madrid.es',
+    ]);
+    if (blockedHosts.has(parsed.hostname)) {
+      return `/api/cctv/dgt-snapshot?url=${encodeURIComponent(rawUrl)}`;
+    }
+  } catch {
+    // malformed URL — pass through
+  }
+  return rawUrl;
 }
 
 export async function fetchMadridCityCameras(): Promise<CctvCamera[]> {
@@ -104,8 +127,8 @@ export async function fetchMadridCityCameras(): Promise<CctvCamera[]> {
       const lat = parseFloat(parts[1]);
       if (isNaN(lat) || isNaN(lng)) continue;
 
-      const imageUrl = desc ? extractImgSrc(desc) : '';
-      if (!imageUrl) continue;
+      const rawImageUrl = desc ? extractImgSrc(desc) : '';
+      if (!rawImageUrl) continue;
 
       cameras.push({
         id: `mad-${String(i).padStart(4, '0')}`,
@@ -114,7 +137,7 @@ export async function fetchMadridCityCameras(): Promise<CctvCamera[]> {
         name: name.slice(0, 120),
         city: 'Madrid',
         country: 'Spain',
-        feed_url: imageUrl,
+        feed_url: proxyMadridImageUrl(rawImageUrl),
         source: 'Madrid City Hall',
       });
     }
@@ -124,31 +147,10 @@ export async function fetchMadridCityCameras(): Promise<CctvCamera[]> {
   }
 }
 
-// ── Netherlands Rijkswaterstaat — Highway Cameras ───────────────────────────
-// Source: opendata.ndw.nu (National Data Warehouse for Traffic Information)
-// Full open data licence — CC0
+// ── Netherlands Rijkswaterstaat — REMOVED ────────────────────────────────────
+// opendata.ndw.nu/cameras.json returns HTTP 404 — endpoint is permanently dead.
+// Stub kept so existing imports in route.ts continue to compile.
 
 export async function fetchNetherlandsCameras(): Promise<CctvCamera[]> {
-  try {
-    const res = await fetch('https://opendata.ndw.nu/cameras.json', {
-      signal: AbortSignal.timeout(12000),
-    });
-    if (!res.ok) return [];
-    const data: any[] = await res.json();
-
-    return (data || [])
-      .filter((cam) => cam.lat && cam.lng && cam.imageUrl)
-      .map((cam, i) => ({
-        id: `nl-rws-${i}`,
-        lat: Number(cam.lat),
-        lng: Number(cam.lng),
-        name: String(cam.name || 'NL Camera').slice(0, 120),
-        city: 'Netherlands',
-        country: 'Netherlands',
-        feed_url: String(cam.imageUrl || '').trim(),
-        source: 'Rijkswaterstaat',
-      }));
-  } catch {
-    return [];
-  }
+  return [];
 }
