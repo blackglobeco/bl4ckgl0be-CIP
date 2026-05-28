@@ -99,7 +99,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
         className={`fixed z-[500] ${
           fullscreen 
             ? 'inset-2 md:inset-4' 
-            : 'bottom-[70px] left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-[560px]'
+            : 'bottom-[70px] left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-[420px]'
         }`}
       >
         <div className="glass-panel osiris-glow overflow-hidden h-full flex flex-col" style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}>
@@ -134,13 +134,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
-          <div
-          className={`relative bg-black flex items-center justify-center overflow-hidden ${
-          fullscreen
-          ? 'flex-1'
-          : 'h-[320px] md:h-[360px]'
-          }`}>
-            
+          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
@@ -177,7 +171,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className="w-full h-full object-contain bg-black"
+                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
                 autoPlay
                 muted
                 playsInline
@@ -194,7 +188,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className="w-full h-full object-contain bg-black"
+                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
