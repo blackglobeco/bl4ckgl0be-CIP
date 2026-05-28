@@ -171,7 +171,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className="w-full h-full object-contain bg-black"
                 autoPlay
                 muted
                 playsInline
@@ -188,7 +188,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className="w-full h-full object-contain bg-black"
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
