@@ -1,34 +1,23 @@
 import type { CctvCamera } from './types';
 
 /**
- * Turkey cameras.
+ * Turkey cameras — Windy webcams.
  *
- * Windy webcam snapshot CDN (images-webcams.windy.com) requires a signed
- * API token — it returns HTTP 403 on every server-side request regardless
- * of Referer/Origin headers. No proxy can fix this.
+ * Snapshot images (images-webcams.windy.com) require a signed API token
+ * and cannot be proxied — omitted entirely.
  *
- * The correct approach is to use the public embed player iframe only:
- *   stream_url: https://webcams.windy.com/webcams/public/embed/player/{id}
- *   stream_type: 'iframe'
+ * Embed URL: https://embed.windy.com/embed2.html#type=webcam&id={id}
+ * This is the canonical public embed URL from embed.windy.com/config/webcam.
+ * No API key required. Works in any <iframe>.
  *
- * feed_url (snapshot) is omitted for Windy cameras; the iframe embed
- * is the only available public interface. external_url links to the
- * full Windy page as a fallback.
- *
- * Note: the old embed URL format (www.windy.com/webcams/{id}/embed) is
- * deprecated. The current canonical embed URL is:
- *   https://webcams.windy.com/webcams/public/embed/player/{id}
- *
- * lh3.googleusercontent.com/d/* entries removed: Google Drive links
- * redirect to a login wall. alltrafficcams.com kept as external_url.
+ * Google Drive lh3.googleusercontent.com feeds removed (login wall).
+ * alltrafficcams.com kept as external_url fallback.
  */
 
-/** Windy public embed iframe helper (no snapshot — API key required for images) */
 function windy(id: string): Pick<CctvCamera, 'stream_url' | 'stream_type' | 'external_url' | 'source'> {
   return {
-    // Correct embed URL format per Windy embed docs (webcams.windy.com subdomain)
-    stream_url:  `https://webcams.windy.com/webcams/public/embed/player/${id}`,
-    stream_type: 'iframe' as const,
+    stream_url:   `https://embed.windy.com/embed2.html#type=webcam&id=${id}`,
+    stream_type:  'iframe' as const,
     external_url: `https://www.windy.com/webcams/${id}`,
     source: 'Windy',
   };
@@ -71,7 +60,6 @@ const TURKEY_CAMERAS: CctvCamera[] = [
     name: 'Hamzabeyli - Border (TR, live)',
     city: 'Edirne', country: 'Turkey',
     ...windy('1639080445'),
-    // Override external_url with the weather-webcam.eu page which has more context
     external_url: 'https://weather-webcam.eu/lesovo-hamzabeyli-live-kamera-balgaria-turcia-granica-trafik-vremeto/',
   },
 
