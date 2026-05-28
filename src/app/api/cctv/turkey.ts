@@ -3,23 +3,32 @@ import type { CctvCamera } from './types';
 /**
  * Turkey cameras.
  *
- * Windy snapshot CDN (images-webcams.windy.com) is CORS-blocked.
- * Proxied via /api/cctv/balkans-snapshot.
+ * Windy webcam snapshot CDN (images-webcams.windy.com) requires a signed
+ * API token — it returns HTTP 403 on every server-side request regardless
+ * of Referer/Origin headers. No proxy can fix this.
+ *
+ * The correct approach is to use the public embed player iframe only:
+ *   stream_url: https://webcams.windy.com/webcams/public/embed/player/{id}
+ *   stream_type: 'iframe'
+ *
+ * feed_url (snapshot) is omitted for Windy cameras; the iframe embed
+ * is the only available public interface. external_url links to the
+ * full Windy page as a fallback.
+ *
+ * Note: the old embed URL format (www.windy.com/webcams/{id}/embed) is
+ * deprecated. The current canonical embed URL is:
+ *   https://webcams.windy.com/webcams/public/embed/player/{id}
  *
  * lh3.googleusercontent.com/d/* entries removed: Google Drive links
- * redirect to a login wall and cannot be served as inline images.
- * The alltrafficcams.com external_url is kept as fallback.
+ * redirect to a login wall. alltrafficcams.com kept as external_url.
  */
 
-/** Windy embed + proxied JPG snapshot helper */
-function windy(id: string): Pick<CctvCamera, 'stream_url' | 'stream_type' | 'feed_url' | 'external_url' | 'source'> {
+/** Windy public embed iframe helper (no snapshot — API key required for images) */
+function windy(id: string): Pick<CctvCamera, 'stream_url' | 'stream_type' | 'external_url' | 'source'> {
   return {
-    stream_url:   `https://www.windy.com/webcams/${id}/embed`,
-    stream_type:  'iframe' as const,
-    // Windy snapshot images are CORS-blocked — proxy through balkans-snapshot
-    feed_url: `/api/cctv/balkans-snapshot?url=${encodeURIComponent(
-      `https://images-webcams.windy.com/37/${id}/current/full/${id}.jpg`
-    )}`,
+    // Correct embed URL format per Windy embed docs (webcams.windy.com subdomain)
+    stream_url:  `https://webcams.windy.com/webcams/public/embed/player/${id}`,
+    stream_type: 'iframe' as const,
     external_url: `https://www.windy.com/webcams/${id}`,
     source: 'Windy',
   };
@@ -56,13 +65,13 @@ const TURKEY_CAMERAS: CctvCamera[] = [
     city: 'Edirne', country: 'Turkey',
     ...windy('1375653055'),
   },
-  
   {
     id: 'tr-hamzabeyli-windy',
     lat: 41.97, lng: 26.388,
     name: 'Hamzabeyli - Border (TR, live)',
     city: 'Edirne', country: 'Turkey',
     ...windy('1639080445'),
+    // Override external_url with the weather-webcam.eu page which has more context
     external_url: 'https://weather-webcam.eu/lesovo-hamzabeyli-live-kamera-balgaria-turcia-granica-trafik-vremeto/',
   },
 
@@ -114,7 +123,6 @@ const TURKEY_CAMERAS: CctvCamera[] = [
 ];
 
 export async function fetchTurkeyCameras(): Promise<CctvCamera[]> {
-  // Only export cameras that have at least one media source (feed, stream or external)
   return TURKEY_CAMERAS.filter(
     (cam) => cam.feed_url || cam.stream_url || cam.external_url
   );
