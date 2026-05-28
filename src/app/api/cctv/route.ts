@@ -8,6 +8,7 @@ import { fetchTurkeyCameras } from './turkey';
 import { fetchRomaniaCameras } from './romania';
 import { fetchMalaysiaCameras } from './malaysia';
 import { fetchAustraliaCameras } from './australia';
+import { fetchBlackeyeCameras } from './blackeye';
 
 // ── New sources ported from Shadowbroker ──────────────────────────────────────
 import {
@@ -35,6 +36,7 @@ import {
  * Sources now include Shadowbroker ports: Austin TX, NYC DOT, Georgia DOT,
  * Illinois DOT, Michigan DOT, Caltrans (all 12 districts), WSDOT ArcGIS,
  * Colorado DOT, Oregon TripCheck, DGT Spain, Madrid City Hall, Netherlands RWS.
+ * Blackeye: 743 worldwide open RTSP cameras (SE Asia, US, UK, AU, ME, etc.)
  */
 
 // ═══ CAMERA SOURCE DEFINITIONS ═══
@@ -304,6 +306,9 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'malaysia':  fetchMalaysiaCameras,
   'australia': fetchAustraliaCameras,
 
+  // Worldwide open RTSP cameras via Blackeye proxy
+  'blackeye':  fetchBlackeyeCameras,
+
   // Granular US sub-regions (for explicit ?region= requests)
   'us-austin':   fetchAustinTXCameras,
   'us-nyc':      fetchNYCDOTCameras,
@@ -364,7 +369,10 @@ function getRegionsForBounds(lat: number, lng: number, _radius: number): string[
   if (lat > -45  && lat < -10 && lng > 110 && lng < 155) regions.push('australia');
   if (lat > 1.0  && lat < 7.5 && lng > 99.5 && lng < 119.5) regions.push('malaysia');
 
-  return regions.length > 0 ? regions : ['uk', 'us-east'];
+  // Blackeye cameras span worldwide — always include them
+  regions.push('blackeye');
+
+  return regions.length > 0 ? regions : ['uk', 'us-east', 'blackeye'];
 }
 
 // Default region set for global coverage (avoids double-counting sub-regions)
@@ -372,6 +380,7 @@ const DEFAULT_REGIONS = [
   'uk', 'us-west', 'us-east', 'us-central', 'canada',
   'europe', 'asia', 'malaysia', 'australia',
   'bulgaria', 'greece', 'serbia', 'macedonia', 'turkey', 'romania', 'spain',
+  'blackeye',
 ];
 
 export async function GET(request: Request) {
