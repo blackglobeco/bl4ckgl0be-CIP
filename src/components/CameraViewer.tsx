@@ -99,7 +99,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
         className={`fixed z-[500] ${
           fullscreen 
             ? 'inset-2 md:inset-4' 
-            : 'bottom-[70px] left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-[420px]'
+            : 'bottom-[70px] left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-[560px]'
         }`}
       >
         <div className="glass-panel osiris-glow overflow-hidden h-full flex flex-col" style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}>
@@ -138,7 +138,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           className={`relative bg-black flex items-center justify-center overflow-hidden ${
           fullscreen
           ? 'flex-1'
-          : 'h-[260px] md:h-[300px]'
+          : 'h-[320px] md:h-[360px]'
           }`}>
             
             {loading && !error && !externalOnly && (
