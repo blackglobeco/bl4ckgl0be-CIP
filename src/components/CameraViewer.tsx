@@ -134,7 +134,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
-          <div className={`relative bg-black overflow-hidden ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
+          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
@@ -171,32 +171,25 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-contain'}`}
+                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
                 autoPlay
                 muted
                 playsInline
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
-              <div className="w-full h-full overflow-hidden relative">
-                <iframe
-                  src={camera.stream_url}
-                  className="border-0 absolute inset-0"
-                  style={{
-                    width: '177.78%',      // 16:9 inverse scaling trick
-                    height: '100%',
-                    transform: 'scale(0.5625) translateX(-44.4%) translateY(0)',  // scale down to fit
-                    transformOrigin: 'top left',
-                  }}
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                  />
-                </div>
+              <iframe
+                src={camera.stream_url}
+                className="w-full h-full border-0"
+                style={{ transform: 'scale(1)', transformOrigin: 'top left' }}
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              />
             ) : imageUrl ? (
               <img
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-contain'}`}
+                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
