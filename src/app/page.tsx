@@ -82,7 +82,7 @@ export default function Dashboard() {
   const data = dataRef.current;
 
   const [backendStatus, setBackendStatus] = useState<'connecting' | 'connected' | 'error'>('connecting');
-  const [mapView, setMapView] = useState({ zoom: 2.5, latitude: 20, longitude: 0 });
+  const [mapView, setMapView] = useState({ zoom: 10, latitude: 40.7128, longitude: -74.006 });
   const [mapBounds, setMapBounds] = useState<{ minLat: number; maxLat: number; minLng: number; maxLng: number } | null>(null);
   const [flyToLocation, setFlyToLocation] = useState<{ lat: number; lng: number; ts: number } | null>(null);
   const [mouseCoords, setMouseCoords] = useState<{ lat: number; lng: number } | null>(null);
