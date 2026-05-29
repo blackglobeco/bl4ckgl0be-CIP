@@ -20,31 +20,21 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Measured container size in pixels — used to set the iframe viewport
-  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 });
 
   const streamType = camera?.stream_type || 'jpg';
   const externalFeedUrl = camera?.external_url || camera?.feed_url;
   const externalOnly = Boolean(camera?.external_url && !camera?.feed_url && !camera?.stream_url);
 
-  // Measure the container every time it resizes (panel open/fullscreen/window resize)
-  useEffect(() => {
-    if (streamType !== 'iframe') return;
-    const el = containerRef.current;
-    if (!el) return;
-
-    const measure = () => {
-      setContainerSize({ w: el.offsetWidth, h: el.offsetHeight });
-    };
-
-    // First measurement after paint
-    const raf = requestAnimationFrame(measure);
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
-  }, [streamType, fullscreen, camera?.stream_url]);
+  // For Blackeye iframe streams, route through our proxy so we can inject
+  // CSS that forces the player to fill 100% of the iframe viewport.
+  const iframeSrc = (() => {
+    if (streamType !== 'iframe' || !camera?.stream_url) return null;
+    // Only proxy bl4ckeye.onrender.com — other iframe sources load directly
+    if (camera.stream_url.includes('bl4ckeye.onrender.com')) {
+      return `/api/cctv/stream-proxy?url=${encodeURIComponent(camera.stream_url)}`;
+    }
+    return camera.stream_url;
+  })();
 
   useEffect(() => {
     if (!camera) return;
@@ -76,7 +66,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
       return;
     }
 
-    if (streamType === 'iframe' && camera.stream_url) { setLoading(false); return; }
+    if (streamType === 'iframe') { setLoading(false); return; }
 
     if (camera.feed_url) {
       const url = camera.feed_url.includes('?')
@@ -96,32 +86,6 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   }, [camera?.feed_url, streamType]);
 
   if (!camera) return null;
-
-  // For the iframe: we render it at the exact measured pixel dimensions so its
-  // internal viewport === container size. The Blackeye page is fully responsive
-  // and fills whatever viewport it's given — no overflow, no scrollbars.
-  // We use a srcdoc-wrapper technique: inject a minimal HTML page that itself
-  // embeds the real URL in a 100vw×100vh iframe, forcing the inner content to
-  // fill our measured dimensions with no extra chrome.
-  const iframeW = containerSize.w || 420;
-  const iframeH = containerSize.h || 236; // 420 * 9/16
-
-  // Build a srcdoc that loads the real stream URL in a bare full-bleed page.
-  // This removes any browser-added padding and forces the stream to fill 100%.
-  const srcdoc = camera.stream_url
-    ? `<!DOCTYPE html>
-<html style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000">
-<body style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000">
-<iframe
-  src="${camera.stream_url}"
-  allow="autoplay;fullscreen"
-  allowfullscreen
-  style="display:block;width:100%;height:100%;border:none;overflow:hidden"
-  scrolling="no"
-></iframe>
-</body>
-</html>`
-    : '';
 
   return (
     <AnimatePresence>
@@ -156,46 +120,29 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               {streamType === 'jpg' && (
-                <button
-                  onClick={() => setRefreshKey(k => k + 1)}
-                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
-                  title="Refresh feed"
-                >
+                <button onClick={() => setRefreshKey(k => k + 1)}
+                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Refresh feed">
                   <RefreshCw className="w-3 h-3 text-[var(--text-muted)] hover:text-[#39FF14]" />
                 </button>
               )}
               {camera.lat && camera.lng && (
-                <button
-                  onClick={() => onLocate?.(camera.lat, camera.lng)}
-                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
-                  title="Fly to location"
-                >
+                <button onClick={() => onLocate?.(camera.lat, camera.lng)}
+                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Fly to location">
                   <MapPin className="w-3 h-3 text-[var(--text-muted)] hover:text-[var(--gold-primary)]" />
                 </button>
               )}
-              <button
-                onClick={() => setFullscreen(f => !f)}
-                className="hidden md:block p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
-                title="Toggle fullscreen"
-              >
+              <button onClick={() => setFullscreen(f => !f)}
+                className="hidden md:block p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Toggle fullscreen">
                 <Maximize2 className="w-3 h-3 text-[var(--text-muted)] hover:text-white" />
               </button>
-              <button
-                onClick={onClose}
-                className="p-1.5 rounded hover:bg-red-900/30 transition-colors"
-              >
+              <button onClick={onClose} className="p-1.5 rounded hover:bg-red-900/30 transition-colors">
                 <X className="w-4 h-4 md:w-3 md:h-3 text-[var(--text-muted)] hover:text-red-400" />
               </button>
             </div>
           </div>
 
-          {/*
-            Feed container.
-            overflow:hidden on the wrapper is the last line of defence — nothing
-            escapes even if the iframe content somehow overflows.
-          */}
+          {/* Feed */}
           <div
-            ref={containerRef}
             className="relative bg-black flex-shrink-0 w-full overflow-hidden"
             style={fullscreen ? { flex: 1, minHeight: 0 } : { aspectRatio: '16 / 9' }}
           >
@@ -232,66 +179,32 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   </div>
                   <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">FEED UNAVAILABLE</span>
                   <span className="text-[7px] font-mono text-[var(--text-muted)]">Camera may be offline or restricted</span>
-                  <button
-                    onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
+                  <button onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
                     className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
                     RETRY
                   </button>
                 </div>
               </div>
             ) : streamType === 'hls' ? (
-              <video
-                ref={videoRef}
+              <video ref={videoRef}
                 className="absolute inset-0 w-full h-full object-cover"
-                autoPlay muted playsInline
-              />
-            ) : streamType === 'iframe' && camera.stream_url ? (
-              /*
-                srcdoc wrapper approach:
-                We inject a minimal HTML page that loads the real stream URL
-                in a 100%×100% sub-iframe. This guarantees:
-                  1. The outer iframe's viewport is exactly iframeW × iframeH
-                     (set via width/height attributes = measured container px).
-                  2. The inner iframe fills that viewport 100%×100%.
-                  3. The Blackeye page sees a viewport that matches the panel —
-                     it lays out its responsive video player to fill it exactly.
-                  4. No scrollbars, no overflow, no white strip on either side.
-
-                Why srcdoc? Because setting width/height on a direct iframe to
-                the real stream URL still leaves browser-default body margins
-                in some cases. The srcdoc wrapper explicitly zeros all margins.
-              */
+                autoPlay muted playsInline />
+            ) : streamType === 'iframe' && iframeSrc ? (
               <iframe
-                key={`${camera.stream_url}-${iframeW}`}
-                srcDoc={srcdoc}
+                key={iframeSrc}
+                src={iframeSrc}
                 title={camera.name}
-                width={iframeW}
-                height={iframeH}
                 allowFullScreen
                 allow="autoplay; fullscreen"
-                style={{
-                  display: 'block',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  border: 'none',
-                  backgroundColor: '#000',
-                }}
+                className="absolute inset-0 w-full h-full border-0"
               />
             ) : imageUrl ? (
-              <img
-                key={refreshKey}
-                src={imageUrl}
-                alt={camera.name}
+              <img key={refreshKey} src={imageUrl} alt={camera.name}
                 className="absolute inset-0 w-full h-full object-cover"
                 onLoad={() => setLoading(false)}
-                onError={() => { setLoading(false); setError(true); }}
-              />
+                onError={() => { setLoading(false); setError(true); }} />
             ) : null}
 
-            {/* Live badge */}
             {!error && !loading && !externalOnly && (
               <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded z-10 pointer-events-none">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-osiris-pulse" />
