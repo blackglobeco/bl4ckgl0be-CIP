@@ -31,7 +31,6 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
     setError(false);
     setImageUrl(null);
 
-    // Cleanup previous HLS instance
     if (hlsRef.current) {
       hlsRef.current.destroy();
       hlsRef.current = null;
@@ -83,7 +82,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   // Auto-refresh for JPGs
   useEffect(() => {
     if (streamType !== 'jpg' || !camera?.feed_url) return;
-    const iv = setInterval(() => setRefreshKey(k => k + 1), 5000); // 5s refresh for JPG
+    const iv = setInterval(() => setRefreshKey(k => k + 1), 5000);
     return () => clearInterval(iv);
   }, [camera?.feed_url, streamType]);
 
@@ -104,7 +103,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
       >
         <div className="glass-panel osiris-glow overflow-hidden h-full flex flex-col" style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}>
           {/* Header */}
-          <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-[var(--border-secondary)] bg-black/40">
+          <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-[var(--border-secondary)] bg-black/40 flex-shrink-0">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <div className="w-2 h-2 rounded-full bg-[#39FF14] animate-osiris-pulse flex-shrink-0" />
               <Camera className="w-3.5 h-3.5 text-[#39FF14] flex-shrink-0" />
@@ -134,7 +133,13 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
-          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
+          <div
+            className={`relative bg-black flex-shrink-0 ${fullscreen ? 'flex-1 min-h-0' : ''}`}
+            style={fullscreen
+              ? { flex: 1, minHeight: 0 }
+              : { aspectRatio: '16/9', maxHeight: '35vh' }
+            }
+          >
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
@@ -147,11 +152,14 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             {externalOnly ? (
               <div className="absolute inset-0 flex items-center justify-center bg-black/90">
                 <div className="text-center px-6">
-                  <div className="w-8 h-8 rounded-full bg-[#39FF14]/15 flex items-center justify-center mx-auto mb-2"><ExternalLink className="w-4 h-4 text-[#39FF14]" /></div>
+                  <div className="w-8 h-8 rounded-full bg-[#39FF14]/15 flex items-center justify-center mx-auto mb-2">
+                    <ExternalLink className="w-4 h-4 text-[#39FF14]" />
+                  </div>
                   <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">EXTERNAL FEED</span>
                   <span className="text-[7px] font-mono text-[var(--text-muted)]">Live stream opens in source viewer</span>
                   {externalFeedUrl && (
-                    <a href={externalFeedUrl} target="_blank" rel="noopener noreferrer" className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
+                    <a href={externalFeedUrl} target="_blank" rel="noopener noreferrer"
+                      className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
                       OPEN FEED
                     </a>
                   )}
@@ -160,10 +168,14 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : error ? (
               <div className="absolute inset-0 flex items-center justify-center bg-black/90">
                 <div className="text-center">
-                  <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center mb-2 mx-auto"><Camera className="w-4 h-4 text-red-400" /></div>
+                  <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center mb-2 mx-auto">
+                    <Camera className="w-4 h-4 text-red-400" />
+                  </div>
                   <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">FEED UNAVAILABLE</span>
                   <span className="text-[7px] font-mono text-[var(--text-muted)]">Camera may be offline or restricted</span>
-                  <button onClick={() => { setError(false); setRefreshKey(k => k + 1); }} className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
+                  <button
+                    onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
+                    className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
                     RETRY
                   </button>
                 </div>
@@ -171,7 +183,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className={`absolute inset-0 w-full h-full ${fullscreen ? 'object-contain' : 'object-cover'}`}
                 autoPlay
                 muted
                 playsInline
@@ -179,16 +191,17 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'iframe' && camera.stream_url ? (
               <iframe
                 src={camera.stream_url}
-                className="w-full h-full border-0"
+                className="absolute inset-0 w-full h-full border-0"
                 allow="autoplay; fullscreen"
                 allowFullScreen
+                title={camera.name}
               />
             ) : imageUrl ? (
               <img
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className={`absolute inset-0 w-full h-full ${fullscreen ? 'object-contain' : 'object-cover'}`}
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
@@ -196,7 +209,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
 
             {/* Live indicator */}
             {!error && !loading && !externalOnly && (
-              <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded">
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded z-10">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-osiris-pulse" />
                 <span className="text-[7px] font-mono text-white tracking-widest">
                   {streamType === 'jpg' ? 'LIVE SNAPSHOT' : 'LIVE VIDEO'}
@@ -206,7 +219,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Footer with coords + links */}
-          <div className="px-3 md:px-4 py-2 border-t border-[var(--border-secondary)] bg-black/40 flex items-center justify-between">
+          <div className="px-3 md:px-4 py-2 border-t border-[var(--border-secondary)] bg-black/40 flex items-center justify-between flex-shrink-0">
             <div className="text-[7px] md:text-[8px] font-mono text-[var(--text-muted)]">
               {camera.lat?.toFixed(4)}, {camera.lng?.toFixed(4)}
             </div>
