@@ -177,20 +177,12 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                 playsInline
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
-              <div className="w-full h-full overflow-hidden relative">
-                <iframe
-                  src={camera.stream_url}
-                  className="border-0 absolute inset-0"
-                  style={{
-                    width: '177.78%',      // 16:9 inverse scaling trick
-                    height: '100%',
-                    transform: 'scale(0.5625) translateX(-44.4%) translateY(0)',  // scale down to fit
-                    transformOrigin: 'top left',
-                  }}
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                />
-              </div>
+              <iframe
+                src={camera.stream_url}
+                className="w-full h-full border-0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              />
             ) : imageUrl ? (
               <img
                 key={refreshKey}
