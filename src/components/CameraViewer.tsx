@@ -134,7 +134,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
-          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video max-h-[35vh] md:max-h-none'}`}>
+          <div className={`relative bg-black ${fullscreen ? 'flex-1' : 'aspect-video'}`}>
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
@@ -171,7 +171,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className="w-full h-full object-contain"
                 autoPlay
                 muted
                 playsInline
@@ -188,7 +188,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className={`w-full ${fullscreen ? 'h-full object-contain' : 'h-full object-cover'}`}
+                className="w-full h-full object-contain"
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
