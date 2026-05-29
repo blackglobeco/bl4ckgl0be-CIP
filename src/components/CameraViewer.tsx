@@ -179,12 +179,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'iframe' && camera.stream_url ? (
               <iframe
                 src={camera.stream_url}
-                className="border-0"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: 'block',
-                }}
+                className="w-full h-full border-0"
                 allow="autoplay; fullscreen"
                 allowFullScreen
               />
