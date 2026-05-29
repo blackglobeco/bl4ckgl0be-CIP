@@ -102,6 +102,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
         }`}
       >
         <div className="glass-panel osiris-glow overflow-hidden h-full flex flex-col" style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}>
+
           {/* Header */}
           <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-[var(--border-secondary)] bg-black/40 flex-shrink-0">
             <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -133,11 +134,18 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/* Camera Feed */}
+          {/*
+            KEY FIX: The container uses a padding-top aspect-ratio trick instead of
+            `aspect-video` or a fixed height. This gives the container a real,
+            computed pixel height that child `absolute inset-0` elements can fill.
+            `overflow-hidden` prevents the iframe's own scrollbars / content from
+            bleeding outside the box.
+          */}
           <div
-            className={`relative bg-black flex-shrink-0 ${fullscreen ? 'flex-1 min-h-0' : ''}`}
+            className="relative bg-black flex-shrink-0 overflow-hidden"
             style={fullscreen
               ? { flex: 1, minHeight: 0 }
-              : { aspectRatio: '16/9', maxHeight: '35vh' }
+              : { paddingTop: '56.25%' /* 16:9 */ }
             }
           >
             {loading && !error && !externalOnly && (
@@ -183,25 +191,42 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className={`absolute inset-0 w-full h-full ${fullscreen ? 'object-contain' : 'object-cover'}`}
+                className="absolute inset-0 w-full h-full object-contain"
                 autoPlay
                 muted
                 playsInline
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
+              /*
+                The iframe itself must be absolutely positioned to fill the
+                padding-top container. `border-0` removes the default border.
+                The inline style forces the iframe body to clip — many RTSP
+                proxy pages render at a fixed internal resolution wider than
+                the panel; this ensures we scale-to-fit rather than crop.
+              */
               <iframe
+                key={camera.stream_url}
                 src={camera.stream_url}
-                className="absolute inset-0 w-full h-full border-0"
-                allow="autoplay; fullscreen"
-                allowFullScreen
                 title={camera.name}
+                allowFullScreen
+                allow="autoplay; fullscreen"
+                scrolling="no"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  overflow: 'hidden',
+                }}
               />
             ) : imageUrl ? (
               <img
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className={`absolute inset-0 w-full h-full ${fullscreen ? 'object-contain' : 'object-cover'}`}
+                className="absolute inset-0 w-full h-full object-contain"
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
@@ -218,7 +243,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             )}
           </div>
 
-          {/* Footer with coords + links */}
+          {/* Footer */}
           <div className="px-3 md:px-4 py-2 border-t border-[var(--border-secondary)] bg-black/40 flex items-center justify-between flex-shrink-0">
             <div className="text-[7px] md:text-[8px] font-mono text-[var(--text-muted)]">
               {camera.lat?.toFixed(4)}, {camera.lng?.toFixed(4)}
@@ -236,6 +261,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
               </a>
             </div>
           </div>
+
         </div>
       </motion.div>
     </AnimatePresence>
