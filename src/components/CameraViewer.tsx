@@ -17,13 +17,38 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   const [error, setError] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
-  
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeScale, setIframeScale] = useState(1);
 
   const streamType = camera?.stream_type || 'jpg';
   const externalFeedUrl = camera?.external_url || camera?.feed_url;
   const externalOnly = Boolean(camera?.external_url && !camera?.feed_url && !camera?.stream_url);
+
+  // ── Scale the iframe to always fit the container ──────────────────────────
+  // Many RTSP proxy pages (e.g. bl4ckeye.onrender.com) render at a fixed
+  // internal resolution (640×480, 800×600, etc.). We measure the container
+  // width once it's rendered and set a CSS transform scale so the iframe
+  // content shrinks to fill — no cropping, no scroll bars.
+  useEffect(() => {
+    if (streamType !== 'iframe' || !containerRef.current) return;
+
+    const IFRAME_NATIVE_WIDTH = 640; // assumed native width of the proxy page
+
+    const measure = () => {
+      if (!containerRef.current) return;
+      const w = containerRef.current.offsetWidth;
+      setIframeScale(w / IFRAME_NATIVE_WIDTH);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [streamType, fullscreen, camera]);
 
   useEffect(() => {
     if (!camera) return;
@@ -36,10 +61,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
       hlsRef.current = null;
     }
 
-    if (externalOnly) {
-      setLoading(false);
-      return;
-    }
+    if (externalOnly) { setLoading(false); return; }
 
     if (streamType === 'hls' && camera.stream_url) {
       if (Hls.isSupported() && videoRef.current) {
@@ -51,9 +73,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           setLoading(false);
           videoRef.current?.play().catch(() => {});
         });
-        hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) setError(true);
-        });
+        hls.on(Hls.Events.ERROR, (_e: any, data: any) => { if (data.fatal) setError(true); });
       } else if (videoRef.current?.canPlayType('application/vnd.apple.mpegurl')) {
         videoRef.current.src = camera.stream_url;
         videoRef.current.addEventListener('loadedmetadata', () => {
@@ -64,14 +84,12 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
       return;
     }
 
-    if (streamType === 'iframe' && camera.stream_url) {
-      setLoading(false);
-      return;
-    }
+    if (streamType === 'iframe' && camera.stream_url) { setLoading(false); return; }
 
-    // JPG fallback
     if (camera.feed_url) {
-      const url = camera.feed_url.includes('?') ? `${camera.feed_url}&_t=${Date.now()}` : `${camera.feed_url}?_t=${Date.now()}`;
+      const url = camera.feed_url.includes('?')
+        ? `${camera.feed_url}&_t=${Date.now()}`
+        : `${camera.feed_url}?_t=${Date.now()}`;
       setImageUrl(url);
     } else {
       setError(true);
@@ -88,6 +106,11 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
 
   if (!camera) return null;
 
+  // Native width/height of the proxy page — the iframe is rendered at this
+  // size, then scaled down via transform to fit the panel.
+  const IFRAME_NATIVE_W = 640;
+  const IFRAME_NATIVE_H = 480;
+
   return (
     <AnimatePresence>
       <motion.div
@@ -96,63 +119,92 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.3 }}
         className={`fixed z-[500] ${
-          fullscreen 
-            ? 'inset-2 md:inset-4' 
+          fullscreen
+            ? 'inset-2 md:inset-4'
             : 'bottom-[70px] left-2 right-2 md:bottom-6 md:right-6 md:left-auto md:w-[420px]'
         }`}
       >
-        <div className="glass-panel osiris-glow overflow-hidden h-full flex flex-col" style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}>
-
-          {/* Header */}
+        <div
+          className="glass-panel osiris-glow overflow-hidden h-full flex flex-col"
+          style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}
+        >
+          {/* ── Header ── */}
           <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-[var(--border-secondary)] bg-black/40 flex-shrink-0">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <div className="w-2 h-2 rounded-full bg-[#39FF14] animate-osiris-pulse flex-shrink-0" />
               <Camera className="w-3.5 h-3.5 text-[#39FF14] flex-shrink-0" />
               <div className="min-w-0">
-                <h3 className="text-[10px] md:text-[11px] font-mono font-bold text-[#39FF14] tracking-wider truncate">{camera.name}</h3>
-                <p className="text-[6px] md:text-[7px] font-mono text-[var(--text-muted)]">{camera.city}, {camera.country} · {camera.source}</p>
+                <h3 className="text-[10px] md:text-[11px] font-mono font-bold text-[#39FF14] tracking-wider truncate">
+                  {camera.name}
+                </h3>
+                <p className="text-[6px] md:text-[7px] font-mono text-[var(--text-muted)]">
+                  {camera.city}, {camera.country} · {camera.source}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-1 flex-shrink-0">
               {streamType === 'jpg' && (
-                <button onClick={() => setRefreshKey(k => k + 1)} className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Refresh feed">
+                <button
+                  onClick={() => setRefreshKey(k => k + 1)}
+                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
+                  title="Refresh feed"
+                >
                   <RefreshCw className="w-3 h-3 text-[var(--text-muted)] hover:text-[#39FF14]" />
                 </button>
               )}
               {camera.lat && camera.lng && (
-                <button onClick={() => onLocate?.(camera.lat, camera.lng)} className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Fly to location">
+                <button
+                  onClick={() => onLocate?.(camera.lat, camera.lng)}
+                  className="p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
+                  title="Fly to location"
+                >
                   <MapPin className="w-3 h-3 text-[var(--text-muted)] hover:text-[var(--gold-primary)]" />
                 </button>
               )}
-              <button onClick={() => setFullscreen(!fullscreen)} className="hidden md:block p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors" title="Toggle fullscreen">
+              <button
+                onClick={() => setFullscreen(f => !f)}
+                className="hidden md:block p-1.5 rounded hover:bg-[var(--hover-accent)] transition-colors"
+                title="Toggle fullscreen"
+              >
                 <Maximize2 className="w-3 h-3 text-[var(--text-muted)] hover:text-white" />
               </button>
-              <button onClick={onClose} className="p-1.5 rounded hover:bg-red-900/30 transition-colors">
+              <button
+                onClick={onClose}
+                className="p-1.5 rounded hover:bg-red-900/30 transition-colors"
+              >
                 <X className="w-4 h-4 md:w-3 md:h-3 text-[var(--text-muted)] hover:text-red-400" />
               </button>
             </div>
           </div>
 
-          {/* Camera Feed */}
+          {/* ── Feed area ── */}
           {/*
-            KEY FIX: The container uses a padding-top aspect-ratio trick instead of
-            `aspect-video` or a fixed height. This gives the container a real,
-            computed pixel height that child `absolute inset-0` elements can fill.
-            `overflow-hidden` prevents the iframe's own scrollbars / content from
-            bleeding outside the box.
+            The outer div is the "viewport" — overflow:hidden clips everything.
+            For iframe streams we give it an explicit pixel height derived from
+            the scaled native resolution so the panel doesn't collapse.
+            For everything else we use the classic padding-top 16:9 trick.
           */}
           <div
-            className="relative bg-black flex-shrink-0 overflow-hidden"
-            style={fullscreen
-              ? { flex: 1, minHeight: 0 }
-              : { paddingTop: '56.25%' /* 16:9 */ }
+            ref={containerRef}
+            className="relative bg-black flex-shrink-0 overflow-hidden w-full"
+            style={
+              fullscreen
+                ? { flex: 1, minHeight: 0 }
+                : streamType === 'iframe' && camera.stream_url && !error && !externalOnly
+                  // Height = native height * scale factor, so the container is
+                  // exactly as tall as the scaled-down iframe content.
+                  ? { height: `${Math.round(IFRAME_NATIVE_H * iframeScale)}px` }
+                  : { paddingTop: '56.25%' /* 16:9 fallback for jpg / hls */ }
             }
           >
+            {/* Loading spinner */}
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
                   <div className="w-6 h-6 border-2 border-[#39FF14] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                  <span className="text-[8px] font-mono text-[#39FF14] tracking-widest">CONNECTING TO FEED...</span>
+                  <span className="text-[8px] font-mono text-[#39FF14] tracking-widest">
+                    CONNECTING TO FEED...
+                  </span>
                 </div>
               </div>
             )}
@@ -163,11 +215,19 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/15 flex items-center justify-center mx-auto mb-2">
                     <ExternalLink className="w-4 h-4 text-[#39FF14]" />
                   </div>
-                  <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">EXTERNAL FEED</span>
-                  <span className="text-[7px] font-mono text-[var(--text-muted)]">Live stream opens in source viewer</span>
+                  <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">
+                    EXTERNAL FEED
+                  </span>
+                  <span className="text-[7px] font-mono text-[var(--text-muted)]">
+                    Live stream opens in source viewer
+                  </span>
                   {externalFeedUrl && (
-                    <a href={externalFeedUrl} target="_blank" rel="noopener noreferrer"
-                      className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
+                    <a
+                      href={externalFeedUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider"
+                    >
                       OPEN FEED
                     </a>
                   )}
@@ -179,11 +239,16 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center mb-2 mx-auto">
                     <Camera className="w-4 h-4 text-red-400" />
                   </div>
-                  <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">FEED UNAVAILABLE</span>
-                  <span className="text-[7px] font-mono text-[var(--text-muted)]">Camera may be offline or restricted</span>
+                  <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">
+                    FEED UNAVAILABLE
+                  </span>
+                  <span className="text-[7px] font-mono text-[var(--text-muted)]">
+                    Camera may be offline or restricted
+                  </span>
                   <button
                     onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
-                    className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
+                    className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider"
+                  >
                     RETRY
                   </button>
                 </div>
@@ -198,27 +263,38 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
               /*
-                The iframe itself must be absolutely positioned to fill the
-                padding-top container. `border-0` removes the default border.
-                The inline style forces the iframe body to clip — many RTSP
-                proxy pages render at a fixed internal resolution wider than
-                the panel; this ensures we scale-to-fit rather than crop.
+                IFRAME SCALING STRATEGY
+                ────────────────────────
+                The proxy page (bl4ckeye.onrender.com) renders its own layout at
+                a fixed internal resolution (e.g. 640×480). Simply setting
+                width/height to 100% makes the iframe *element* fill the box, but
+                the iframe *content* still lays out at 640px and the browser adds
+                a horizontal scrollbar — which is the white strip you see.
+
+                Fix: render the iframe at its native size (640×480), then shrink
+                the whole element with `transform: scale(iframeScale)` anchored to
+                the top-left corner. The outer container is sized to match the
+                post-scale dimensions so nothing overflows.
+
+                `transformOrigin: 'top left'` is critical — without it the browser
+                scales from the center and the content overflows on both sides.
               */
               <iframe
                 key={camera.stream_url}
+                ref={iframeRef}
                 src={camera.stream_url}
                 title={camera.name}
                 allowFullScreen
                 allow="autoplay; fullscreen"
-                scrolling="no"
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: '100%',
-                  height: '100%',
+                  width: `${IFRAME_NATIVE_W}px`,
+                  height: `${IFRAME_NATIVE_H}px`,
                   border: 'none',
-                  overflow: 'hidden',
+                  transformOrigin: 'top left',
+                  transform: `scale(${iframeScale})`,
                 }}
               />
             ) : imageUrl ? (
@@ -232,9 +308,9 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
               />
             ) : null}
 
-            {/* Live indicator */}
+            {/* Live badge */}
             {!error && !loading && !externalOnly && (
-              <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded z-10">
+              <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded z-10 pointer-events-none">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-osiris-pulse" />
                 <span className="text-[7px] font-mono text-white tracking-widest">
                   {streamType === 'jpg' ? 'LIVE SNAPSHOT' : 'LIVE VIDEO'}
@@ -243,25 +319,32 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             )}
           </div>
 
-          {/* Footer */}
+          {/* ── Footer ── */}
           <div className="px-3 md:px-4 py-2 border-t border-[var(--border-secondary)] bg-black/40 flex items-center justify-between flex-shrink-0">
             <div className="text-[7px] md:text-[8px] font-mono text-[var(--text-muted)]">
               {camera.lat?.toFixed(4)}, {camera.lng?.toFixed(4)}
             </div>
             <div className="flex gap-2">
               {(camera.feed_url || camera.external_url) && (
-                <a href={camera.external_url || camera.feed_url} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-[7px] font-mono text-[#39FF14] hover:underline tracking-wider">
+                <a
+                  href={camera.external_url || camera.feed_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-[7px] font-mono text-[#39FF14] hover:underline tracking-wider"
+                >
                   <ExternalLink className="w-2.5 h-2.5" /> FEED
                 </a>
               )}
-              <a href={`https://www.google.com/maps/@${camera.lat},${camera.lng},17z`} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[7px] font-mono text-[var(--cyan-primary)] hover:underline tracking-wider">
+              <a
+                href={`https://www.google.com/maps/@${camera.lat},${camera.lng},17z`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-[7px] font-mono text-[var(--cyan-primary)] hover:underline tracking-wider"
+              >
                 <MapPin className="w-2.5 h-2.5" /> MAP
               </a>
             </div>
           </div>
-
         </div>
       </motion.div>
     </AnimatePresence>
