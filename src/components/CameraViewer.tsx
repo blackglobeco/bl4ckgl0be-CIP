@@ -22,38 +22,29 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   const hlsRef = useRef<Hls | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Scale state: measures the container and computes how to fit the iframe
-  const [scale, setScale] = useState({ x: 1, y: 1 });
+  // Measured container size in pixels — used to set the iframe viewport
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 });
 
   const streamType = camera?.stream_type || 'jpg';
   const externalFeedUrl = camera?.external_url || camera?.feed_url;
   const externalOnly = Boolean(camera?.external_url && !camera?.feed_url && !camera?.stream_url);
 
-  // ── The Blackeye proxy renders at this internal viewport ──────────────────
-  // Measured by inspecting bl4ckeye.onrender.com/api/stream responses.
-  // The page body has no fixed width — it fills the iframe viewport.
-  // So we size the iframe to the container and let the page reflow naturally.
-  // No magic numbers needed — the trick is making the iframe fill BOTH
-  // width AND height of a fixed-aspect container, then clipping nothing.
-
-  // ── Measure container and set scale for iframe ────────────────────────────
+  // Measure the container every time it resizes (panel open/fullscreen/window resize)
   useEffect(() => {
-    if (streamType !== 'iframe' || !containerRef.current) return;
+    if (streamType !== 'iframe') return;
+    const el = containerRef.current;
+    if (!el) return;
 
     const measure = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      // The iframe will be sized to 100%×100% of this container.
-      // We expose the dimensions so the iframe element can be set explicitly.
-      setScale({ x: el.offsetWidth, y: el.offsetHeight });
+      setContainerSize({ w: el.offsetWidth, h: el.offsetHeight });
     };
 
-    // Run after first paint so layout is settled
+    // First measurement after paint
     const raf = requestAnimationFrame(measure);
     const ro = new ResizeObserver(measure);
-    ro.observe(containerRef.current);
+    ro.observe(el);
     return () => { cancelAnimationFrame(raf); ro.disconnect(); };
-  }, [streamType, fullscreen, camera]);
+  }, [streamType, fullscreen, camera?.stream_url]);
 
   useEffect(() => {
     if (!camera) return;
@@ -62,7 +53,6 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
     setImageUrl(null);
 
     if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
-
     if (externalOnly) { setLoading(false); return; }
 
     if (streamType === 'hls' && camera.stream_url) {
@@ -106,6 +96,32 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   }, [camera?.feed_url, streamType]);
 
   if (!camera) return null;
+
+  // For the iframe: we render it at the exact measured pixel dimensions so its
+  // internal viewport === container size. The Blackeye page is fully responsive
+  // and fills whatever viewport it's given — no overflow, no scrollbars.
+  // We use a srcdoc-wrapper technique: inject a minimal HTML page that itself
+  // embeds the real URL in a 100vw×100vh iframe, forcing the inner content to
+  // fill our measured dimensions with no extra chrome.
+  const iframeW = containerSize.w || 420;
+  const iframeH = containerSize.h || 236; // 420 * 9/16
+
+  // Build a srcdoc that loads the real stream URL in a bare full-bleed page.
+  // This removes any browser-added padding and forces the stream to fill 100%.
+  const srcdoc = camera.stream_url
+    ? `<!DOCTYPE html>
+<html style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000">
+<body style="margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000">
+<iframe
+  src="${camera.stream_url}"
+  allow="autoplay;fullscreen"
+  allowfullscreen
+  style="display:block;width:100%;height:100%;border:none;overflow:hidden"
+  scrolling="no"
+></iframe>
+</body>
+</html>`
+    : '';
 
   return (
     <AnimatePresence>
@@ -174,34 +190,20 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           </div>
 
           {/*
-            ── Feed container ───────────────────────────────────────────────
-            Strategy:
-            • For HLS/JPG: classic padding-top 56.25% (16:9) with absolute fill.
-            • For IFRAME: fixed aspect-ratio container using `aspect-ratio` CSS.
-              The iframe is set to exactly 100%×100% of that container with no
-              border and no scrollbars. The Blackeye proxy page itself is a
-              simple full-viewport video player — when the iframe viewport is
-              set to the container size, the page reflowing naturally fills it.
-              No scale() tricks, no fixed pixel sizes — just a properly sized
-              iframe viewport.
+            Feed container.
+            overflow:hidden on the wrapper is the last line of defence — nothing
+            escapes even if the iframe content somehow overflows.
           */}
           <div
             ref={containerRef}
             className="relative bg-black flex-shrink-0 w-full overflow-hidden"
-            style={
-              fullscreen
-                ? { flex: 1, minHeight: 0 }
-                : { aspectRatio: '16 / 9' }
-            }
+            style={fullscreen ? { flex: 1, minHeight: 0 } : { aspectRatio: '16 / 9' }}
           >
-            {/* Loading */}
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
                   <div className="w-6 h-6 border-2 border-[#39FF14] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                  <span className="text-[8px] font-mono text-[#39FF14] tracking-widest">
-                    CONNECTING TO FEED...
-                  </span>
+                  <span className="text-[8px] font-mono text-[#39FF14] tracking-widest">CONNECTING TO FEED...</span>
                 </div>
               </div>
             )}
@@ -215,12 +217,8 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">EXTERNAL FEED</span>
                   <span className="text-[7px] font-mono text-[var(--text-muted)]">Live stream opens in source viewer</span>
                   {externalFeedUrl && (
-                    <a
-                      href={externalFeedUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider"
-                    >
+                    <a href={externalFeedUrl} target="_blank" rel="noopener noreferrer"
+                      className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
                       OPEN FEED
                     </a>
                   )}
@@ -236,8 +234,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <span className="text-[7px] font-mono text-[var(--text-muted)]">Camera may be offline or restricted</span>
                   <button
                     onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
-                    className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider"
-                  >
+                    className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider">
                     RETRY
                   </button>
                 </div>
@@ -250,25 +247,28 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
               /*
-                The iframe's width & height attributes define its VIEWPORT —
-                the size of the browser window the embedded page sees.
-                Setting them to the measured container dimensions means the
-                proxy page lays out exactly to fill the box with no overflow
-                and no need for scrollbars.
+                srcdoc wrapper approach:
+                We inject a minimal HTML page that loads the real stream URL
+                in a 100%×100% sub-iframe. This guarantees:
+                  1. The outer iframe's viewport is exactly iframeW × iframeH
+                     (set via width/height attributes = measured container px).
+                  2. The inner iframe fills that viewport 100%×100%.
+                  3. The Blackeye page sees a viewport that matches the panel —
+                     it lays out its responsive video player to fill it exactly.
+                  4. No scrollbars, no overflow, no white strip on either side.
 
-                `display: block` removes the default inline gap.
-                `border: none` removes the default 2px border.
-                No `scrolling` attribute needed — the page itself won't scroll
-                because its viewport matches its content area.
+                Why srcdoc? Because setting width/height on a direct iframe to
+                the real stream URL still leaves browser-default body margins
+                in some cases. The srcdoc wrapper explicitly zeros all margins.
               */
               <iframe
-                key={camera.stream_url}
-                src={camera.stream_url}
+                key={`${camera.stream_url}-${iframeW}`}
+                srcDoc={srcdoc}
                 title={camera.name}
+                width={iframeW}
+                height={iframeH}
                 allowFullScreen
                 allow="autoplay; fullscreen"
-                width={scale.x || '100%'}
-                height={scale.y || '100%'}
                 style={{
                   display: 'block',
                   position: 'absolute',
@@ -309,21 +309,13 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             </div>
             <div className="flex gap-2">
               {(camera.feed_url || camera.external_url) && (
-                <a
-                  href={camera.external_url || camera.feed_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-[7px] font-mono text-[#39FF14] hover:underline tracking-wider"
-                >
+                <a href={camera.external_url || camera.feed_url} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-[7px] font-mono text-[#39FF14] hover:underline tracking-wider">
                   <ExternalLink className="w-2.5 h-2.5" /> FEED
                 </a>
               )}
-              <a
-                href={`https://www.google.com/maps/@${camera.lat},${camera.lng},17z`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-[7px] font-mono text-[var(--cyan-primary)] hover:underline tracking-wider"
-              >
+              <a href={`https://www.google.com/maps/@${camera.lat},${camera.lng},17z`} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1 text-[7px] font-mono text-[var(--cyan-primary)] hover:underline tracking-wider">
                 <MapPin className="w-2.5 h-2.5" /> MAP
               </a>
             </div>
