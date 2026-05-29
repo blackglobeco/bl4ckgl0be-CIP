@@ -21,33 +21,38 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeScale, setIframeScale] = useState(1);
+
+  // Scale state: measures the container and computes how to fit the iframe
+  const [scale, setScale] = useState({ x: 1, y: 1 });
 
   const streamType = camera?.stream_type || 'jpg';
   const externalFeedUrl = camera?.external_url || camera?.feed_url;
   const externalOnly = Boolean(camera?.external_url && !camera?.feed_url && !camera?.stream_url);
 
-  // ── Scale the iframe to always fit the container ──────────────────────────
-  // Many RTSP proxy pages (e.g. bl4ckeye.onrender.com) render at a fixed
-  // internal resolution (640×480, 800×600, etc.). We measure the container
-  // width once it's rendered and set a CSS transform scale so the iframe
-  // content shrinks to fill — no cropping, no scroll bars.
+  // ── The Blackeye proxy renders at this internal viewport ──────────────────
+  // Measured by inspecting bl4ckeye.onrender.com/api/stream responses.
+  // The page body has no fixed width — it fills the iframe viewport.
+  // So we size the iframe to the container and let the page reflow naturally.
+  // No magic numbers needed — the trick is making the iframe fill BOTH
+  // width AND height of a fixed-aspect container, then clipping nothing.
+
+  // ── Measure container and set scale for iframe ────────────────────────────
   useEffect(() => {
     if (streamType !== 'iframe' || !containerRef.current) return;
 
-    const IFRAME_NATIVE_WIDTH = 640; // assumed native width of the proxy page
-
     const measure = () => {
-      if (!containerRef.current) return;
-      const w = containerRef.current.offsetWidth;
-      setIframeScale(w / IFRAME_NATIVE_WIDTH);
+      const el = containerRef.current;
+      if (!el) return;
+      // The iframe will be sized to 100%×100% of this container.
+      // We expose the dimensions so the iframe element can be set explicitly.
+      setScale({ x: el.offsetWidth, y: el.offsetHeight });
     };
 
-    measure();
+    // Run after first paint so layout is settled
+    const raf = requestAnimationFrame(measure);
     const ro = new ResizeObserver(measure);
     ro.observe(containerRef.current);
-    return () => ro.disconnect();
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
   }, [streamType, fullscreen, camera]);
 
   useEffect(() => {
@@ -56,10 +61,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
     setError(false);
     setImageUrl(null);
 
-    if (hlsRef.current) {
-      hlsRef.current.destroy();
-      hlsRef.current = null;
-    }
+    if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
 
     if (externalOnly) { setLoading(false); return; }
 
@@ -97,7 +99,6 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
     }
   }, [camera, refreshKey, streamType, externalOnly]);
 
-  // Auto-refresh for JPGs
   useEffect(() => {
     if (streamType !== 'jpg' || !camera?.feed_url) return;
     const iv = setInterval(() => setRefreshKey(k => k + 1), 5000);
@@ -105,11 +106,6 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
   }, [camera?.feed_url, streamType]);
 
   if (!camera) return null;
-
-  // Native width/height of the proxy page — the iframe is rendered at this
-  // size, then scaled down via transform to fit the panel.
-  const IFRAME_NATIVE_W = 640;
-  const IFRAME_NATIVE_H = 480;
 
   return (
     <AnimatePresence>
@@ -128,7 +124,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
           className="glass-panel osiris-glow overflow-hidden h-full flex flex-col"
           style={{ borderColor: 'rgba(57, 255, 20, 0.3)' }}
         >
-          {/* ── Header ── */}
+          {/* Header */}
           <div className="flex items-center justify-between px-3 md:px-4 py-2 md:py-3 border-b border-[var(--border-secondary)] bg-black/40 flex-shrink-0">
             <div className="flex items-center gap-2 flex-1 min-w-0">
               <div className="w-2 h-2 rounded-full bg-[#39FF14] animate-osiris-pulse flex-shrink-0" />
@@ -177,27 +173,28 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             </div>
           </div>
 
-          {/* ── Feed area ── */}
           {/*
-            The outer div is the "viewport" — overflow:hidden clips everything.
-            For iframe streams we give it an explicit pixel height derived from
-            the scaled native resolution so the panel doesn't collapse.
-            For everything else we use the classic padding-top 16:9 trick.
+            ── Feed container ───────────────────────────────────────────────
+            Strategy:
+            • For HLS/JPG: classic padding-top 56.25% (16:9) with absolute fill.
+            • For IFRAME: fixed aspect-ratio container using `aspect-ratio` CSS.
+              The iframe is set to exactly 100%×100% of that container with no
+              border and no scrollbars. The Blackeye proxy page itself is a
+              simple full-viewport video player — when the iframe viewport is
+              set to the container size, the page reflowing naturally fills it.
+              No scale() tricks, no fixed pixel sizes — just a properly sized
+              iframe viewport.
           */}
           <div
             ref={containerRef}
-            className="relative bg-black flex-shrink-0 overflow-hidden w-full"
+            className="relative bg-black flex-shrink-0 w-full overflow-hidden"
             style={
               fullscreen
                 ? { flex: 1, minHeight: 0 }
-                : streamType === 'iframe' && camera.stream_url && !error && !externalOnly
-                  // Height = native height * scale factor, so the container is
-                  // exactly as tall as the scaled-down iframe content.
-                  ? { height: `${Math.round(IFRAME_NATIVE_H * iframeScale)}px` }
-                  : { paddingTop: '56.25%' /* 16:9 fallback for jpg / hls */ }
+                : { aspectRatio: '16 / 9' }
             }
           >
-            {/* Loading spinner */}
+            {/* Loading */}
             {loading && !error && !externalOnly && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/80 z-10">
                 <div className="text-center">
@@ -215,12 +212,8 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <div className="w-8 h-8 rounded-full bg-[#39FF14]/15 flex items-center justify-center mx-auto mb-2">
                     <ExternalLink className="w-4 h-4 text-[#39FF14]" />
                   </div>
-                  <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">
-                    EXTERNAL FEED
-                  </span>
-                  <span className="text-[7px] font-mono text-[var(--text-muted)]">
-                    Live stream opens in source viewer
-                  </span>
+                  <span className="text-[9px] font-mono text-[#39FF14] tracking-widest block mb-1">EXTERNAL FEED</span>
+                  <span className="text-[7px] font-mono text-[var(--text-muted)]">Live stream opens in source viewer</span>
                   {externalFeedUrl && (
                     <a
                       href={externalFeedUrl}
@@ -239,12 +232,8 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                   <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center mb-2 mx-auto">
                     <Camera className="w-4 h-4 text-red-400" />
                   </div>
-                  <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">
-                    FEED UNAVAILABLE
-                  </span>
-                  <span className="text-[7px] font-mono text-[var(--text-muted)]">
-                    Camera may be offline or restricted
-                  </span>
+                  <span className="text-[9px] font-mono text-red-400 tracking-widest block mb-1">FEED UNAVAILABLE</span>
+                  <span className="text-[7px] font-mono text-[var(--text-muted)]">Camera may be offline or restricted</span>
                   <button
                     onClick={() => { setError(false); setRefreshKey(k => k + 1); }}
                     className="block mx-auto mt-3 px-3 py-1 text-[8px] font-mono text-[#39FF14] border border-[#39FF14]/30 rounded hover:bg-[#39FF14]/10 transition-colors tracking-wider"
@@ -256,45 +245,39 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             ) : streamType === 'hls' ? (
               <video
                 ref={videoRef}
-                className="absolute inset-0 w-full h-full object-contain"
-                autoPlay
-                muted
-                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+                autoPlay muted playsInline
               />
             ) : streamType === 'iframe' && camera.stream_url ? (
               /*
-                IFRAME SCALING STRATEGY
-                ────────────────────────
-                The proxy page (bl4ckeye.onrender.com) renders its own layout at
-                a fixed internal resolution (e.g. 640×480). Simply setting
-                width/height to 100% makes the iframe *element* fill the box, but
-                the iframe *content* still lays out at 640px and the browser adds
-                a horizontal scrollbar — which is the white strip you see.
+                The iframe's width & height attributes define its VIEWPORT —
+                the size of the browser window the embedded page sees.
+                Setting them to the measured container dimensions means the
+                proxy page lays out exactly to fill the box with no overflow
+                and no need for scrollbars.
 
-                Fix: render the iframe at its native size (640×480), then shrink
-                the whole element with `transform: scale(iframeScale)` anchored to
-                the top-left corner. The outer container is sized to match the
-                post-scale dimensions so nothing overflows.
-
-                `transformOrigin: 'top left'` is critical — without it the browser
-                scales from the center and the content overflows on both sides.
+                `display: block` removes the default inline gap.
+                `border: none` removes the default 2px border.
+                No `scrolling` attribute needed — the page itself won't scroll
+                because its viewport matches its content area.
               */
               <iframe
                 key={camera.stream_url}
-                ref={iframeRef}
                 src={camera.stream_url}
                 title={camera.name}
                 allowFullScreen
                 allow="autoplay; fullscreen"
+                width={scale.x || '100%'}
+                height={scale.y || '100%'}
                 style={{
+                  display: 'block',
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: `${IFRAME_NATIVE_W}px`,
-                  height: `${IFRAME_NATIVE_H}px`,
+                  width: '100%',
+                  height: '100%',
                   border: 'none',
-                  transformOrigin: 'top left',
-                  transform: `scale(${iframeScale})`,
+                  backgroundColor: '#000',
                 }}
               />
             ) : imageUrl ? (
@@ -302,7 +285,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
                 key={refreshKey}
                 src={imageUrl}
                 alt={camera.name}
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
                 onLoad={() => setLoading(false)}
                 onError={() => { setLoading(false); setError(true); }}
               />
@@ -319,7 +302,7 @@ export default function CameraViewer({ camera, onClose, onLocate }: CameraViewer
             )}
           </div>
 
-          {/* ── Footer ── */}
+          {/* Footer */}
           <div className="px-3 md:px-4 py-2 border-t border-[var(--border-secondary)] bg-black/40 flex items-center justify-between flex-shrink-0">
             <div className="text-[7px] md:text-[8px] font-mono text-[var(--text-muted)]">
               {camera.lat?.toFixed(4)}, {camera.lng?.toFixed(4)}
