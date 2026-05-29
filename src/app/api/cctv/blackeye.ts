@@ -4,7 +4,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
   const cameras: CctvCamera[] = [
     {
       id: 'blackeye-0',
-      lat: 21.0223, lng: 105.8461,
+      lat: 21.018400, lng: 105.846100,
       name: 'Hanoi (1.54.234.23)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -14,7 +14,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-1',
-      lat: 3.0624, lng: 101.4621,
+      lat: 3.061700, lng: 101.462100,
       name: 'Klang (1.9.246.147)',
       city: 'Klang',
       country: 'Malaysia',
@@ -24,7 +24,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-2',
-      lat: 40.2363, lng: -75.296,
+      lat: 40.236300, lng: -75.296000,
       name: 'Lansdale (100.11.83.185)',
       city: 'Lansdale',
       country: 'United States',
@@ -34,7 +34,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-3',
-      lat: 38.6273, lng: -76.9859,
+      lat: 38.627300, lng: -76.985900,
       name: 'Waldorf (100.15.31.156)',
       city: 'Waldorf',
       country: 'United States',
@@ -44,7 +44,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-4',
-      lat: 37.11, lng: -76.5115,
+      lat: 37.110000, lng: -76.511500,
       name: 'Newport News (100.4.105.174)',
       city: 'Newport News',
       country: 'United States',
@@ -54,7 +54,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-5',
-      lat: 13.71085, lng: 100.4543,
+      lat: 13.710100, lng: 100.454300,
       name: 'Bangkok (101.109.233.72)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -64,7 +64,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-6',
-      lat: 14.0517, lng: 101.3653,
+      lat: 14.051700, lng: 101.365300,
       name: 'Prachin Buri (101.109.35.142)',
       city: 'Prachin Buri',
       country: 'Thailand',
@@ -74,7 +74,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-7',
-      lat: 1.3756, lng: 103.7685,
+      lat: 1.375600, lng: 103.768500,
       name: 'Singapore (101.78.66.94)',
       city: 'Singapore',
       country: 'Singapore',
@@ -84,7 +84,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-8',
-      lat: -6.2208, lng: 106.8403,
+      lat: -6.220800, lng: 106.840300,
       name: 'Jakarta (103.234.254.133)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -94,7 +94,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-9',
-      lat: 3.0497, lng: 101.56,
+      lat: 3.049700, lng: 101.560000,
       name: 'Shah Alam (103.4.46.246)',
       city: 'Shah Alam',
       country: 'Malaysia',
@@ -104,7 +104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-10',
-      lat: 22.259, lng: 114.1657,
+      lat: 22.257800, lng: 114.165700,
       name: 'Unknown (103.6.48.74)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -114,7 +114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-11',
-      lat: 46.0693, lng: -72.8231,
+      lat: 46.069300, lng: -72.823100,
       name: 'Pierreville (104.151.131.242)',
       city: 'Pierreville',
       country: 'Canada',
@@ -124,7 +124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-12',
-      lat: 43.0804, lng: -88.0224,
+      lat: 43.080400, lng: -88.022400,
       name: 'Wauwatosa (104.231.240.179)',
       city: 'Wauwatosa',
       country: 'United States',
@@ -134,7 +134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-13',
-      lat: 38.0834, lng: -81.8303,
+      lat: 38.083400, lng: -81.830300,
       name: 'Danville (104.240.4.211)',
       city: 'Danville',
       country: 'United States',
@@ -144,7 +144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-14',
-      lat: 33.8225, lng: -118.3103,
+      lat: 33.822500, lng: -118.310300,
       name: 'Torrance (104.34.245.104)',
       city: 'Torrance',
       country: 'United States',
@@ -154,7 +154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-15',
-      lat: 39.7436, lng: -86.1158,
+      lat: 39.743600, lng: -86.115800,
       name: 'Indianapolis (104.4.45.113)',
       city: 'Indianapolis',
       country: 'United States',
@@ -164,7 +164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-16',
-      lat: 41.3878, lng: -84.1416,
+      lat: 41.387800, lng: -84.141600,
       name: 'Napoleon (107.11.217.220)',
       city: 'Napoleon',
       country: 'United States',
@@ -174,7 +174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-17',
-      lat: 36.0322, lng: -79.8588,
+      lat: 36.032200, lng: -79.858800,
       name: 'Greensboro (107.207.236.51)',
       city: 'Greensboro',
       country: 'United States',
@@ -184,7 +184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-18',
-      lat: 49.2825, lng: -123.1291,
+      lat: 49.282500, lng: -123.129100,
       name: 'Vancouver (108.172.65.242)',
       city: 'Vancouver',
       country: 'Canada',
@@ -194,7 +194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-19',
-      lat: 40.7915, lng: -73.6924,
+      lat: 40.791500, lng: -73.692400,
       name: 'Manhasset (108.21.71.210)',
       city: 'Manhasset',
       country: 'United States',
@@ -204,7 +204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-20',
-      lat: 40.8137, lng: -74.1234,
+      lat: 40.813700, lng: -74.123400,
       name: 'Lyndhurst (108.50.228.212)',
       city: 'Lyndhurst',
       country: 'United States',
@@ -214,7 +214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-21',
-      lat: 55.9707, lng: -4.0636,
+      lat: 55.970700, lng: -4.063600,
       name: 'Glasgow (109.153.131.189)',
       city: 'Glasgow',
       country: 'United Kingdom',
@@ -224,7 +224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-22',
-      lat: 32.0729, lng: 34.8481,
+      lat: 32.072900, lng: 34.848100,
       name: 'Giv‘at Shmuel (109.186.65.153)',
       city: 'Giv‘at Shmuel',
       country: 'Israel',
@@ -234,7 +234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-23',
-      lat: 32.08135, lng: 34.7807,
+      lat: 32.080400, lng: 34.780700,
       name: 'Tel Aviv (109.67.130.163)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -244,7 +244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-24',
-      lat: 32.0812, lng: 34.7814,
+      lat: 32.081200, lng: 34.781400,
       name: 'Tel Aviv (109.67.170.245)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -254,7 +254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-25',
-      lat: 32.0795, lng: 34.7798,
+      lat: 32.079500, lng: 34.779800,
       name: 'Tel Aviv (109.67.182.201)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -264,7 +264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-26',
-      lat: -6.2107, lng: 106.8446,
+      lat: -6.211400, lng: 106.844600,
       name: 'Jakarta (110.136.98.16)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -274,7 +274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-27',
-      lat: -33.8653, lng: 151.1021,
+      lat: -33.865300, lng: 151.102100,
       name: 'Sydney (110.174.3.44)',
       city: 'Sydney',
       country: 'Australia',
@@ -284,7 +284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-28',
-      lat: -31.8544, lng: 115.8433,
+      lat: -31.854400, lng: 115.843300,
       name: 'Perth (110.175.241.17)',
       city: 'Perth',
       country: 'Australia',
@@ -294,7 +294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-29',
-      lat: 22.2795, lng: 114.146,
+      lat: 22.279500, lng: 114.146000,
       name: 'Central (110.4.4.163)',
       city: 'Central',
       country: 'Hong Kong',
@@ -304,7 +304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-30',
-      lat: -34.8581, lng: 138.6127,
+      lat: -34.858100, lng: 138.612700,
       name: 'Adelaide (112.141.122.149)',
       city: 'Adelaide',
       country: 'Australia',
@@ -314,7 +314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-31',
-      lat: -37.8207, lng: 145.0408,
+      lat: -37.820700, lng: 145.040800,
       name: 'Melbourne (112.141.171.32)',
       city: 'Melbourne',
       country: 'Australia',
@@ -324,7 +324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-32',
-      lat: 10.82375, lng: 106.6257,
+      lat: 10.822000, lng: 106.625700,
       name: 'Ho Chi Minh City (112.197.61.82)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -334,7 +334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-33',
-      lat: 10.8226, lng: 106.6263,
+      lat: 10.822600, lng: 106.626300,
       name: 'Ho Chi Minh City (113.162.132.234)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -344,7 +344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-34',
-      lat: 16.1674, lng: 107.8333,
+      lat: 16.166700, lng: 107.833300,
       name: 'Unknown (113.163.157.170)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -354,7 +354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-35',
-      lat: 16.1674, lng: 107.8341,
+      lat: 16.167400, lng: 107.834100,
       name: 'Unknown (113.163.164.143)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -364,7 +364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-36',
-      lat: 21.0191, lng: 105.8470,
+      lat: 21.019100, lng: 105.847000,
       name: 'Hanoi (113.164.66.198)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -374,7 +374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-37',
-      lat: 10.8133, lng: 106.678,
+      lat: 10.812600, lng: 106.678000,
       name: 'Go Vap (113.169.83.238)',
       city: 'Go Vap',
       country: 'Vietnam',
@@ -384,7 +384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-38',
-      lat: 10.0368, lng: 105.7941,
+      lat: 10.036100, lng: 105.794100,
       name: 'Can Tho (113.170.58.55)',
       city: 'Can Tho',
       country: 'Vietnam',
@@ -394,7 +394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-39',
-      lat: 21.0176, lng: 105.8452,
+      lat: 21.017600, lng: 105.845200,
       name: 'Hanoi (113.176.70.49)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -404,7 +404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-40',
-      lat: 20.9423, lng: 107.0727,
+      lat: 20.942300, lng: 107.072700,
       name: 'Ha Long (113.179.45.132)',
       city: 'Ha Long',
       country: 'Vietnam',
@@ -414,7 +414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-41',
-      lat: 16.1659, lng: 107.8322,
+      lat: 16.165900, lng: 107.832200,
       name: 'Unknown (113.188.163.226)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -424,7 +424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-42',
-      lat: 3.1078, lng: 101.6139,
+      lat: 3.107100, lng: 101.613900,
       name: 'Petaling Jaya (113.210.70.106)',
       city: 'Petaling Jaya',
       country: 'Malaysia',
@@ -434,7 +434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-43',
-      lat: 10.8214, lng: 106.6249,
+      lat: 10.821400, lng: 106.624900,
       name: 'Ho Chi Minh City (113.22.124.236)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -444,7 +444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-44',
-      lat: 2.5, lng: 112.5,
+      lat: 2.500000, lng: 112.500000,
       name: 'Unknown (113.23.139.47)',
       city: 'Unknown',
       country: 'Malaysia',
@@ -454,7 +454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-45',
-      lat: 22.3346, lng: 114.2536,
+      lat: 22.334600, lng: 114.253600,
       name: 'Tseung Kwan O (113.252.49.85)',
       city: 'Tseung Kwan O',
       country: 'Hong Kong',
@@ -464,7 +464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-46',
-      lat: 22.3847, lng: 114.1965,
+      lat: 22.384700, lng: 114.196500,
       name: 'Sha Tin Wai (113.253.169.191)',
       city: 'Sha Tin Wai',
       country: 'Hong Kong',
@@ -474,7 +474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-47',
-      lat: -27.5126, lng: 153.029,
+      lat: -27.512600, lng: 153.029000,
       name: 'Brisbane (115.130.188.58)',
       city: 'Brisbane',
       country: 'Australia',
@@ -484,7 +484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-48',
-      lat: 3.1417, lng: 101.6852,
+      lat: 3.140800, lng: 101.685200,
       name: 'Kuala Lumpur (115.134.130.130)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -494,7 +494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-49',
-      lat: 3.1416, lng: 101.6860,
+      lat: 3.141600, lng: 101.686000,
       name: 'Kuala Lumpur (115.134.130.134)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -504,7 +504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-50',
-      lat: 1.2879, lng: 103.8507,
+      lat: 1.287200, lng: 103.850700,
       name: 'Singapore (115.66.12.191)',
       city: 'Singapore',
       country: 'Singapore',
@@ -514,7 +514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-51',
-      lat: 1.3563, lng: 103.7542,
+      lat: 1.356300, lng: 103.754200,
       name: 'Singapore (115.66.78.206)',
       city: 'Singapore',
       country: 'Singapore',
@@ -524,7 +524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-52',
-      lat: -31.9474, lng: 115.8648,
+      lat: -31.947400, lng: 115.864800,
       name: 'Perth (115.70.28.128)',
       city: 'Perth',
       country: 'Australia',
@@ -534,7 +534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-53',
-      lat: 10.8231, lng: 106.6269,
+      lat: 10.823100, lng: 106.626900,
       name: 'Ho Chi Minh City (115.73.68.189)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -544,7 +544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-54',
-      lat: 11.3085, lng: 106.0948,
+      lat: 11.308500, lng: 106.094800,
       name: 'Tây Ninh (115.74.160.237)',
       city: 'Tây Ninh',
       country: 'Vietnam',
@@ -554,7 +554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-55',
-      lat: 10.8209, lng: 106.6242,
+      lat: 10.820900, lng: 106.624200,
       name: 'Ho Chi Minh City (115.74.224.136)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -564,7 +564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-56',
-      lat: 10.8237, lng: 106.6251,
+      lat: 10.823700, lng: 106.625100,
       name: 'Ho Chi Minh City (115.74.245.65)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -574,7 +574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-57',
-      lat: 10.8218, lng: 106.6274,
+      lat: 10.821800, lng: 106.627400,
       name: 'Ho Chi Minh City (115.75.10.221)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -584,7 +584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-58',
-      lat: 10.8243, lng: 106.6246,
+      lat: 10.824300, lng: 106.624600,
       name: 'Ho Chi Minh City (115.75.10.243)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -594,7 +594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-59',
-      lat: 10.8203, lng: 106.6268,
+      lat: 10.820300, lng: 106.626800,
       name: 'Ho Chi Minh City (115.75.24.116)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -604,7 +604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-60',
-      lat: 10.8227, lng: 106.6238,
+      lat: 10.822700, lng: 106.623800,
       name: 'Ho Chi Minh City (115.75.4.122)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -614,7 +614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-61',
-      lat: 10.8239, lng: 106.6279,
+      lat: 10.823900, lng: 106.627900,
       name: 'Ho Chi Minh City (115.78.236.37)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -624,7 +624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-62',
-      lat: 10.8211, lng: 106.6285,
+      lat: 10.821100, lng: 106.628500,
       name: 'Ho Chi Minh City (115.79.199.156)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -634,7 +634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-63',
-      lat: 21.0198, lng: 105.8446,
+      lat: 21.019800, lng: 105.844600,
       name: 'Hanoi (116.104.187.244)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -644,7 +644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-64',
-      lat: 10.0368, lng: 105.7950,
+      lat: 10.036800, lng: 105.795000,
       name: 'Can Tho (116.108.76.174)',
       city: 'Can Tho',
       country: 'Vietnam',
@@ -654,7 +654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-65',
-      lat: 16.1682, lng: 107.8318,
+      lat: 16.168200, lng: 107.831800,
       name: 'Unknown (116.109.136.26)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -664,7 +664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-66',
-      lat: 16.06945, lng: 108.2215,
+      lat: 16.068500, lng: 108.221500,
       name: 'Da Nang (116.110.58.8)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -674,7 +674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-67',
-      lat: 16.0691, lng: 108.2222,
+      lat: 16.069100, lng: 108.222200,
       name: 'Da Nang (116.110.87.211)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -684,7 +684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-68',
-      lat: 1.3248, lng: 103.8566,
+      lat: 1.324800, lng: 103.856600,
       name: 'Singapore (116.14.161.59)',
       city: 'Singapore',
       country: 'Singapore',
@@ -694,7 +694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-69',
-      lat: 1.3652, lng: 103.8367,
+      lat: 1.365200, lng: 103.836700,
       name: 'Singapore (116.15.172.209)',
       city: 'Singapore',
       country: 'Singapore',
@@ -704,7 +704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-70',
-      lat: 1.3764, lng: 103.7693,
+      lat: 1.376400, lng: 103.769300,
       name: 'Singapore (116.15.180.177)',
       city: 'Singapore',
       country: 'Singapore',
@@ -714,7 +714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-71',
-      lat: 1.385, lng: 103.7473,
+      lat: 1.385000, lng: 103.747300,
       name: 'Singapore (116.15.63.32)',
       city: 'Singapore',
       country: 'Singapore',
@@ -724,7 +724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-72',
-      lat: 22.2586, lng: 114.1668,
+      lat: 22.258600, lng: 114.166800,
       name: 'Unknown (116.49.136.193)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -734,7 +734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-73',
-      lat: 1.3359, lng: 103.8529,
+      lat: 1.335200, lng: 103.852900,
       name: 'Singapore (116.86.125.213)',
       city: 'Singapore',
       country: 'Singapore',
@@ -744,7 +744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-74',
-      lat: 1.3360, lng: 103.8537,
+      lat: 1.336000, lng: 103.853700,
       name: 'Singapore (116.86.177.175)',
       city: 'Singapore',
       country: 'Singapore',
@@ -754,7 +754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-75',
-      lat: 1.3343, lng: 103.8724,
+      lat: 1.334300, lng: 103.872400,
       name: 'Singapore (116.86.7.225)',
       city: 'Singapore',
       country: 'Singapore',
@@ -764,7 +764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-76',
-      lat: 1.3858, lng: 103.7481,
+      lat: 1.385800, lng: 103.748100,
       name: 'Singapore (116.89.6.142)',
       city: 'Singapore',
       country: 'Singapore',
@@ -774,7 +774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-77',
-      lat: 16.1648, lng: 107.8349,
+      lat: 16.164800, lng: 107.834900,
       name: 'Unknown (116.98.130.232)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -784,7 +784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-78',
-      lat: 16.1691, lng: 107.8327,
+      lat: 16.169100, lng: 107.832700,
       name: 'Unknown (116.98.227.48)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -794,7 +794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-79',
-      lat: 16.1652, lng: 107.8355,
+      lat: 16.165200, lng: 107.835500,
       name: 'Unknown (116.99.196.219)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -804,7 +804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-80',
-      lat: 16.1679, lng: 107.8309,
+      lat: 16.167900, lng: 107.830900,
       name: 'Unknown (116.99.205.18)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -814,7 +814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-81',
-      lat: 16.1641, lng: 107.8315,
+      lat: 16.164100, lng: 107.831500,
       name: 'Unknown (116.99.205.6)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -824,7 +824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-82',
-      lat: 16.1688, lng: 107.8361,
+      lat: 16.168800, lng: 107.836100,
       name: 'Unknown (116.99.207.123)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -834,7 +834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-83',
-      lat: -6.1743, lng: 106.8286,
+      lat: -6.175000, lng: 106.828600,
       name: 'Unknown (117.102.227.134)',
       city: 'Unknown',
       country: 'Indonesia',
@@ -844,7 +844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-84',
-      lat: 16.0677, lng: 108.2206,
+      lat: 16.067700, lng: 108.220600,
       name: 'Da Nang (117.2.152.227)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -854,7 +854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-85',
-      lat: 12.256, lng: 109.1034,
+      lat: 12.255200, lng: 109.103400,
       name: 'Diên Khánh (117.2.17.112)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -864,7 +864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-86',
-      lat: 12.2559, lng: 109.1041,
+      lat: 12.255900, lng: 109.104100,
       name: 'Diên Khánh (117.2.17.36)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -874,7 +874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-87',
-      lat: 12.2545, lng: 109.1027,
+      lat: 12.254500, lng: 109.102700,
       name: 'Diên Khánh (117.2.17.44)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -884,7 +884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-88',
-      lat: 12.2566, lng: 109.1030,
+      lat: 12.256600, lng: 109.103000,
       name: 'Diên Khánh (117.2.17.52)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -894,7 +894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-89',
-      lat: 12.2538, lng: 109.1048,
+      lat: 12.253800, lng: 109.104800,
       name: 'Diên Khánh (117.2.17.53)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -904,7 +904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-90',
-      lat: 12.2561, lng: 109.1054,
+      lat: 12.256100, lng: 109.105400,
       name: 'Diên Khánh (117.2.17.68)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -914,7 +914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-91',
-      lat: 12.2542, lng: 109.1019,
+      lat: 12.254200, lng: 109.101900,
       name: 'Diên Khánh (117.2.17.69)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -924,7 +924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-92',
-      lat: 12.2570, lng: 109.1023,
+      lat: 12.257000, lng: 109.102300,
       name: 'Diên Khánh (117.2.17.71)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -934,7 +934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-93',
-      lat: 12.2533, lng: 109.1036,
+      lat: 12.253300, lng: 109.103600,
       name: 'Diên Khánh (117.2.17.79)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -944,7 +944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-94',
-      lat: 12.2556, lng: 109.1012,
+      lat: 12.255600, lng: 109.101200,
       name: 'Diên Khánh (117.2.17.90)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -954,7 +954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-95',
-      lat: 16.4704, lng: 107.6009,
+      lat: 16.470400, lng: 107.600900,
       name: 'Huế (117.2.186.95)',
       city: 'Huế',
       country: 'Vietnam',
@@ -964,7 +964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-96',
-      lat: 12.2568, lng: 109.1047,
+      lat: 12.256800, lng: 109.104700,
       name: 'Diên Khánh (117.2.22.100)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -974,7 +974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-97',
-      lat: 12.2547, lng: 109.1059,
+      lat: 12.254700, lng: 109.105900,
       name: 'Diên Khánh (117.2.22.24)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -984,7 +984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-98',
-      lat: 12.2574, lng: 109.1015,
+      lat: 12.257400, lng: 109.101500,
       name: 'Diên Khánh (117.2.32.111)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -994,7 +994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-99',
-      lat: 12.2536, lng: 109.1024,
+      lat: 12.253600, lng: 109.102400,
       name: 'Diên Khánh (117.2.32.48)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1004,7 +1004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-100',
-      lat: 12.2551, lng: 109.1063,
+      lat: 12.255100, lng: 109.106300,
       name: 'Diên Khánh (117.2.32.77)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1014,7 +1014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-101',
-      lat: 12.2563, lng: 109.1008,
+      lat: 12.256300, lng: 109.100800,
       name: 'Diên Khánh (117.2.32.78)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1024,7 +1024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-102',
-      lat: 12.2552, lng: 109.1042,
+      lat: 12.256000, lng: 109.103400,
       name: 'Diên Khánh (117.2.38.11)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1034,7 +1034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-103',
-      lat: 12.2544, lng: 109.1034,
+      lat: 12.254800, lng: 109.104093,
       name: 'Diên Khánh (117.2.38.42)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1044,7 +1044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-104',
-      lat: 12.2552, lng: 109.1026,
+      lat: 12.254800, lng: 109.102707,
       name: 'Diên Khánh (117.2.38.58)',
       city: 'Diên Khánh',
       country: 'Vietnam',
@@ -1054,7 +1054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-105',
-      lat: 16.069092, lng: 108.222243,
+      lat: 16.069300, lng: 108.221500,
       name: 'Da Nang (117.3.2.113)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -1064,7 +1064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-106',
-      lat: 21.022282, lng: 105.846471,
+      lat: 21.019200, lng: 105.846100,
       name: 'Hanoi (117.4.104.151)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1074,7 +1074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-107',
-      lat: 21.02223, lng: 105.846838,
+      lat: 21.019196, lng: 105.846177,
       name: 'Hanoi (117.4.104.153)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1084,7 +1084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-108',
-      lat: 21.022142, lng: 105.847199,
+      lat: 21.019185, lng: 105.846254,
       name: 'Hanoi (117.4.104.251)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1094,7 +1094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-109',
-      lat: 21.022021, lng: 105.847549,
+      lat: 21.019167, lng: 105.846329,
       name: 'Hanoi (117.4.107.99)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1104,7 +1104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-110',
-      lat: 21.021866, lng: 105.847887,
+      lat: 21.019141, lng: 105.846402,
       name: 'Hanoi (117.4.115.46)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1114,7 +1114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-111',
-      lat: 21.59545, lng: 105.8432,
+      lat: 21.594100, lng: 105.843200,
       name: 'Thái Nguyên (117.4.130.238)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1124,7 +1124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-112',
-      lat: 21.595333, lng: 105.843749,
+      lat: 21.594900, lng: 105.843200,
       name: 'Thái Nguyên (117.4.130.239)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1134,7 +1134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-113',
-      lat: 21.595003, lng: 105.844203,
+      lat: 21.594821, lng: 105.843547,
       name: 'Thái Nguyên (117.4.131.10)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1144,7 +1144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-114',
-      lat: 21.594517, lng: 105.844484,
+      lat: 21.594599, lng: 105.843825,
       name: 'Thái Nguyên (117.4.145.22)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1154,7 +1154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-115',
-      lat: 21.593959, lng: 105.844543,
+      lat: 21.594278, lng: 105.843980,
       name: 'Thái Nguyên (117.4.146.187)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1164,7 +1164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-116',
-      lat: 21.593425, lng: 105.844369,
+      lat: 21.593922, lng: 105.843980,
       name: 'Thái Nguyên (117.4.147.148)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1174,7 +1174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-117',
-      lat: 21.593008, lng: 105.843994,
+      lat: 21.593601, lng: 105.843825,
       name: 'Thái Nguyên (117.4.147.153)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1184,7 +1184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-118',
-      lat: 21.59278, lng: 105.843481,
+      lat: 21.593379, lng: 105.843547,
       name: 'Thái Nguyên (117.4.147.171)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1194,7 +1194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-119',
-      lat: 21.59278, lng: 105.842919,
+      lat: 21.593300, lng: 105.843200,
       name: 'Thái Nguyên (117.4.186.77)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1204,7 +1204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-120',
-      lat: 21.593008, lng: 105.842406,
+      lat: 21.593379, lng: 105.842853,
       name: 'Thái Nguyên (117.4.187.41)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1214,7 +1214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-121',
-      lat: 21.593425, lng: 105.842031,
+      lat: 21.593601, lng: 105.842575,
       name: 'Thái Nguyên (117.4.187.49)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1224,7 +1224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-122',
-      lat: 21.593959, lng: 105.841857,
+      lat: 21.593922, lng: 105.842420,
       name: 'Thái Nguyên (117.4.187.50)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1234,7 +1234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-123',
-      lat: 21.594517, lng: 105.841916,
+      lat: 21.594278, lng: 105.842420,
       name: 'Thái Nguyên (117.4.187.52)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1244,7 +1244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-124',
-      lat: 21.595003, lng: 105.842197,
+      lat: 21.594599, lng: 105.842575,
       name: 'Thái Nguyên (117.4.187.53)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1254,7 +1254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-125',
-      lat: 21.595333, lng: 105.842651,
+      lat: 21.594821, lng: 105.842853,
       name: 'Thái Nguyên (117.4.187.55)',
       city: 'Thái Nguyên',
       country: 'Vietnam',
@@ -1264,7 +1264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-126',
-      lat: 21.021681, lng: 105.848208,
+      lat: 21.019108, lng: 105.846472,
       name: 'Hanoi (117.4.245.253)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1274,7 +1274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-127',
-      lat: 21.021466, lng: 105.848511,
+      lat: 21.019069, lng: 105.846538,
       name: 'Hanoi (117.4.50.1)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1284,7 +1284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-128',
-      lat: 21.021223, lng: 105.848791,
+      lat: 21.019024, lng: 105.846601,
       name: 'Hanoi (117.4.96.36)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1294,7 +1294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-129',
-      lat: 21.020954, lng: 105.849047,
+      lat: 21.018972, lng: 105.846659,
       name: 'Hanoi (117.4.96.65)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1304,7 +1304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-130',
-      lat: 21.020662, lng: 105.849277,
+      lat: 21.018916, lng: 105.846711,
       name: 'Hanoi (117.4.99.107)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1314,7 +1314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-131',
-      lat: 21.02035, lng: 105.849477,
+      lat: 21.018854, lng: 105.846758,
       name: 'Hanoi (117.4.99.110)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1324,7 +1324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-132',
-      lat: 21.02002, lng: 105.849648,
+      lat: 21.018789, lng: 105.846799,
       name: 'Hanoi (117.4.99.161)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1334,7 +1334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-133',
-      lat: 21.019676, lng: 105.849786,
+      lat: 21.018719, lng: 105.846833,
       name: 'Hanoi (117.4.99.206)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1344,7 +1344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-134',
-      lat: 21.019319, lng: 105.84989,
+      lat: 21.018647, lng: 105.846861,
       name: 'Hanoi (117.4.99.220)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1354,7 +1354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-135',
-      lat: 21.018955, lng: 105.84996,
+      lat: 21.018573, lng: 105.846881,
       name: 'Hanoi (117.4.99.239)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1364,7 +1364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-136',
-      lat: 21.018586, lng: 105.849996,
+      lat: 21.018496, lng: 105.846894,
       name: 'Hanoi (117.6.125.77)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1374,7 +1374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-137',
-      lat: 21.018214, lng: 105.849996,
+      lat: 21.018419, lng: 105.846900,
       name: 'Hanoi (117.6.196.231)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1384,7 +1384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-138',
-      lat: 21.017845, lng: 105.84996,
+      lat: 21.018342, lng: 105.846898,
       name: 'Hanoi (117.7.154.126)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1394,7 +1394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-139',
-      lat: 21.017481, lng: 105.84989,
+      lat: 21.018265, lng: 105.846889,
       name: 'Hanoi (117.7.226.28)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1404,7 +1404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-140',
-      lat: 21.017124, lng: 105.849786,
+      lat: 21.018190, lng: 105.846872,
       name: 'Hanoi (117.7.229.207)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1414,7 +1414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-141',
-      lat: 21.01678, lng: 105.849648,
+      lat: 21.018116, lng: 105.846848,
       name: 'Hanoi (117.7.231.145)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1424,7 +1424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-142',
-      lat: 3.1572, lng: 101.6695,
+      lat: 3.157200, lng: 101.669500,
       name: 'Kuala Lumpur (118.100.222.228)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -1434,7 +1434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-143',
-      lat: 3.1064, lng: 101.6139,
+      lat: 3.107900, lng: 101.613900,
       name: 'Petaling Jaya (118.100.236.103)',
       city: 'Petaling Jaya',
       country: 'Malaysia',
@@ -1444,7 +1444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-144',
-      lat: 1.3739, lng: 103.8431,
+      lat: 1.373200, lng: 103.843100,
       name: 'Singapore (118.200.74.200)',
       city: 'Singapore',
       country: 'Singapore',
@@ -1454,7 +1454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-145',
-      lat: 10.823685, lng: 106.626172,
+      lat: 10.822800, lng: 106.625700,
       name: 'Ho Chi Minh City (118.69.104.105)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1464,7 +1464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-146',
-      lat: 21.01645, lng: 105.849477,
+      lat: 21.018045, lng: 105.846817,
       name: 'Hanoi (118.70.78.145)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1474,7 +1474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-147',
-      lat: 21.016138, lng: 105.849277,
+      lat: 21.017978, lng: 105.846780,
       name: 'Hanoi (118.71.147.117)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1484,7 +1484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-148',
-      lat: 10.823495, lng: 106.626609,
+      lat: 10.822768, lng: 106.625925,
       name: 'Ho Chi Minh City (118.71.22.112)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1494,7 +1494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-149',
-      lat: 4.8859, lng: 114.9468,
+      lat: 4.885200, lng: 114.946800,
       name: 'Bandar Seri Begawan (119.160.139.82)',
       city: 'Bandar Seri Begawan',
       country: 'Brunei',
@@ -1504,7 +1504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-150',
-      lat: 4.8845, lng: 114.9468,
+      lat: 4.886000, lng: 114.946800,
       name: 'Bandar Seri Begawan (119.160.167.182)',
       city: 'Bandar Seri Begawan',
       country: 'Brunei',
@@ -1514,7 +1514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-151',
-      lat: -37.8152, lng: 144.9669,
+      lat: -37.815900, lng: 144.966900,
       name: 'Melbourne (119.18.16.130)',
       city: 'Melbourne',
       country: 'Australia',
@@ -1524,7 +1524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-152',
-      lat: 1.327, lng: 103.8972,
+      lat: 1.327000, lng: 103.897200,
       name: 'Singapore (119.74.150.92)',
       city: 'Singapore',
       country: 'Singapore',
@@ -1534,7 +1534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-153',
-      lat: 29.5689, lng: 106.5577,
+      lat: 29.568900, lng: 106.557700,
       name: 'Chongqing (119.86.180.157)',
       city: 'Chongqing',
       country: 'China',
@@ -1544,7 +1544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-154',
-      lat: 14.5353, lng: 121.0061,
+      lat: 14.535300, lng: 121.006100,
       name: 'Pasay (119.92.29.68)',
       city: 'Pasay',
       country: 'Philippines',
@@ -1554,7 +1554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-155',
-      lat: 35.0427, lng: -120.476,
+      lat: 35.042700, lng: -120.476000,
       name: 'Nipomo (12.69.47.186)',
       city: 'Nipomo',
       country: 'United States',
@@ -1564,7 +1564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-156',
-      lat: 3.0384, lng: 101.7105,
+      lat: 3.038400, lng: 101.710500,
       name: 'Seri Kembangan (121.123.77.79)',
       city: 'Seri Kembangan',
       country: 'Malaysia',
@@ -1574,7 +1574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-157',
-      lat: 22.258839, lng: 114.1663,
+      lat: 22.258600, lng: 114.165700,
       name: 'Unknown (121.202.192.16)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -1584,7 +1584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-158',
-      lat: 22.2584, lng: 114.166739,
+      lat: 22.258473, lng: 114.166133,
       name: 'Unknown (121.202.202.191)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -1594,7 +1594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-159',
-      lat: 1.3051, lng: 103.8447,
+      lat: 1.305100, lng: 103.844700,
       name: 'Singapore (121.6.87.199)',
       city: 'Singapore',
       country: 'Singapore',
@@ -1604,7 +1604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-160',
-      lat: 1.4003, lng: 103.875,
+      lat: 1.400300, lng: 103.875000,
       name: 'Singapore (121.7.80.171)',
       city: 'Singapore',
       country: 'Singapore',
@@ -1614,7 +1614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-161',
-      lat: 1.3596, lng: 103.8637,
+      lat: 1.359600, lng: 103.863700,
       name: 'Singapore (122.11.173.221)',
       city: 'Singapore',
       country: 'Singapore',
@@ -1624,7 +1624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-162',
-      lat: 42.7117, lng: -71.1663,
+      lat: 42.711700, lng: -71.166300,
       name: 'Lawrence (123)',
       city: 'Lawrence',
       country: 'United States',
@@ -1634,7 +1634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-163',
-      lat: 21.015846, lng: 105.849047,
+      lat: 21.017914, lng: 105.846736,
       name: 'Hanoi (123.16.20.113)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1644,7 +1644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-164',
-      lat: 21.015577, lng: 105.848791,
+      lat: 21.017855, lng: 105.846686,
       name: 'Hanoi (123.16.53.211)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1654,7 +1654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-165',
-      lat: 21.015334, lng: 105.848511,
+      lat: 21.017801, lng: 105.846630,
       name: 'Hanoi (123.16.53.30)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1664,7 +1664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-166',
-      lat: 21.015119, lng: 105.848208,
+      lat: 21.017753, lng: 105.846570,
       name: 'Hanoi (123.16.55.136)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1674,7 +1674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-167',
-      lat: 16.068289, lng: 108.222426,
+      lat: 16.068900, lng: 108.222193,
       name: 'Da Nang (123.19.10.185)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -1684,7 +1684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-168',
-      lat: 16.067644, lng: 108.221912,
+      lat: 16.068100, lng: 108.222193,
       name: 'Da Nang (123.19.241.175)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -1694,7 +1694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-169',
-      lat: 10.823194, lng: 106.626979,
+      lat: 10.822673, lng: 106.626133,
       name: 'Ho Chi Minh City (123.21.130.242)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1704,7 +1704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-170',
-      lat: 38.9964, lng: -76.9331,
+      lat: 38.996400, lng: -76.933100,
       name: 'College Park (129.2.150.230)',
       city: 'College Park',
       country: 'United States',
@@ -1714,7 +1714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-171',
-      lat: 43.0818, lng: -87.892,
+      lat: 43.081800, lng: -87.892000,
       name: 'Milwaukee (129.89.78.91)',
       city: 'Milwaukee',
       country: 'United States',
@@ -1724,7 +1724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-172',
-      lat: 40.6568, lng: -75.3912,
+      lat: 40.656800, lng: -75.391200,
       name: 'Bethlehem (131.106.28.59)',
       city: 'Bethlehem',
       country: 'United States',
@@ -1734,7 +1734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-173',
-      lat: 45.4501, lng: -73.2825,
+      lat: 45.450100, lng: -73.282500,
       name: 'Chambly (135.19.188.165)',
       city: 'Chambly',
       country: 'Canada',
@@ -1744,7 +1744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-174',
-      lat: 39.4856, lng: -88.1805,
+      lat: 39.484900, lng: -88.180500,
       name: 'Charleston (135.26.204.109)',
       city: 'Charleston',
       country: 'United States',
@@ -1754,7 +1754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-175',
-      lat: 34.7732, lng: 113.722,
+      lat: 34.773200, lng: 113.722000,
       name: 'Unknown (139.213.32.254)',
       city: 'Unknown',
       country: 'China',
@@ -1764,7 +1764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-176',
-      lat: 10.0354, lng: 105.7941,
+      lat: 10.036900, lng: 105.794100,
       name: 'Can Tho (14.160.132.22)',
       city: 'Can Tho',
       country: 'Vietnam',
@@ -1774,7 +1774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-177',
-      lat: 10.822805, lng: 106.627254,
+      lat: 10.822524, lng: 106.626305,
       name: 'Ho Chi Minh City (14.161.20.20)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1784,7 +1784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-178',
-      lat: 20.85745, lng: 106.6826,
+      lat: 20.856700, lng: 106.682600,
       name: 'Haiphong (14.166.72.15)',
       city: 'Haiphong',
       country: 'Vietnam',
@@ -1794,7 +1794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-179',
-      lat: 10.822356, lng: 106.627413,
+      lat: 10.822332, lng: 106.626428,
       name: 'Ho Chi Minh City (14.172.3.208)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1804,7 +1804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-180',
-      lat: 10.821881, lng: 106.627446,
+      lat: 10.822114, lng: 106.626492,
       name: 'Ho Chi Minh City (14.176.240.53)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1814,7 +1814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-181',
-      lat: 10.821414, lng: 106.627349,
+      lat: 10.821886, lng: 106.626492,
       name: 'Ho Chi Minh City (14.179.234.68)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1824,7 +1824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-182',
-      lat: 16.166, lng: 107.8333,
+      lat: 16.167500, lng: 107.833300,
       name: 'Unknown (14.183.128.248)',
       city: 'Unknown',
       country: 'Vietnam',
@@ -1834,7 +1834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-183',
-      lat: 10.7609, lng: 106.6633,
+      lat: 10.760900, lng: 106.663300,
       name: 'Quận Mười (14.227.227.83)',
       city: 'Quận Mười',
       country: 'Vietnam',
@@ -1844,7 +1844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-184',
-      lat: 10.820991, lng: 106.62713,
+      lat: 10.821668, lng: 106.626428,
       name: 'Ho Chi Minh City (14.237.197.93)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -1854,7 +1854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-185',
-      lat: 21.014934, lng: 105.847887,
+      lat: 21.017710, lng: 105.846506,
       name: 'Hanoi (14.241.108.148)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1864,7 +1864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-186',
-      lat: 21.014779, lng: 105.847549,
+      lat: 21.017675, lng: 105.846437,
       name: 'Hanoi (14.241.110.158)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1874,7 +1874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-187',
-      lat: 21.014658, lng: 105.847199,
+      lat: 21.017645, lng: 105.846366,
       name: 'Hanoi (14.241.110.243)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -1884,7 +1884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-188',
-      lat: 16.067644, lng: 108.221088,
+      lat: 16.067700, lng: 108.221500,
       name: 'Da Nang (14.243.80.55)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -1894,7 +1894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-189',
-      lat: 16.068289, lng: 108.220574,
+      lat: 16.068100, lng: 108.220807,
       name: 'Da Nang (14.245.255.38)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -1904,7 +1904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-190',
-      lat: 42.0755, lng: -76.0089,
+      lat: 42.075500, lng: -76.008900,
       name: 'Vestal (142.105.217.25)',
       city: 'Vestal',
       country: 'United States',
@@ -1914,7 +1914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-191',
-      lat: 44.6814, lng: -63.6571,
+      lat: 44.681400, lng: -63.657100,
       name: 'Halifax (142.177.83.101)',
       city: 'Halifax',
       country: 'Canada',
@@ -1924,7 +1924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-192',
-      lat: 43.7987, lng: -79.4816,
+      lat: 43.798700, lng: -79.481600,
       name: 'Concord (142.180.224.40)',
       city: 'Concord',
       country: 'Canada',
@@ -1934,7 +1934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-193',
-      lat: 44.6561, lng: -63.6589,
+      lat: 44.656100, lng: -63.658900,
       name: 'Halifax (142.67.218.206)',
       city: 'Halifax',
       country: 'Canada',
@@ -1944,7 +1944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-194',
-      lat: 53.2588, lng: -2.5202,
+      lat: 53.258800, lng: -2.520200,
       name: 'Northwich (143.159.123.29)',
       city: 'Northwich',
       country: 'United Kingdom',
@@ -1954,7 +1954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-195',
-      lat: -33.8672, lng: 151.1997,
+      lat: -33.867200, lng: 151.199700,
       name: 'Sydney (144.137.217.12)',
       city: 'Sydney',
       country: 'Australia',
@@ -1964,7 +1964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-196',
-      lat: -33.8582, lng: 151.127,
+      lat: -33.858200, lng: 151.127000,
       name: 'Sydney (144.139.107.222)',
       city: 'Sydney',
       country: 'Australia',
@@ -1974,7 +1974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-197',
-      lat: 52.6681, lng: -0.9966,
+      lat: 52.668100, lng: -0.996600,
       name: 'Leicestershire (146.198.24.68)',
       city: 'Leicestershire',
       country: 'United Kingdom',
@@ -1984,7 +1984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-198',
-      lat: 52.9687, lng: -1.0889,
+      lat: 52.968700, lng: -1.088900,
       name: 'Nottingham (146.199.132.123)',
       city: 'Nottingham',
       country: 'United Kingdom',
@@ -1994,7 +1994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-199',
-      lat: 32.3269, lng: 34.9815,
+      lat: 32.326900, lng: 34.981500,
       name: 'Olesh (147.234.90.95)',
       city: 'Olesh',
       country: 'Israel',
@@ -2004,7 +2004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-200',
-      lat: 32.080992, lng: 34.781443,
+      lat: 32.081200, lng: 34.780700,
       name: 'Tel Aviv (147.235.49.166)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -2014,7 +2014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-201',
-      lat: 36.8806, lng: -88.3548,
+      lat: 36.880600, lng: -88.354800,
       name: 'Benton (148.66.188.18)',
       city: 'Benton',
       country: 'United States',
@@ -2024,7 +2024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-202',
-      lat: 52.7004, lng: -2.0269,
+      lat: 52.700400, lng: -2.026900,
       name: 'Cannock (149.102.183.214)',
       city: 'Cannock',
       country: 'United Kingdom',
@@ -2034,7 +2034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-203',
-      lat: 47.6137, lng: -122.3104,
+      lat: 47.613700, lng: -122.310400,
       name: 'Seattle (152.44.196.132)',
       city: 'Seattle',
       country: 'United States',
@@ -2044,7 +2044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-204',
-      lat: 32.3485, lng: -97.3311,
+      lat: 32.348500, lng: -97.331100,
       name: 'Cleburne (156.146.189.215)',
       city: 'Cleburne',
       country: 'United States',
@@ -2054,7 +2054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-205',
-      lat: 39.4842, lng: -88.1805,
+      lat: 39.485700, lng: -88.180500,
       name: 'Charleston (156.47.38.44)',
       city: 'Charleston',
       country: 'United States',
@@ -2064,7 +2064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-206',
-      lat: -37.9094, lng: 145.0348,
+      lat: -37.909400, lng: 145.034800,
       name: 'Melbourne (157.211.19.179)',
       city: 'Melbourne',
       country: 'Australia',
@@ -2074,7 +2074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-207',
-      lat: 22.2578, lng: 114.1669,
+      lat: 22.258132, lng: 114.166428,
       name: 'Unknown (161.81.120.6)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -2084,7 +2084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-208',
-      lat: 22.2572, lng: 114.166739,
+      lat: 22.257686, lng: 114.166492,
       name: 'Unknown (161.81.120.8)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -2094,7 +2094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-209',
-      lat: 22.256761, lng: 114.1663,
+      lat: 22.257276, lng: 114.166305,
       name: 'Unknown (161.81.123.231)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -2104,7 +2104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-210',
-      lat: 37.751, lng: -97.822,
+      lat: 37.751000, lng: -97.822000,
       name: 'Unknown (162.172.56.21)',
       city: 'Unknown',
       country: 'United States',
@@ -2114,7 +2114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-211',
-      lat: 44.842, lng: -74.401,
+      lat: 44.842000, lng: -74.401000,
       name: 'North Bangor (162.211.174.9)',
       city: 'North Bangor',
       country: 'United States',
@@ -2124,7 +2124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-212',
-      lat: 35.6211, lng: -90.8984,
+      lat: 35.620400, lng: -90.898400,
       name: 'Weiner (162.244.48.17)',
       city: 'Weiner',
       country: 'United States',
@@ -2134,7 +2134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-213',
-      lat: 35.6197, lng: -90.8984,
+      lat: 35.621200, lng: -90.898400,
       name: 'Weiner (162.244.48.18)',
       city: 'Weiner',
       country: 'United States',
@@ -2144,7 +2144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-214',
-      lat: 38.9924, lng: -84.6462,
+      lat: 38.992400, lng: -84.646200,
       name: 'Florence (163.182.119.251)',
       city: 'Florence',
       country: 'United States',
@@ -2154,7 +2154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-215',
-      lat: 34.1852, lng: -82.3778,
+      lat: 34.185200, lng: -82.377800,
       name: 'Abbeville (165.166.235.6)',
       city: 'Abbeville',
       country: 'United States',
@@ -2164,7 +2164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-216',
-      lat: 37.5202, lng: -122.2758,
+      lat: 37.520200, lng: -122.275800,
       name: 'Belmont (166.147.150.170)',
       city: 'Belmont',
       country: 'United States',
@@ -2174,7 +2174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-217',
-      lat: 26.4343, lng: 50.1116,
+      lat: 26.433600, lng: 50.111600,
       name: 'Dammam (167.86.170.20)',
       city: 'Dammam',
       country: 'Saudi Arabia',
@@ -2184,7 +2184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-218',
-      lat: 35.5045, lng: -84.8056,
+      lat: 35.504500, lng: -84.805600,
       name: 'Decatur (168.245.168.34)',
       city: 'Decatur',
       country: 'United States',
@@ -2194,7 +2194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-219',
-      lat: 51.8873, lng: 0.8638,
+      lat: 51.887300, lng: 0.863800,
       name: 'Colchester (168.86.206.13)',
       city: 'Colchester',
       country: 'United Kingdom',
@@ -2204,7 +2204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-220',
-      lat: 8.9948, lng: -79.523,
+      lat: 8.994800, lng: -79.523000,
       name: 'Panama City (170.247.154.248)',
       city: 'Panama City',
       country: 'Panama',
@@ -2214,7 +2214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-221',
-      lat: 30.6035, lng: -87.9036,
+      lat: 30.603500, lng: -87.903600,
       name: 'Daphne (170.249.152.2)',
       city: 'Daphne',
       country: 'United States',
@@ -2224,7 +2224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-222',
-      lat: 13.97985, lng: 108.0049,
+      lat: 13.979100, lng: 108.004900,
       name: 'Pleiku (171.231.144.188)',
       city: 'Pleiku',
       country: 'Vietnam',
@@ -2234,7 +2234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-223',
-      lat: 13.978725, lng: 108.00555,
+      lat: 13.979900, lng: 108.004900,
       name: 'Pleiku (171.231.33.23)',
       city: 'Pleiku',
       country: 'Vietnam',
@@ -2244,7 +2244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-224',
-      lat: 13.978725, lng: 108.00425,
+      lat: 13.978300, lng: 108.004900,
       name: 'Pleiku (171.231.60.69)',
       city: 'Pleiku',
       country: 'Vietnam',
@@ -2254,7 +2254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-225',
-      lat: 10.820643, lng: 106.626804,
+      lat: 10.821476, lng: 106.626305,
       name: 'Ho Chi Minh City (171.235.110.223)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -2264,7 +2264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-226',
-      lat: 10.820395, lng: 106.626397,
+      lat: 10.821327, lng: 106.626133,
       name: 'Ho Chi Minh City (171.235.76.114)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -2274,7 +2274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-227',
-      lat: 10.820266, lng: 106.625938,
+      lat: 10.821232, lng: 106.625925,
       name: 'Ho Chi Minh City (171.243.173.87)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -2284,7 +2284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-228',
-      lat: 10.820266, lng: 106.625462,
+      lat: 10.821200, lng: 106.625700,
       name: 'Ho Chi Minh City (171.243.190.208)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -2294,7 +2294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-229',
-      lat: 20.856325, lng: 106.68325,
+      lat: 20.857500, lng: 106.682600,
       name: 'Haiphong (171.245.100.224)',
       city: 'Haiphong',
       country: 'Vietnam',
@@ -2304,7 +2304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-230',
-      lat: 20.856325, lng: 106.68195,
+      lat: 20.855900, lng: 106.682600,
       name: 'Haiphong (171.245.101.175)',
       city: 'Haiphong',
       country: 'Vietnam',
@@ -2314,7 +2314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-231',
-      lat: 10.820395, lng: 106.625003,
+      lat: 10.821232, lng: 106.625475,
       name: 'Ho Chi Minh City (171.246.103.10)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -2324,7 +2324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-232',
-      lat: 10.0323, lng: 105.7639,
+      lat: 10.032300, lng: 105.763900,
       name: 'Quận Ninh Kiều (171.246.79.142)',
       city: 'Quận Ninh Kiều',
       country: 'Vietnam',
@@ -2334,7 +2334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-233',
-      lat: 13.7326, lng: 100.539,
+      lat: 13.732600, lng: 100.539000,
       name: 'Bangkok (171.7.102.234)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -2344,7 +2344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-234',
-      lat: 13.709725, lng: 100.45495,
+      lat: 13.710900, lng: 100.454300,
       name: 'Bangkok (171.7.131.146)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -2354,7 +2354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-235',
-      lat: 33.8041, lng: -118.1874,
+      lat: 33.804100, lng: -118.187400,
       name: 'Long Beach (172.222.156.183)',
       city: 'Long Beach',
       country: 'United States',
@@ -2364,7 +2364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-236',
-      lat: 30.1569, lng: -95.7414,
+      lat: 30.156900, lng: -95.741400,
       name: 'Magnolia (172.7.4.184)',
       city: 'Magnolia',
       country: 'United States',
@@ -2374,7 +2374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-237',
-      lat: 42.3498, lng: -71.0765,
+      lat: 42.349800, lng: -71.076500,
       name: 'Boston (173.162.234.25)',
       city: 'Boston',
       country: 'United States',
@@ -2384,7 +2384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-238',
-      lat: 26.3798, lng: -98.8203,
+      lat: 26.379800, lng: -98.820300,
       name: 'Rio Grande City (173.173.164.7)',
       city: 'Rio Grande City',
       country: 'United States',
@@ -2394,7 +2394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-239',
-      lat: 49.324, lng: -123.0827,
+      lat: 49.324000, lng: -123.082700,
       name: 'North Vancouver (173.180.168.59)',
       city: 'North Vancouver',
       country: 'Canada',
@@ -2404,7 +2404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-240',
-      lat: 41.4038, lng: -95.0137,
+      lat: 41.403800, lng: -95.013700,
       name: 'Atlantic (173.19.123.25)',
       city: 'Atlantic',
       country: 'United States',
@@ -2414,7 +2414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-241',
-      lat: 40.731, lng: -73.6742,
+      lat: 40.731000, lng: -73.674200,
       name: 'New Hyde Park (173.2.125.83)',
       city: 'New Hyde Park',
       country: 'United States',
@@ -2424,7 +2424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-242',
-      lat: 42.677, lng: -91.9181,
+      lat: 42.677000, lng: -91.918100,
       name: 'Oelwein (173.23.66.78)',
       city: 'Oelwein',
       country: 'United States',
@@ -2434,7 +2434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-243',
-      lat: 42.8978, lng: -78.9364,
+      lat: 42.897800, lng: -78.936400,
       name: 'Fort Erie (173.238.75.210)',
       city: 'Fort Erie',
       country: 'Canada',
@@ -2444,7 +2444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-244',
-      lat: 42.9966, lng: -79.2586,
+      lat: 42.996600, lng: -79.258600,
       name: 'Welland (173.238.9.77)',
       city: 'Welland',
       country: 'Canada',
@@ -2454,7 +2454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-245',
-      lat: 40.9026, lng: -74.0613,
+      lat: 40.902600, lng: -74.061300,
       name: 'Maywood (173.63.30.98)',
       city: 'Maywood',
       country: 'United States',
@@ -2464,7 +2464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-246',
-      lat: 38.1638, lng: -77.6811,
+      lat: 38.163800, lng: -77.681100,
       name: 'Spotsylvania (173.72.146.209)',
       city: 'Spotsylvania',
       country: 'United States',
@@ -2474,7 +2474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-247',
-      lat: 38.9064, lng: -77.1278,
+      lat: 38.906400, lng: -77.127800,
       name: 'Arlington (173.73.188.125)',
       city: 'Arlington',
       country: 'United States',
@@ -2484,7 +2484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-248',
-      lat: 50.5208, lng: -116.0247,
+      lat: 50.520800, lng: -116.024700,
       name: 'Invermere (174.0.73.55)',
       city: 'Invermere',
       country: 'Canada',
@@ -2494,7 +2494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-249',
-      lat: 42.1087, lng: -79.9535,
+      lat: 42.108700, lng: -79.953500,
       name: 'Erie (174.104.34.9)',
       city: 'Erie',
       country: 'United States',
@@ -2504,7 +2504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-250',
-      lat: 44.8098, lng: -73.0918,
+      lat: 44.809800, lng: -73.091800,
       name: 'Saint Albans (174.169.252.211)',
       city: 'Saint Albans',
       country: 'United States',
@@ -2514,7 +2514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-251',
-      lat: 46.6099, lng: -112.0244,
+      lat: 46.609900, lng: -112.024400,
       name: 'Helena (174.45.101.134)',
       city: 'Helena',
       country: 'United States',
@@ -2524,7 +2524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-252',
-      lat: 39.6899, lng: -105.0986,
+      lat: 39.689900, lng: -105.098600,
       name: 'Lakewood (174.51.187.247)',
       city: 'Lakewood',
       country: 'United States',
@@ -2534,7 +2534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-253',
-      lat: 30.3959, lng: -86.4683,
+      lat: 30.395900, lng: -86.468300,
       name: 'Destin (174.69.1.77)',
       city: 'Destin',
       country: 'United States',
@@ -2544,7 +2544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-254',
-      lat: 42.7935, lng: -83.6983,
+      lat: 42.793500, lng: -83.698300,
       name: 'Fenton (174.84.72.180)',
       city: 'Fenton',
       country: 'United States',
@@ -2554,7 +2554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-255',
-      lat: 38.8003, lng: -90.6265,
+      lat: 38.800300, lng: -90.626500,
       name: 'City of Saint Peters (174.86.224.190)',
       city: 'City of Saint Peters',
       country: 'United States',
@@ -2564,7 +2564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-256',
-      lat: 11.559, lng: 104.9121,
+      lat: 11.558300, lng: 104.912100,
       name: 'Phnom Penh (175.100.21.248)',
       city: 'Phnom Penh',
       country: 'Cambodia',
@@ -2574,7 +2574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-257',
-      lat: 3.14125, lng: 101.685979,
+      lat: 3.141600, lng: 101.685200,
       name: 'Kuala Lumpur (175.137.118.29)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -2584,7 +2584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-258',
-      lat: 3.14035, lng: 101.685979,
+      lat: 3.141047, lng: 101.685961,
       name: 'Kuala Lumpur (175.137.14.120)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -2594,7 +2594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-259',
-      lat: 3.1399, lng: 101.6852,
+      lat: 3.140153, lng: 101.685670,
       name: 'Kuala Lumpur (175.138.105.38)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -2604,7 +2604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-260',
-      lat: 3.14035, lng: 101.684421,
+      lat: 3.140153, lng: 101.684730,
       name: 'Kuala Lumpur (175.138.49.120)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -2614,7 +2614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-261',
-      lat: 3.14125, lng: 101.684421,
+      lat: 3.141047, lng: 101.684439,
       name: 'Kuala Lumpur (175.139.224.9)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -2624,7 +2624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-262',
-      lat: 3.0662, lng: 101.6189,
+      lat: 3.066200, lng: 101.618900,
       name: 'Puchong Batu Dua Belas (175.143.192.125)',
       city: 'Puchong Batu Dua Belas',
       country: 'Malaysia',
@@ -2634,7 +2634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-263',
-      lat: -33.9158, lng: 151.0348,
+      lat: -33.915800, lng: 151.034800,
       name: 'Sydney (175.32.164.79)',
       city: 'Sydney',
       country: 'Australia',
@@ -2644,7 +2644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-264',
-      lat: 21.492, lng: 39.1841,
+      lat: 21.491300, lng: 39.184100,
       name: 'Jeddah (176.224.212.140)',
       city: 'Jeddah',
       country: 'Saudi Arabia',
@@ -2654,7 +2654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-265',
-      lat: 21.4906, lng: 39.1841,
+      lat: 21.492100, lng: 39.184100,
       name: 'Jeddah (176.224.57.242)',
       city: 'Jeddah',
       country: 'Saudi Arabia',
@@ -2664,7 +2664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-266',
-      lat: 53.4096, lng: -2.9792,
+      lat: 53.409600, lng: -2.979200,
       name: 'Liverpool (176.24.12.155)',
       city: 'Liverpool',
       country: 'United Kingdom',
@@ -2674,7 +2674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-267',
-      lat: 53.3634, lng: -6.2342,
+      lat: 53.362700, lng: -6.234200,
       name: 'Dublin (176.61.32.47)',
       city: 'Dublin',
       country: 'Ireland',
@@ -2684,7 +2684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-268',
-      lat: 52.6049, lng: -1.1488,
+      lat: 52.604900, lng: -1.148800,
       name: 'Leicester (178.17.246.33)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -2694,7 +2694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-269',
-      lat: 31.9223, lng: 35.2033,
+      lat: 31.921600, lng: 35.203300,
       name: 'Unknown (178.214.73.210)',
       city: 'Unknown',
       country: 'Palestine',
@@ -2704,7 +2704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-270',
-      lat: 26.4329, lng: 50.1116,
+      lat: 26.434400, lng: 50.111600,
       name: 'Dammam (178.80.35.173)',
       city: 'Dammam',
       country: 'Saudi Arabia',
@@ -2714,7 +2714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-271',
-      lat: 43.2525, lng: 76.9115,
+      lat: 43.252500, lng: 76.911500,
       name: 'Almaty (178.89.247.144)',
       city: 'Almaty',
       country: 'Kazakhstan',
@@ -2724,7 +2724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-272',
-      lat: -7.254, lng: 112.7265,
+      lat: -7.254000, lng: 112.726500,
       name: 'Surabaya (180.247.81.42)',
       city: 'Surabaya',
       country: 'Indonesia',
@@ -2734,7 +2734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-273',
-      lat: 22.2566, lng: 114.1657,
+      lat: 22.257032, lng: 114.165925,
       name: 'Unknown (182.239.108.52)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -2744,7 +2744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-274',
-      lat: 13.8582, lng: 100.478,
+      lat: 13.858200, lng: 100.478000,
       name: 'Bangkok (182.53.65.108)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -2754,7 +2754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-275',
-      lat: 22.317, lng: 114.1842,
+      lat: 22.316300, lng: 114.184200,
       name: 'To Kwa Wan (183.179.50.93)',
       city: 'To Kwa Wan',
       country: 'Hong Kong',
@@ -2764,7 +2764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-276',
-      lat: 45.4348, lng: -73.8629,
+      lat: 45.434800, lng: -73.862900,
       name: 'Beaconsfield (184.163.89.197)',
       city: 'Beaconsfield',
       country: 'Canada',
@@ -2774,7 +2774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-277',
-      lat: 34.8542, lng: -84.3279,
+      lat: 34.854200, lng: -84.327900,
       name: 'Blue Ridge (184.60.75.201)',
       city: 'Blue Ridge',
       country: 'United States',
@@ -2784,7 +2784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-278',
-      lat: 51.126, lng: -114.1437,
+      lat: 51.126000, lng: -114.143700,
       name: 'Calgary (184.64.42.255)',
       city: 'Calgary',
       country: 'Canada',
@@ -2794,7 +2794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-279',
-      lat: 49.2773, lng: -123.0679,
+      lat: 49.277300, lng: -123.067900,
       name: 'Vancouver (184.71.187.50)',
       city: 'Vancouver',
       country: 'Canada',
@@ -2804,7 +2804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-280',
-      lat: 13.0508, lng: 100.9367,
+      lat: 13.050800, lng: 100.936700,
       name: 'Bang Lamung (184.82.136.47)',
       city: 'Bang Lamung',
       country: 'Thailand',
@@ -2814,7 +2814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-281',
-      lat: 55.7386, lng: 37.6068,
+      lat: 55.738600, lng: 37.606800,
       name: 'Unknown (185.232.137.243)',
       city: 'Unknown',
       country: 'Russia',
@@ -2824,7 +2824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-282',
-      lat: 43.5997, lng: 39.7293,
+      lat: 43.599700, lng: 39.729300,
       name: 'Sochi (185.30.117.247)',
       city: 'Sochi',
       country: 'Russia',
@@ -2834,7 +2834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-283',
-      lat: 38.1228, lng: -121.2543,
+      lat: 38.122800, lng: -121.254300,
       name: 'Lodi (192.196.210.53)',
       city: 'Lodi',
       country: 'United States',
@@ -2844,7 +2844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-284',
-      lat: 39.0705, lng: -84.516,
+      lat: 39.070500, lng: -84.516000,
       name: 'Covington (192.24.188.252)',
       city: 'Covington',
       country: 'United States',
@@ -2854,7 +2854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-285',
-      lat: -37.8166, lng: 144.9669,
+      lat: -37.815100, lng: 144.966900,
       name: 'Melbourne (193.114.144.150)',
       city: 'Melbourne',
       country: 'Australia',
@@ -2864,7 +2864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-286',
-      lat: 53.7827, lng: -0.3189,
+      lat: 53.782700, lng: -0.318900,
       name: 'Hull (194.207.157.69)',
       city: 'Hull',
       country: 'United Kingdom',
@@ -2874,7 +2874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-287',
-      lat: -37.8545, lng: 144.9594,
+      lat: -37.854500, lng: 144.959400,
       name: 'Melbourne (194.223.19.140)',
       city: 'Melbourne',
       country: 'Australia',
@@ -2884,7 +2884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-288',
-      lat: 40.0565, lng: -86.0159,
+      lat: 40.056500, lng: -86.015900,
       name: 'Noblesville (195.252.204.147)',
       city: 'Noblesville',
       country: 'United States',
@@ -2894,7 +2894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-289',
-      lat: 34.0481, lng: -118.2531,
+      lat: 34.048100, lng: -118.253100,
       name: 'Los Angeles (198.2.57.25)',
       city: 'Los Angeles',
       country: 'United States',
@@ -2904,7 +2904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-290',
-      lat: 49.5319, lng: -124.6735,
+      lat: 49.531900, lng: -124.673500,
       name: 'Hornby Island (198.54.212.173)',
       city: 'Hornby Island',
       country: 'Canada',
@@ -2914,7 +2914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-291',
-      lat: 39.4561, lng: -98.1062,
+      lat: 39.456100, lng: -98.106200,
       name: 'Beloit (198.59.139.199)',
       city: 'Beloit',
       country: 'United States',
@@ -2924,7 +2924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-292',
-      lat: 44.8243, lng: -89.1662,
+      lat: 44.824300, lng: -89.166200,
       name: 'Wittenberg (199.127.177.156)',
       city: 'Wittenberg',
       country: 'United States',
@@ -2934,7 +2934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-293',
-      lat: 42.6713, lng: -89.007,
+      lat: 42.671300, lng: -89.007000,
       name: 'Janesville (199.71.226.236)',
       city: 'Janesville',
       country: 'United States',
@@ -2944,7 +2944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-294',
-      lat: 54.58, lng: -5.928,
+      lat: 54.580000, lng: -5.928000,
       name: 'Belfast (2.122.32.250)',
       city: 'Belfast',
       country: 'United Kingdom',
@@ -2954,7 +2954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-295',
-      lat: 51.8812, lng: 0.5545,
+      lat: 51.881200, lng: 0.554500,
       name: 'Braintree (2.123.172.129)',
       city: 'Braintree',
       country: 'United Kingdom',
@@ -2964,7 +2964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-296',
-      lat: 25.0741, lng: 55.2979,
+      lat: 25.073400, lng: 55.297900,
       name: 'Dubai (2.51.169.166)',
       city: 'Dubai',
       country: 'United Arab Emirates',
@@ -2974,7 +2974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-297',
-      lat: 52.5279, lng: -2.0705,
+      lat: 52.527900, lng: -2.070500,
       name: 'Tipton (2.97.222.69)',
       city: 'Tipton',
       country: 'United Kingdom',
@@ -2984,7 +2984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-298',
-      lat: 11.5641, lng: 104.9644,
+      lat: 11.563400, lng: 104.964400,
       name: 'Phumĭ Kândal (202.178.125.183)',
       city: 'Phumĭ Kândal',
       country: 'Cambodia',
@@ -2994,7 +2994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-299',
-      lat: 3.1619, lng: 101.5576,
+      lat: 3.161200, lng: 101.557600,
       name: 'Shah Alam (202.185.213.163)',
       city: 'Shah Alam',
       country: 'Malaysia',
@@ -3004,7 +3004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-300',
-      lat: 3.1605, lng: 101.5576,
+      lat: 3.162000, lng: 101.557600,
       name: 'Shah Alam (202.185.228.143)',
       city: 'Shah Alam',
       country: 'Malaysia',
@@ -3014,7 +3014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-301',
-      lat: 3.1686, lng: 101.7035,
+      lat: 3.168600, lng: 101.703500,
       name: 'Kuala Lumpur (202.187.32.180)',
       city: 'Kuala Lumpur',
       country: 'Malaysia',
@@ -3024,7 +3024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-302',
-      lat: 3.107, lng: 101.6344,
+      lat: 3.107000, lng: 101.634400,
       name: 'Petaling Jaya (202.188.54.226)',
       city: 'Petaling Jaya',
       country: 'Malaysia',
@@ -3034,7 +3034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-303',
-      lat: -6.1757, lng: 106.8286,
+      lat: -6.174200, lng: 106.828600,
       name: 'Unknown (202.57.28.98)',
       city: 'Unknown',
       country: 'Indonesia',
@@ -3044,7 +3044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-304',
-      lat: 39.0234, lng: -104.6926,
+      lat: 39.023400, lng: -104.692600,
       name: 'Colorado Springs (203.24.247.132)',
       city: 'Colorado Springs',
       country: 'United States',
@@ -3054,7 +3054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-305',
-      lat: 31.9209, lng: 35.2033,
+      lat: 31.922400, lng: 35.203300,
       name: 'Unknown (203.30.107.199)',
       city: 'Unknown',
       country: 'Palestine',
@@ -3064,7 +3064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-306',
-      lat: -37.8024, lng: 144.9659,
+      lat: -37.802400, lng: 144.965900,
       name: 'Melbourne (203.87.76.139)',
       city: 'Melbourne',
       country: 'Australia',
@@ -3074,7 +3074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-307',
-      lat: 38.2812, lng: -80.8526,
+      lat: 38.281200, lng: -80.852600,
       name: 'Summersville (204.111.101.42)',
       city: 'Summersville',
       country: 'United States',
@@ -3084,7 +3084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-308',
-      lat: 25.5333, lng: -80.3973,
+      lat: 25.533300, lng: -80.397300,
       name: 'Homestead (204.232.105.85)',
       city: 'Homestead',
       country: 'United States',
@@ -3094,7 +3094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-309',
-      lat: 46.358, lng: -94.2008,
+      lat: 46.358000, lng: -94.200800,
       name: 'Brainerd (205.214.170.206)',
       city: 'Brainerd',
       country: 'United States',
@@ -3104,7 +3104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-310',
-      lat: 39.2458, lng: -106.3003,
+      lat: 39.245800, lng: -106.300300,
       name: 'Leadville (206.124.15.110)',
       city: 'Leadville',
       country: 'United States',
@@ -3114,7 +3114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-311',
-      lat: 52.1344, lng: -106.6537,
+      lat: 52.134400, lng: -106.653700,
       name: 'Saskatoon (206.163.245.209)',
       city: 'Saskatoon',
       country: 'Canada',
@@ -3124,7 +3124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-312',
-      lat: 44.9015, lng: -93.3719,
+      lat: 44.901500, lng: -93.371900,
       name: 'Minneapolis (206.188.237.148)',
       city: 'Minneapolis',
       country: 'United States',
@@ -3134,7 +3134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-313',
-      lat: 44.7809, lng: -117.8267,
+      lat: 44.780900, lng: -117.826700,
       name: 'Baker City (206.192.246.245)',
       city: 'Baker City',
       country: 'United States',
@@ -3144,7 +3144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-314',
-      lat: 34.5268, lng: -92.9587,
+      lat: 34.526800, lng: -92.958700,
       name: 'Hot Springs (206.255.48.13)',
       city: 'Hot Springs',
       country: 'United States',
@@ -3154,7 +3154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-315',
-      lat: 43.5468, lng: -90.8958,
+      lat: 43.546800, lng: -90.895800,
       name: 'Viroqua (207.190.71.83)',
       city: 'Viroqua',
       country: 'United States',
@@ -3164,7 +3164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-316',
-      lat: 42.0266, lng: -96.0972,
+      lat: 42.026600, lng: -96.097200,
       name: 'Onawa (207.28.200.21)',
       city: 'Onawa',
       country: 'United States',
@@ -3174,7 +3174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-317',
-      lat: 32.2838, lng: -83.4721,
+      lat: 32.283800, lng: -83.472100,
       name: 'Hawkinsville (207.5.48.174)',
       city: 'Hawkinsville',
       country: 'United States',
@@ -3184,7 +3184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-318',
-      lat: 48.1172, lng: -96.1769,
+      lat: 48.117200, lng: -96.176900,
       name: 'Thief River Falls (208.101.227.48)',
       city: 'Thief River Falls',
       country: 'United States',
@@ -3194,7 +3194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-319',
-      lat: 38.9931, lng: -105.0603,
+      lat: 38.993100, lng: -105.060300,
       name: 'Woodland Park (208.85.182.162)',
       city: 'Woodland Park',
       country: 'United States',
@@ -3204,7 +3204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-320',
-      lat: 46.5199, lng: -80.9385,
+      lat: 46.519900, lng: -80.938500,
       name: 'Greater Sudbury (208.96.66.111)',
       city: 'Greater Sudbury',
       country: 'Canada',
@@ -3214,7 +3214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-321',
-      lat: 34.706, lng: -112.0049,
+      lat: 34.706000, lng: -112.004900,
       name: 'Cottonwood (209.181.186.185)',
       city: 'Cottonwood',
       country: 'United States',
@@ -3224,7 +3224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-322',
-      lat: 49.8432, lng: -97.1141,
+      lat: 49.843200, lng: -97.114100,
       name: 'Winnipeg (209.202.24.79)',
       city: 'Winnipeg',
       country: 'Canada',
@@ -3234,7 +3234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-323',
-      lat: 34.4976, lng: -82.0086,
+      lat: 34.497600, lng: -82.008600,
       name: 'Laurens (209.213.27.42)',
       city: 'Laurens',
       country: 'United States',
@@ -3244,7 +3244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-324',
-      lat: 53.6327, lng: -113.6363,
+      lat: 53.632000, lng: -113.636300,
       name: 'St. Albert (209.89.8.66)',
       city: 'St. Albert',
       country: 'Canada',
@@ -3254,7 +3254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-325',
-      lat: 14.5185, lng: 121.0689,
+      lat: 14.518500, lng: 121.068900,
       name: 'Taguig (210.213.85.35)',
       city: 'Taguig',
       country: 'Philippines',
@@ -3264,7 +3264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-326',
-      lat: 52.257, lng: -0.6289,
+      lat: 52.257000, lng: -0.628900,
       name: 'Wellingborough (212.159.89.201)',
       city: 'Wellingborough',
       country: 'United Kingdom',
@@ -3274,7 +3274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-327',
-      lat: 51.5435, lng: -0.1733,
+      lat: 51.543500, lng: -0.173300,
       name: 'Camden (212.56.113.210)',
       city: 'Camden',
       country: 'United Kingdom',
@@ -3284,7 +3284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-328',
-      lat: 51.4971, lng: -0.1224,
+      lat: 51.496400, lng: -0.122400,
       name: 'Unknown (213.122.20.71)',
       city: 'Unknown',
       country: 'United Kingdom',
@@ -3294,7 +3294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-329',
-      lat: 32.0123, lng: 34.7705,
+      lat: 32.012300, lng: 34.770500,
       name: 'Holon (213.57.68.211)',
       city: 'Holon',
       country: 'Israel',
@@ -3304,7 +3304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-330',
-      lat: 31.4619, lng: -83.501,
+      lat: 31.461900, lng: -83.501000,
       name: 'Tifton (216.105.180.193)',
       city: 'Tifton',
       country: 'United States',
@@ -3314,7 +3314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-331',
-      lat: 35.7832, lng: -91.6369,
+      lat: 35.783200, lng: -91.636900,
       name: 'Batesville (216.163.9.220)',
       city: 'Batesville',
       country: 'United States',
@@ -3324,7 +3324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-332',
-      lat: 39.1253, lng: -84.4867,
+      lat: 39.124600, lng: -84.486700,
       name: 'Cincinnati (216.196.238.64)',
       city: 'Cincinnati',
       country: 'United States',
@@ -3334,7 +3334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-333',
-      lat: 39.1239, lng: -84.4867,
+      lat: 39.125400, lng: -84.486700,
       name: 'Cincinnati (216.196.238.65)',
       city: 'Cincinnati',
       country: 'United States',
@@ -3344,7 +3344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-334',
-      lat: 35.1546, lng: -101.8681,
+      lat: 35.154600, lng: -101.868100,
       name: 'Amarillo (216.200.16.251)',
       city: 'Amarillo',
       country: 'United States',
@@ -3354,7 +3354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-335',
-      lat: 39.0537, lng: -94.5906,
+      lat: 39.053700, lng: -94.590600,
       name: 'Kansas City (216.21.165.133)',
       city: 'Kansas City',
       country: 'United States',
@@ -3364,7 +3364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-336',
-      lat: 40.3044, lng: -86.4689,
+      lat: 40.304400, lng: -86.468900,
       name: 'Frankfort (216.21.178.4)',
       city: 'Frankfort',
       country: 'United States',
@@ -3374,7 +3374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-337',
-      lat: 42.724, lng: -71.479,
+      lat: 42.724000, lng: -71.479000,
       name: 'Nashua (216.212.122.154)',
       city: 'Nashua',
       country: 'United States',
@@ -3384,7 +3384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-338',
-      lat: 38.2977, lng: -76.5324,
+      lat: 38.297700, lng: -76.532400,
       name: 'California (216.36.22.63)',
       city: 'California',
       country: 'United States',
@@ -3394,7 +3394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-339',
-      lat: 49.282, lng: -123.1103,
+      lat: 49.282000, lng: -123.110300,
       name: 'Vancouver (216.71.208.134)',
       city: 'Vancouver',
       country: 'Canada',
@@ -3404,7 +3404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-340',
-      lat: 25.0727, lng: 55.2979,
+      lat: 25.074200, lng: 55.297900,
       name: 'Dubai (217.165.123.233)',
       city: 'Dubai',
       country: 'United Arab Emirates',
@@ -3414,7 +3414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-341',
-      lat: 24.45495, lng: 54.406,
+      lat: 24.454200, lng: 54.406000,
       name: 'Abu Dhabi (217.165.145.197)',
       city: 'Abu Dhabi',
       country: 'United Arab Emirates',
@@ -3424,7 +3424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-342',
-      lat: 1.4834, lng: 103.6339,
+      lat: 1.483400, lng: 103.633900,
       name: 'Iskandar Puteri (218.111.20.80)',
       city: 'Iskandar Puteri',
       country: 'Malaysia',
@@ -3434,7 +3434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-343',
-      lat: 22.256761, lng: 114.1651,
+      lat: 22.257032, lng: 114.165475,
       name: 'Unknown (218.250.61.18)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -3444,7 +3444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-344',
-      lat: 10.8119, lng: 106.678,
+      lat: 10.813400, lng: 106.678000,
       name: 'Go Vap (222.253.64.99)',
       city: 'Go Vap',
       country: 'Vietnam',
@@ -3454,7 +3454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-345',
-      lat: 21.0333, lng: 105.9,
+      lat: 21.033300, lng: 105.900000,
       name: 'Long Bien (222.254.54.183)',
       city: 'Long Bien',
       country: 'Vietnam',
@@ -3464,7 +3464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-346',
-      lat: 22.4362, lng: 114.0345,
+      lat: 22.436200, lng: 114.034500,
       name: 'Yuen Long San Hui (223.18.59.50)',
       city: 'Yuen Long San Hui',
       country: 'Hong Kong',
@@ -3474,7 +3474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-347',
-      lat: 22.3356, lng: 114.1847,
+      lat: 22.335600, lng: 114.184700,
       name: 'Kowloon City (223.19.244.179)',
       city: 'Kowloon City',
       country: 'Hong Kong',
@@ -3484,7 +3484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-348',
-      lat: 14.4466, lng: 100.6188,
+      lat: 14.446600, lng: 100.618800,
       name: 'Phra Nakhon Si Ayutthaya (223.205.186.92)',
       city: 'Phra Nakhon Si Ayutthaya',
       country: 'Thailand',
@@ -3494,7 +3494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-349',
-      lat: 13.5341, lng: 100.286,
+      lat: 13.534100, lng: 100.286000,
       name: 'Samut Sakhon (223.205.69.211)',
       city: 'Samut Sakhon',
       country: 'Thailand',
@@ -3504,7 +3504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-350',
-      lat: 33.7547, lng: -117.8578,
+      lat: 33.754000, lng: -117.857800,
       name: 'Santa Ana (23.240.67.52)',
       city: 'Santa Ana',
       country: 'United States',
@@ -3514,7 +3514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-351',
-      lat: 33.781, lng: -118.2622,
+      lat: 33.781000, lng: -118.262200,
       name: 'Wilmington (23.241.215.131)',
       city: 'Wilmington',
       country: 'United States',
@@ -3524,7 +3524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-352',
-      lat: 41.4951, lng: -81.4657,
+      lat: 41.495100, lng: -81.465700,
       name: 'Cleveland (23.245.134.108)',
       city: 'Cleveland',
       country: 'United States',
@@ -3534,7 +3534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-353',
-      lat: 38.6976, lng: -90.3604,
+      lat: 38.697600, lng: -90.360400,
       name: 'Overland (24.107.7.66)',
       city: 'Overland',
       country: 'United States',
@@ -3544,7 +3544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-354',
-      lat: 40.476, lng: -79.7355,
+      lat: 40.476000, lng: -79.735500,
       name: 'Pittsburgh (24.131.213.103)',
       city: 'Pittsburgh',
       country: 'United States',
@@ -3554,7 +3554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-355',
-      lat: 35.1366, lng: -84.8495,
+      lat: 35.136600, lng: -84.849500,
       name: 'Cleveland (24.151.200.45)',
       city: 'Cleveland',
       country: 'United States',
@@ -3564,7 +3564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-356',
-      lat: 45.4129, lng: -71.9571,
+      lat: 45.412900, lng: -71.957100,
       name: 'Sherbrooke (24.157.219.132)',
       city: 'Sherbrooke',
       country: 'Canada',
@@ -3574,7 +3574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-357',
-      lat: 47.5461, lng: -122.3723,
+      lat: 47.546100, lng: -122.372300,
       name: 'Seattle (24.18.21.250)',
       city: 'Seattle',
       country: 'United States',
@@ -3584,7 +3584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-358',
-      lat: 40.6679, lng: -74.1178,
+      lat: 40.667900, lng: -74.117800,
       name: 'Bayonne (24.187.63.51)',
       city: 'Bayonne',
       country: 'United States',
@@ -3594,7 +3594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-359',
-      lat: 40.6801, lng: -73.9207,
+      lat: 40.680100, lng: -73.920700,
       name: 'Brooklyn (24.191.208.90)',
       city: 'Brooklyn',
       country: 'United States',
@@ -3604,7 +3604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-360',
-      lat: 45.5072, lng: -73.6498,
+      lat: 45.507200, lng: -73.649800,
       name: 'Mount Royal (24.200.133.135)',
       city: 'Mount Royal',
       country: 'Canada',
@@ -3614,7 +3614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-361',
-      lat: 40.3869, lng: -82.4901,
+      lat: 40.386900, lng: -82.490100,
       name: 'Mount Vernon (24.210.128.200)',
       city: 'Mount Vernon',
       country: 'United States',
@@ -3624,7 +3624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-362',
-      lat: 44.9923, lng: -64.9546,
+      lat: 44.992300, lng: -64.954600,
       name: 'Kingston (24.222.254.93)',
       city: 'Kingston',
       country: 'Canada',
@@ -3634,7 +3634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-363',
-      lat: 28.3306, lng: -81.3559,
+      lat: 28.329900, lng: -81.355900,
       name: 'Kissimmee (24.227.38.18)',
       city: 'Kissimmee',
       country: 'United States',
@@ -3644,7 +3644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-364',
-      lat: 40.6866, lng: -73.5124,
+      lat: 40.686600, lng: -73.512400,
       name: 'Wantagh (24.228.92.194)',
       city: 'Wantagh',
       country: 'United States',
@@ -3654,7 +3654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-365',
-      lat: 41.3259, lng: -74.8773,
+      lat: 41.325900, lng: -74.877300,
       name: 'Milford (24.238.60.11)',
       city: 'Milford',
       country: 'United States',
@@ -3664,7 +3664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-366',
-      lat: 35.3596, lng: -82.4266,
+      lat: 35.359600, lng: -82.426600,
       name: 'Hendersonville (24.246.129.225)',
       city: 'Hendersonville',
       country: 'United States',
@@ -3674,7 +3674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-367',
-      lat: 42.2623, lng: -85.6148,
+      lat: 42.262300, lng: -85.614800,
       name: 'Kalamazoo (24.247.146.131)',
       city: 'Kalamazoo',
       country: 'United States',
@@ -3684,7 +3684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-368',
-      lat: 40.7621, lng: -73.3313,
+      lat: 40.762100, lng: -73.331300,
       name: 'Deer Park (24.47.164.125)',
       city: 'Deer Park',
       country: 'United States',
@@ -3694,7 +3694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-369',
-      lat: 42.9641, lng: -81.2059,
+      lat: 42.964100, lng: -81.205900,
       name: 'London (24.54.91.156)',
       city: 'London',
       country: 'Canada',
@@ -3704,7 +3704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-370',
-      lat: 42.2839, lng: -82.9786,
+      lat: 42.283900, lng: -82.978600,
       name: 'Windsor (24.57.126.95)',
       city: 'Windsor',
       country: 'Canada',
@@ -3714,7 +3714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-371',
-      lat: 42.5945, lng: -71.3571,
+      lat: 42.594500, lng: -71.357100,
       name: 'Chelmsford (24.62.254.145)',
       city: 'Chelmsford',
       country: 'United States',
@@ -3724,7 +3724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-372',
-      lat: 51.0455, lng: -114.1988,
+      lat: 51.045500, lng: -114.198800,
       name: 'Calgary (24.66.150.12)',
       city: 'Calgary',
       country: 'Canada',
@@ -3734,7 +3734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-373',
-      lat: 49.866, lng: -119.7387,
+      lat: 49.866000, lng: -119.738700,
       name: 'West Kelowna (24.67.2.217)',
       city: 'West Kelowna',
       country: 'Canada',
@@ -3744,7 +3744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-374',
-      lat: 48.4615, lng: -89.2021,
+      lat: 48.461500, lng: -89.202100,
       name: 'Thunder Bay (24.79.195.158)',
       city: 'Thunder Bay',
       country: 'Canada',
@@ -3754,7 +3754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-375',
-      lat: 49.2732, lng: -123.0124,
+      lat: 49.273200, lng: -123.012400,
       name: 'Burnaby (24.84.18.130)',
       city: 'Burnaby',
       country: 'Canada',
@@ -3764,7 +3764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-376',
-      lat: 27.8402, lng: -82.6493,
+      lat: 27.840200, lng: -82.649300,
       name: 'St. Petersburg (24.96.204.248)',
       city: 'St. Petersburg',
       country: 'United States',
@@ -3774,7 +3774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-377',
-      lat: 10.820643, lng: 106.624596,
+      lat: 10.821327, lng: 106.625267,
       name: 'Ho Chi Minh City (27.2.34.213)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -3784,7 +3784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-378',
-      lat: -32.1773, lng: 115.9873,
+      lat: -32.177300, lng: 115.987300,
       name: 'Perth (27.32.37.6)',
       city: 'Perth',
       country: 'Australia',
@@ -3794,7 +3794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-379',
-      lat: 10.820991, lng: 106.62427,
+      lat: 10.821476, lng: 106.625095,
       name: 'Ho Chi Minh City (27.64.1.190)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -3804,7 +3804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-380',
-      lat: 10.821414, lng: 106.624051,
+      lat: 10.821668, lng: 106.624972,
       name: 'Ho Chi Minh City (27.64.51.49)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -3814,7 +3814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-381',
-      lat: 21.01457, lng: 105.846838,
+      lat: 21.017623, lng: 105.846291,
       name: 'Hanoi (27.66.181.38)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3824,7 +3824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-382',
-      lat: 10.821881, lng: 106.623954,
+      lat: 10.821886, lng: 106.624908,
       name: 'Ho Chi Minh City (27.71.72.82)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -3834,7 +3834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-383',
-      lat: 21.014518, lng: 105.846471,
+      lat: 21.017608, lng: 105.846216,
       name: 'Hanoi (27.72.110.235)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3844,7 +3844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-384',
-      lat: 21.0145, lng: 105.8461,
+      lat: 21.017601, lng: 105.846139,
       name: 'Hanoi (27.72.111.233)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3854,7 +3854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-385',
-      lat: 21.014518, lng: 105.845729,
+      lat: 21.017601, lng: 105.846061,
       name: 'Hanoi (27.72.112.2)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3864,7 +3864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-386',
-      lat: 21.01457, lng: 105.845362,
+      lat: 21.017608, lng: 105.845984,
       name: 'Hanoi (27.72.112.54)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3874,7 +3874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-387',
-      lat: 21.014658, lng: 105.845001,
+      lat: 21.017623, lng: 105.845909,
       name: 'Hanoi (27.72.113.30)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3884,7 +3884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-388',
-      lat: 21.014779, lng: 105.844651,
+      lat: 21.017645, lng: 105.845834,
       name: 'Hanoi (27.72.123.64)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3894,7 +3894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-389',
-      lat: 21.014934, lng: 105.844313,
+      lat: 21.017675, lng: 105.845763,
       name: 'Hanoi (27.72.148.136)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3904,7 +3904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-390',
-      lat: 21.015119, lng: 105.843992,
+      lat: 21.017710, lng: 105.845694,
       name: 'Hanoi (27.72.148.215)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3914,7 +3914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-391',
-      lat: 21.015334, lng: 105.843689,
+      lat: 21.017753, lng: 105.845630,
       name: 'Hanoi (27.72.148.22)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3924,7 +3924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-392',
-      lat: 21.015577, lng: 105.843409,
+      lat: 21.017801, lng: 105.845570,
       name: 'Hanoi (27.72.148.230)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3934,7 +3934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-393',
-      lat: 21.015846, lng: 105.843153,
+      lat: 21.017855, lng: 105.845514,
       name: 'Hanoi (27.72.149.239)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3944,7 +3944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-394',
-      lat: 21.016138, lng: 105.842923,
+      lat: 21.017914, lng: 105.845464,
       name: 'Hanoi (27.72.151.219)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3954,7 +3954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-395',
-      lat: 21.01645, lng: 105.842723,
+      lat: 21.017978, lng: 105.845420,
       name: 'Hanoi (27.72.154.35)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3964,7 +3964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-396',
-      lat: 21.01678, lng: 105.842552,
+      lat: 21.018045, lng: 105.845383,
       name: 'Hanoi (27.72.164.64)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3974,7 +3974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-397',
-      lat: 21.017124, lng: 105.842414,
+      lat: 21.018116, lng: 105.845352,
       name: 'Hanoi (27.72.253.155)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3984,7 +3984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-398',
-      lat: 21.017481, lng: 105.84231,
+      lat: 21.018190, lng: 105.845328,
       name: 'Hanoi (27.72.72.246)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -3994,7 +3994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-399',
-      lat: 21.017845, lng: 105.84224,
+      lat: 21.018265, lng: 105.845311,
       name: 'Hanoi (27.72.72.247)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4004,7 +4004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-400',
-      lat: 21.018214, lng: 105.842204,
+      lat: 21.018342, lng: 105.845302,
       name: 'Hanoi (27.72.72.253)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4014,7 +4014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-401',
-      lat: 21.018586, lng: 105.842204,
+      lat: 21.018419, lng: 105.845300,
       name: 'Hanoi (27.72.78.20)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4024,7 +4024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-402',
-      lat: 21.018955, lng: 105.84224,
+      lat: 21.018496, lng: 105.845306,
       name: 'Hanoi (27.72.78.59)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4034,7 +4034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-403',
-      lat: 21.019319, lng: 105.84231,
+      lat: 21.018573, lng: 105.845319,
       name: 'Hanoi (27.72.80.224)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4044,7 +4044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-404',
-      lat: 21.019676, lng: 105.842414,
+      lat: 21.018647, lng: 105.845339,
       name: 'Hanoi (27.72.83.238)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4054,7 +4054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-405',
-      lat: 21.02002, lng: 105.842552,
+      lat: 21.018719, lng: 105.845367,
       name: 'Hanoi (27.72.91.181)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4064,7 +4064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-406',
-      lat: 21.02035, lng: 105.842723,
+      lat: 21.018789, lng: 105.845401,
       name: 'Hanoi (27.72.91.220)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4074,7 +4074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-407',
-      lat: 21.020662, lng: 105.842923,
+      lat: 21.018854, lng: 105.845442,
       name: 'Hanoi (27.72.94.137)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4084,7 +4084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-408',
-      lat: 21.020954, lng: 105.843153,
+      lat: 21.018916, lng: 105.845489,
       name: 'Hanoi (27.72.94.172)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4094,7 +4094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-409',
-      lat: 21.021223, lng: 105.843409,
+      lat: 21.018972, lng: 105.845541,
       name: 'Hanoi (27.72.94.187)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4104,7 +4104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-410',
-      lat: 21.021466, lng: 105.843689,
+      lat: 21.019024, lng: 105.845599,
       name: 'Hanoi (27.72.94.215)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4114,7 +4114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-411',
-      lat: 21.021681, lng: 105.843992,
+      lat: 21.019069, lng: 105.845662,
       name: 'Hanoi (27.72.94.221)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4124,7 +4124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-412',
-      lat: 21.021866, lng: 105.844313,
+      lat: 21.019108, lng: 105.845728,
       name: 'Hanoi (27.72.94.246)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4134,7 +4134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-413',
-      lat: 21.022021, lng: 105.844651,
+      lat: 21.019141, lng: 105.845798,
       name: 'Hanoi (27.72.94.252)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4144,7 +4144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-414',
-      lat: 21.022142, lng: 105.845001,
+      lat: 21.019167, lng: 105.845871,
       name: 'Hanoi (27.72.97.227)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4154,7 +4154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-415',
-      lat: 10.822356, lng: 106.623987,
+      lat: 10.822114, lng: 106.624908,
       name: 'Ho Chi Minh City (27.75.103.63)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -4164,7 +4164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-416',
-      lat: 10.822805, lng: 106.624146,
+      lat: 10.822332, lng: 106.624972,
       name: 'Ho Chi Minh City (27.75.128.248)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -4174,7 +4174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-417',
-      lat: 21.02223, lng: 105.845362,
+      lat: 21.019185, lng: 105.845946,
       name: 'Hanoi (27.76.83.107)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4184,7 +4184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-418',
-      lat: 10.823194, lng: 106.624421,
+      lat: 10.822524, lng: 106.625095,
       name: 'Ho Chi Minh City (27.77.134.240)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -4194,7 +4194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-419',
-      lat: 10.823495, lng: 106.624791,
+      lat: 10.822673, lng: 106.625267,
       name: 'Ho Chi Minh City (27.77.189.49)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -4204,7 +4204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-420',
-      lat: 9.6056, lng: 105.9799,
+      lat: 9.605600, lng: 105.979900,
       name: 'Sóc Trăng (27.78.182.200)',
       city: 'Sóc Trăng',
       country: 'Vietnam',
@@ -4214,7 +4214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-421',
-      lat: 16.069092, lng: 108.220757,
+      lat: 16.068900, lng: 108.220807,
       name: 'Da Nang (27.79.37.205)',
       city: 'Da Nang',
       country: 'Vietnam',
@@ -4224,7 +4224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-422',
-      lat: 51.497, lng: 0.0685,
+      lat: 51.497000, lng: 0.068500,
       name: 'Greenwich (31.113.124.46)',
       city: 'Greenwich',
       country: 'United Kingdom',
@@ -4234,7 +4234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-423',
-      lat: 53.1384, lng: -1.5556,
+      lat: 53.138400, lng: -1.555600,
       name: 'Matlock (31.125.106.235)',
       city: 'Matlock',
       country: 'United Kingdom',
@@ -4244,7 +4244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-424',
-      lat: 32.8367, lng: 35.267,
+      lat: 32.836700, lng: 35.267000,
       name: 'Yodefat (31.168.87.117)',
       city: 'Yodefat',
       country: 'Israel',
@@ -4254,7 +4254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-425',
-      lat: 24.453825, lng: 54.40665,
+      lat: 24.455000, lng: 54.406000,
       name: 'Abu Dhabi (31.215.253.248)',
       city: 'Abu Dhabi',
       country: 'United Arab Emirates',
@@ -4264,7 +4264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-426',
-      lat: 54.9742, lng: -1.615,
+      lat: 54.974200, lng: -1.615000,
       name: 'Newcastle upon Tyne (31.22.0.62)',
       city: 'Newcastle upon Tyne',
       country: 'United Kingdom',
@@ -4274,7 +4274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-427',
-      lat: 50.7883, lng: 0.2817,
+      lat: 50.788300, lng: 0.281700,
       name: 'Eastbourne (31.49.24.22)',
       city: 'Eastbourne',
       country: 'United Kingdom',
@@ -4284,7 +4284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-428',
-      lat: 52.9791, lng: -0.0269,
+      lat: 52.979100, lng: -0.026900,
       name: 'Boston (31.54.224.94)',
       city: 'Boston',
       country: 'United Kingdom',
@@ -4294,7 +4294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-429',
-      lat: 52.3636, lng: -0.6789,
+      lat: 52.363600, lng: -0.678900,
       name: 'Kettering (31.54.48.238)',
       city: 'Kettering',
       country: 'United Kingdom',
@@ -4304,7 +4304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-430',
-      lat: 33.1007, lng: -86.8642,
+      lat: 33.100700, lng: -86.864200,
       name: 'Montevallo (35.135.140.202)',
       city: 'Montevallo',
       country: 'United States',
@@ -4314,7 +4314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-431',
-      lat: 28.834, lng: -82.2822,
+      lat: 28.834000, lng: -82.282200,
       name: 'Inverness (35.137.215.250)',
       city: 'Inverness',
       country: 'United States',
@@ -4324,7 +4324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-432',
-      lat: 11.5576, lng: 104.9121,
+      lat: 11.559100, lng: 104.912100,
       name: 'Phnom Penh (36.37.156.172)',
       city: 'Phnom Penh',
       country: 'Cambodia',
@@ -4334,7 +4334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-433',
-      lat: 11.5627, lng: 104.9644,
+      lat: 11.564200, lng: 104.964400,
       name: 'Phumĭ Kândal (36.37.251.95)',
       city: 'Phumĭ Kândal',
       country: 'Cambodia',
@@ -4344,7 +4344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-434',
-      lat: -6.23615, lng: 106.853,
+      lat: -6.236900, lng: 106.853000,
       name: 'Jakarta (36.64.10.138)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -4354,7 +4354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-435',
-      lat: -6.237275, lng: 106.85365,
+      lat: -6.236100, lng: 106.853000,
       name: 'Jakarta (36.64.193.2)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -4364,7 +4364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-436',
-      lat: -6.2052, lng: 106.8694,
+      lat: -6.205200, lng: 106.869400,
       name: 'Jakarta (36.67.242.173)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -4374,7 +4374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-437',
-      lat: -6.2019, lng: 106.8193,
+      lat: -6.201900, lng: 106.819300,
       name: 'Dukuh Atas (36.70.223.213)',
       city: 'Dukuh Atas',
       country: 'Indonesia',
@@ -4384,7 +4384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-438',
-      lat: -7.4469, lng: 112.7181,
+      lat: -7.446900, lng: 112.718100,
       name: 'Sidoarjo (36.74.140.168)',
       city: 'Sidoarjo',
       country: 'Indonesia',
@@ -4394,7 +4394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-439',
-      lat: -7.2722, lng: 110.4753,
+      lat: -7.272200, lng: 110.475300,
       name: 'Semarang (36.80.241.48)',
       city: 'Semarang',
       country: 'Indonesia',
@@ -4404,7 +4404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-440',
-      lat: -6.237275, lng: 106.85235,
+      lat: -6.237700, lng: 106.853000,
       name: 'Jakarta (36.92.83.122)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -4414,7 +4414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-441',
-      lat: -6.2121, lng: 106.8446,
+      lat: -6.210600, lng: 106.844600,
       name: 'Jakarta (36.93.51.242)',
       city: 'Jakarta',
       country: 'Indonesia',
@@ -4424,7 +4424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-442',
-      lat: 32.0876, lng: 34.8739,
+      lat: 32.087600, lng: 34.873900,
       name: 'Petah Tikva (37.142.193.154)',
       city: 'Petah Tikva',
       country: 'Israel',
@@ -4434,7 +4434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-443',
-      lat: 32.080189, lng: 34.781626,
+      lat: 32.080800, lng: 34.781393,
       name: 'Tel Aviv (37.46.33.146)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -4444,7 +4444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-444',
-      lat: 44.2569, lng: -76.4717,
+      lat: 44.256900, lng: -76.471700,
       name: 'Kingston (38.131.72.47)',
       city: 'Kingston',
       country: 'Canada',
@@ -4454,7 +4454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-445',
-      lat: -33.494, lng: 143.2104,
+      lat: -33.494000, lng: 143.210400,
       name: 'Unknown (38.179.98.212)',
       city: 'Unknown',
       country: 'Australia',
@@ -4464,7 +4464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-446',
-      lat: 49.2476, lng: -123.1234,
+      lat: 49.247600, lng: -123.123400,
       name: 'Vancouver (38.3.66.228)',
       city: 'Vancouver',
       country: 'Canada',
@@ -4474,7 +4474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-447',
-      lat: 10.823685, lng: 106.625228,
+      lat: 10.822768, lng: 106.625475,
       name: 'Ho Chi Minh City (42.117.120.210)',
       city: 'Ho Chi Minh City',
       country: 'Vietnam',
@@ -4484,7 +4484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-448',
-      lat: 21.022282, lng: 105.845729,
+      lat: 21.019196, lng: 105.846023,
       name: 'Hanoi (42.119.241.87)',
       city: 'Hanoi',
       country: 'Vietnam',
@@ -4494,7 +4494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-449',
-      lat: 22.2572, lng: 114.164661,
+      lat: 22.257276, lng: 114.165095,
       name: 'Unknown (42.200.124.181)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -4504,7 +4504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-450',
-      lat: 1.3345, lng: 103.8529,
+      lat: 1.336000, lng: 103.852900,
       name: 'Singapore (42.60.254.21)',
       city: 'Singapore',
       country: 'Singapore',
@@ -4514,7 +4514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-451',
-      lat: 41.8905, lng: 12.5127,
+      lat: 41.890500, lng: 12.512700,
       name: 'Rome (45.3.59.83)',
       city: 'Rome',
       country: 'Italy',
@@ -4524,7 +4524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-452',
-      lat: 42.6654, lng: -77.0621,
+      lat: 42.665400, lng: -77.062100,
       name: 'Penn Yan (45.46.225.71)',
       city: 'Penn Yan',
       country: 'United States',
@@ -4534,7 +4534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-453',
-      lat: 34.001, lng: -118.0376,
+      lat: 34.001000, lng: -118.037600,
       name: 'Whittier (45.49.192.219)',
       city: 'Whittier',
       country: 'United States',
@@ -4544,7 +4544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-454',
-      lat: 33.8206, lng: -118.034,
+      lat: 33.820600, lng: -118.034000,
       name: 'Cypress (45.50.79.5)',
       city: 'Cypress',
       country: 'United States',
@@ -4554,7 +4554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-455',
-      lat: 39.1091, lng: -84.6082,
+      lat: 39.109100, lng: -84.608200,
       name: 'Cincinnati (45.59.38.242)',
       city: 'Cincinnati',
       country: 'United States',
@@ -4564,7 +4564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-456',
-      lat: 31.7915, lng: 34.6497,
+      lat: 31.791500, lng: 34.649700,
       name: 'Ashdod (46.116.178.141)',
       city: 'Ashdod',
       country: 'Israel',
@@ -4574,7 +4574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-457',
-      lat: 51.9947, lng: -0.7221,
+      lat: 51.994700, lng: -0.722100,
       name: 'Milton Keynes (46.64.151.23)',
       city: 'Milton Keynes',
       country: 'United Kingdom',
@@ -4584,7 +4584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-458',
-      lat: 51.5815, lng: -0.3793,
+      lat: 51.580800, lng: -0.379300,
       name: 'Pinner (46.64.8.44)',
       city: 'Pinner',
       country: 'United Kingdom',
@@ -4594,7 +4594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-459',
-      lat: 53.362, lng: -6.2342,
+      lat: 53.363500, lng: -6.234200,
       name: 'Dublin (46.7.18.171)',
       city: 'Dublin',
       country: 'Ireland',
@@ -4604,7 +4604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-460',
-      lat: 46.3407, lng: -94.2827,
+      lat: 46.340700, lng: -94.282700,
       name: 'Baxter (47.12.179.60)',
       city: 'Baxter',
       country: 'United States',
@@ -4614,7 +4614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-461',
-      lat: 33.9938, lng: -117.7589,
+      lat: 33.993800, lng: -117.758900,
       name: 'Chino Hills (47.143.61.227)',
       city: 'Chino Hills',
       country: 'United States',
@@ -4624,7 +4624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-462',
-      lat: 34.123, lng: -117.8988,
+      lat: 34.123000, lng: -117.898800,
       name: 'Azusa (47.146.232.9)',
       city: 'Azusa',
       country: 'United States',
@@ -4634,7 +4634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-463',
-      lat: 34.4179, lng: -117.3064,
+      lat: 34.417900, lng: -117.306400,
       name: 'Hesperia (47.150.60.211)',
       city: 'Hesperia',
       country: 'United States',
@@ -4644,7 +4644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-464',
-      lat: 34.4026, lng: -119.7211,
+      lat: 34.402600, lng: -119.721100,
       name: 'Santa Barbara (47.151.127.140)',
       city: 'Santa Barbara',
       country: 'United States',
@@ -4654,7 +4654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-465',
-      lat: 33.6532, lng: -118.0098,
+      lat: 33.653200, lng: -118.009800,
       name: 'Huntington Beach (47.154.37.44)',
       city: 'Huntington Beach',
       country: 'United States',
@@ -4664,7 +4664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-466',
-      lat: 31.4795, lng: -100.485,
+      lat: 31.479500, lng: -100.485000,
       name: 'San Angelo (47.160.198.28)',
       city: 'San Angelo',
       country: 'United States',
@@ -4674,7 +4674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-467',
-      lat: 32.9412, lng: -97.1342,
+      lat: 32.941200, lng: -97.134200,
       name: 'Southlake (47.160.8.34)',
       city: 'Southlake',
       country: 'United States',
@@ -4684,7 +4684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-468',
-      lat: 28.2365, lng: -82.3289,
+      lat: 28.236500, lng: -82.328900,
       name: 'Wesley Chapel (47.197.14.183)',
       city: 'Wesley Chapel',
       country: 'United States',
@@ -4694,7 +4694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-469',
-      lat: 40.8286, lng: -72.9978,
+      lat: 40.828600, lng: -72.997800,
       name: 'Medford (47.20.26.74)',
       city: 'Medford',
       country: 'United States',
@@ -4704,7 +4704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-470',
-      lat: 27.0602, lng: -82.3533,
+      lat: 27.060200, lng: -82.353300,
       name: 'Venice (47.200.66.107)',
       city: 'Venice',
       country: 'United States',
@@ -4714,7 +4714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-471',
-      lat: 27.7963, lng: -82.6325,
+      lat: 27.796300, lng: -82.632500,
       name: 'St. Petersburg (47.205.73.208)',
       city: 'St. Petersburg',
       country: 'United States',
@@ -4724,7 +4724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-472',
-      lat: 40.8765, lng: -124.0761,
+      lat: 40.876500, lng: -124.076100,
       name: 'Arcata (47.208.22.208)',
       city: 'Arcata',
       country: 'United States',
@@ -4734,7 +4734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-473',
-      lat: 39.7978, lng: -94.8393,
+      lat: 39.797800, lng: -94.839300,
       name: 'Saint Joseph (47.215.74.54)',
       city: 'Saint Joseph',
       country: 'United States',
@@ -4744,7 +4744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-474',
-      lat: 40.9101, lng: -74.1415,
+      lat: 40.910100, lng: -74.141500,
       name: 'Paterson (47.23.110.206)',
       city: 'Paterson',
       country: 'United States',
@@ -4754,7 +4754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-475',
-      lat: -37.8143, lng: 144.8993,
+      lat: -37.814300, lng: 144.899300,
       name: 'Melbourne (49.188.193.175)',
       city: 'Melbourne',
       country: 'Australia',
@@ -4764,7 +4764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-476',
-      lat: 16.8358, lng: 100.2518,
+      lat: 16.835800, lng: 100.251800,
       name: 'Phitsanulok (49.48.194.159)',
       city: 'Phitsanulok',
       country: 'Thailand',
@@ -4774,7 +4774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-477',
-      lat: 14.5476, lng: 100.8977,
+      lat: 14.547600, lng: 100.897700,
       name: 'Changwat Sara Buri (49.49.184.67)',
       city: 'Changwat Sara Buri',
       country: 'Thailand',
@@ -4784,7 +4784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-478',
-      lat: 32.079544, lng: 34.781112,
+      lat: 32.080000, lng: 34.781393,
       name: 'Tel Aviv (5.29.165.219)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -4794,7 +4794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-479',
-      lat: 42.4195, lng: -71.1557,
+      lat: 42.418800, lng: -71.155700,
       name: 'Arlington (50.199.215.185)',
       city: 'Arlington',
       country: 'United States',
@@ -4804,7 +4804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-480',
-      lat: 42.4181, lng: -71.1557,
+      lat: 42.419600, lng: -71.155700,
       name: 'Arlington (50.199.215.189)',
       city: 'Arlington',
       country: 'United States',
@@ -4814,7 +4814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-481',
-      lat: 39.6961, lng: -105.7258,
+      lat: 39.696100, lng: -105.725800,
       name: 'Silver Plume (50.205.4.45)',
       city: 'Silver Plume',
       country: 'United States',
@@ -4824,7 +4824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-482',
-      lat: 38.9091, lng: -77.0203,
+      lat: 38.909100, lng: -77.020300,
       name: 'Washington (50.242.202.166)',
       city: 'Washington',
       country: 'United States',
@@ -4834,7 +4834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-483',
-      lat: 41.8783, lng: -87.6907,
+      lat: 41.878300, lng: -87.690700,
       name: 'Chicago (50.247.147.154)',
       city: 'Chicago',
       country: 'United States',
@@ -4844,7 +4844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-484',
-      lat: 26.2154, lng: -80.271,
+      lat: 26.215400, lng: -80.271000,
       name: 'Fort Lauderdale (50.248.18.90)',
       city: 'Fort Lauderdale',
       country: 'United States',
@@ -4854,7 +4854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-485',
-      lat: 36.842, lng: -86.8833,
+      lat: 36.842000, lng: -86.883300,
       name: 'Russellville (50.30.114.98)',
       city: 'Russellville',
       country: 'United States',
@@ -4864,7 +4864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-486',
-      lat: 39.2689, lng: -84.2638,
+      lat: 39.268900, lng: -84.263800,
       name: 'Loveland (50.5.133.227)',
       city: 'Loveland',
       country: 'United States',
@@ -4874,7 +4874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-487',
-      lat: 42.1471, lng: -75.8816,
+      lat: 42.147100, lng: -75.881600,
       name: 'Binghamton (50.75.135.30)',
       city: 'Binghamton',
       country: 'United States',
@@ -4884,7 +4884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-488',
-      lat: 42.6234, lng: -73.1154,
+      lat: 42.623400, lng: -73.115400,
       name: 'Adams (50.75.167.228)',
       city: 'Adams',
       country: 'United States',
@@ -4894,7 +4894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-489',
-      lat: 41.9741, lng: -87.8621,
+      lat: 41.974100, lng: -87.862100,
       name: 'Chicago (50.79.19.102)',
       city: 'Chicago',
       country: 'United States',
@@ -4904,7 +4904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-490',
-      lat: 29.8097, lng: -82.4675,
+      lat: 29.809700, lng: -82.467500,
       name: 'Alachua (50.96.243.193)',
       city: 'Alachua',
       country: 'United States',
@@ -4914,7 +4914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-491',
-      lat: 51.4971, lng: -0.0482,
+      lat: 51.497100, lng: -0.048200,
       name: 'Southwark (51.148.138.212)',
       city: 'Southwark',
       country: 'United Kingdom',
@@ -4924,7 +4924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-492',
-      lat: 53.3472, lng: -6.2439,
+      lat: 53.347200, lng: -6.243900,
       name: 'Unknown (51.199.56.133)',
       city: 'Unknown',
       country: 'Ireland',
@@ -4934,7 +4934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-493',
-      lat: 53.4296, lng: -2.6637,
+      lat: 53.429600, lng: -2.663700,
       name: 'Warrington (51.9.93.21)',
       city: 'Warrington',
       country: 'United Kingdom',
@@ -4944,7 +4944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-494',
-      lat: 18.7857, lng: 98.9736,
+      lat: 18.785700, lng: 98.973600,
       name: 'Chiang Mai (58.136.113.103)',
       city: 'Chiang Mai',
       country: 'Thailand',
@@ -4954,7 +4954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-495',
-      lat: 13.733, lng: 100.4865,
+      lat: 13.733000, lng: 100.486500,
       name: 'Bangkok (58.136.195.94)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -4964,7 +4964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-496',
-      lat: 13.709725, lng: 100.45365,
+      lat: 13.709300, lng: 100.454300,
       name: 'Bangkok (58.136.26.49)',
       city: 'Bangkok',
       country: 'Thailand',
@@ -4974,7 +4974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-497',
-      lat: 1.3153, lng: 103.9143,
+      lat: 1.315300, lng: 103.914300,
       name: 'Singapore (58.182.69.139)',
       city: 'Singapore',
       country: 'Singapore',
@@ -4984,7 +4984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-498',
-      lat: 1.2865, lng: 103.8507,
+      lat: 1.288000, lng: 103.850700,
       name: 'Singapore (58.185.24.201)',
       city: 'Singapore',
       country: 'Singapore',
@@ -4994,7 +4994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-499',
-      lat: -27.4994, lng: 152.9042,
+      lat: -27.499400, lng: 152.904200,
       name: 'Brisbane (58.6.114.189)',
       city: 'Brisbane',
       country: 'Australia',
@@ -5004,7 +5004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-500',
-      lat: 22.2578, lng: 114.1645,
+      lat: 22.257686, lng: 114.164908,
       name: 'Unknown (59.149.5.173)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -5014,7 +5014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-501',
-      lat: 2.9291, lng: 101.6511,
+      lat: 2.928300, lng: 101.651100,
       name: 'Cyberjaya (60.50.173.236)',
       city: 'Cyberjaya',
       country: 'Malaysia',
@@ -5024,7 +5024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-502',
-      lat: 2.9283, lng: 101.6519,
+      lat: 2.929100, lng: 101.651100,
       name: 'Cyberjaya (60.50.252.251)',
       city: 'Cyberjaya',
       country: 'Malaysia',
@@ -5034,7 +5034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-503',
-      lat: 2.9275, lng: 101.6511,
+      lat: 2.927900, lng: 101.651793,
       name: 'Cyberjaya (60.50.36.85)',
       city: 'Cyberjaya',
       country: 'Malaysia',
@@ -5044,7 +5044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-504',
-      lat: 3.061, lng: 101.4621,
+      lat: 3.062500, lng: 101.462100,
       name: 'Klang (60.53.240.93)',
       city: 'Klang',
       country: 'Malaysia',
@@ -5054,7 +5054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-505',
-      lat: 2.9283, lng: 101.6503,
+      lat: 2.927900, lng: 101.650407,
       name: 'Cyberjaya (60.54.31.228)',
       city: 'Cyberjaya',
       country: 'Malaysia',
@@ -5064,7 +5064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-506',
-      lat: 1.3725, lng: 103.8431,
+      lat: 1.374000, lng: 103.843100,
       name: 'Singapore (61.13.192.130)',
       city: 'Singapore',
       country: 'Singapore',
@@ -5074,7 +5074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-507',
-      lat: 22.2584, lng: 114.164661,
+      lat: 22.258132, lng: 114.164972,
       name: 'Unknown (61.18.40.26)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -5084,7 +5084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-508',
-      lat: 22.2848, lng: 114.1703,
+      lat: 22.284800, lng: 114.170300,
       name: 'Wan Chai (61.244.131.181)',
       city: 'Wan Chai',
       country: 'Hong Kong',
@@ -5094,7 +5094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-509',
-      lat: 22.258839, lng: 114.1651,
+      lat: 22.258473, lng: 114.165267,
       name: 'Unknown (61.244.145.122)',
       city: 'Unknown',
       country: 'Hong Kong',
@@ -5104,7 +5104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-510',
-      lat: 32.0837, lng: 34.8282,
+      lat: 32.083700, lng: 34.828200,
       name: 'Bnei Brak (62.0.92.121)',
       city: 'Bnei Brak',
       country: 'Israel',
@@ -5114,7 +5114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-511',
-      lat: 37.1795, lng: -85.9069,
+      lat: 37.179500, lng: -85.906900,
       name: 'Horse Cave (64.130.134.174)',
       city: 'Horse Cave',
       country: 'United States',
@@ -5124,7 +5124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-512',
-      lat: 44.3145, lng: -71.7786,
+      lat: 44.314500, lng: -71.778600,
       name: 'Littleton (64.222.227.247)',
       city: 'Littleton',
       country: 'United States',
@@ -5134,7 +5134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-513',
-      lat: 34.1483, lng: -118.0016,
+      lat: 34.148300, lng: -118.001600,
       name: 'Monrovia (64.52.190.84)',
       city: 'Monrovia',
       country: 'United States',
@@ -5144,7 +5144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-514',
-      lat: 22.3156, lng: 114.1842,
+      lat: 22.317100, lng: 114.184200,
       name: 'To Kwa Wan (65.181.72.167)',
       city: 'To Kwa Wan',
       country: 'Hong Kong',
@@ -5154,7 +5154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-515',
-      lat: 33.7923, lng: -82.479,
+      lat: 33.792300, lng: -82.479000,
       name: 'Lincolnton (65.182.136.195)',
       city: 'Lincolnton',
       country: 'United States',
@@ -5164,7 +5164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-516',
-      lat: 43.709, lng: -79.4057,
+      lat: 43.709000, lng: -79.405700,
       name: 'Toronto (66.129.140.221)',
       city: 'Toronto',
       country: 'Canada',
@@ -5174,7 +5174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-517',
-      lat: 35.8456, lng: -83.5392,
+      lat: 35.845600, lng: -83.539200,
       name: 'Sevierville (66.190.178.86)',
       city: 'Sevierville',
       country: 'United States',
@@ -5184,7 +5184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-518',
-      lat: 33.5134, lng: -101.8818,
+      lat: 33.513400, lng: -101.881800,
       name: 'Lubbock (66.205.103.22)',
       city: 'Lubbock',
       country: 'United States',
@@ -5194,7 +5194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-519',
-      lat: 32.3039, lng: -110.8368,
+      lat: 32.303900, lng: -110.836800,
       name: 'Tucson (66.208.218.94)',
       city: 'Tucson',
       country: 'United States',
@@ -5204,7 +5204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-520',
-      lat: 41.9295, lng: -88.7504,
+      lat: 41.929500, lng: -88.750400,
       name: 'DeKalb (66.225.44.134)',
       city: 'DeKalb',
       country: 'United States',
@@ -5214,7 +5214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-521',
-      lat: 33.8408, lng: -116.5337,
+      lat: 33.840800, lng: -116.533700,
       name: 'Palm Springs (66.74.19.242)',
       city: 'Palm Springs',
       country: 'United States',
@@ -5224,7 +5224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-522',
-      lat: 42.4933, lng: -83.135,
+      lat: 42.493300, lng: -83.135000,
       name: 'Royal Oak (67.149.107.25)',
       city: 'Royal Oak',
       country: 'United States',
@@ -5234,7 +5234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-523',
-      lat: 38.028, lng: -121.8847,
+      lat: 38.028000, lng: -121.884700,
       name: 'Pittsburg (67.161.53.8)',
       city: 'Pittsburg',
       country: 'United States',
@@ -5244,7 +5244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-524',
-      lat: 38.0389, lng: -122.5871,
+      lat: 38.038900, lng: -122.587100,
       name: 'San Rafael (67.180.74.31)',
       city: 'San Rafael',
       country: 'United States',
@@ -5254,7 +5254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-525',
-      lat: 33.3094, lng: -96.3899,
+      lat: 33.309400, lng: -96.389900,
       name: 'Blue Ridge (67.210.157.124)',
       city: 'Blue Ridge',
       country: 'United States',
@@ -5264,7 +5264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-526',
-      lat: 28.4338, lng: -81.3472,
+      lat: 28.433800, lng: -81.347200,
       name: 'Orlando (67.231.199.106)',
       city: 'Orlando',
       country: 'United States',
@@ -5274,7 +5274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-527',
-      lat: 42.143, lng: -77.0457,
+      lat: 42.143000, lng: -77.045700,
       name: 'Corning (67.241.243.184)',
       city: 'Corning',
       country: 'United States',
@@ -5284,7 +5284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-528',
-      lat: 41.5768, lng: -74.4871,
+      lat: 41.576800, lng: -74.487100,
       name: 'Wurtsboro (67.245.222.202)',
       city: 'Wurtsboro',
       country: 'United States',
@@ -5294,7 +5294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-529',
-      lat: 40.7472, lng: -73.909,
+      lat: 40.746500, lng: -73.909000,
       name: 'Queens (67.250.149.242)',
       city: 'Queens',
       country: 'United States',
@@ -5304,7 +5304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-530',
-      lat: 38.0136, lng: -89.2373,
+      lat: 38.013600, lng: -89.237300,
       name: 'Du Quoin (67.61.53.137)',
       city: 'Du Quoin',
       country: 'United States',
@@ -5314,7 +5314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-531',
-      lat: 28.0653, lng: -81.7887,
+      lat: 28.065300, lng: -81.788700,
       name: 'Auburndale (67.78.25.130)',
       city: 'Auburndale',
       country: 'United States',
@@ -5324,7 +5324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-532',
-      lat: 37.1538, lng: -76.539,
+      lat: 37.153800, lng: -76.539000,
       name: 'Newport News (68.131.89.103)',
       city: 'Newport News',
       country: 'United States',
@@ -5334,7 +5334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-533',
-      lat: 51.1202, lng: -113.9429,
+      lat: 51.120200, lng: -113.942900,
       name: 'Calgary (68.144.45.1)',
       city: 'Calgary',
       country: 'Canada',
@@ -5344,7 +5344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-534',
-      lat: 53.5185, lng: -113.6579,
+      lat: 53.518500, lng: -113.657900,
       name: 'Edmonton (68.150.190.116)',
       city: 'Edmonton',
       country: 'Canada',
@@ -5354,7 +5354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-535',
-      lat: 29.572, lng: -95.54,
+      lat: 29.572000, lng: -95.540000,
       name: 'Missouri City (68.170.92.118)',
       city: 'Missouri City',
       country: 'United States',
@@ -5364,7 +5364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-536',
-      lat: 40.6704, lng: -73.6981,
+      lat: 40.670400, lng: -73.698100,
       name: 'Valley Stream (68.196.213.131)',
       city: 'Valley Stream',
       country: 'United States',
@@ -5374,7 +5374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-537',
-      lat: 42.8122, lng: -85.7228,
+      lat: 42.812200, lng: -85.722800,
       name: 'Byron Center (68.59.26.37)',
       city: 'Byron Center',
       country: 'United States',
@@ -5384,7 +5384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-538',
-      lat: 42.331, lng: -83.3785,
+      lat: 42.331000, lng: -83.378500,
       name: 'Westland (68.62.28.181)',
       city: 'Westland',
       country: 'United States',
@@ -5394,7 +5394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-539',
-      lat: 33.7329, lng: -118.2951,
+      lat: 33.732900, lng: -118.295100,
       name: 'San Pedro (68.95.120.23)',
       city: 'San Pedro',
       country: 'United States',
@@ -5404,7 +5404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-540',
-      lat: 40.9476, lng: -73.8624,
+      lat: 40.947600, lng: -73.862400,
       name: 'Yonkers (69.112.167.16)',
       city: 'Yonkers',
       country: 'United States',
@@ -5414,7 +5414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-541',
-      lat: 40.789, lng: -73.7262,
+      lat: 40.789000, lng: -73.726200,
       name: 'Great Neck (69.123.159.186)',
       city: 'Great Neck',
       country: 'United States',
@@ -5424,7 +5424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-542',
-      lat: 42.6002, lng: -83.0033,
+      lat: 42.600200, lng: -83.003300,
       name: 'Sterling Heights (69.14.156.27)',
       city: 'Sterling Heights',
       country: 'United States',
@@ -5434,7 +5434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-543',
-      lat: 48.1999, lng: -114.3034,
+      lat: 48.199900, lng: -114.303400,
       name: 'Kalispell (69.146.92.203)',
       city: 'Kalispell',
       country: 'United States',
@@ -5444,7 +5444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-544',
-      lat: 47.4657, lng: -99.3996,
+      lat: 47.465000, lng: -99.399600,
       name: 'Sykeston (69.178.200.107)',
       city: 'Sykeston',
       country: 'United States',
@@ -5454,7 +5454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-545',
-      lat: 47.4643, lng: -99.3996,
+      lat: 47.465800, lng: -99.399600,
       name: 'Sykeston (69.178.200.211)',
       city: 'Sykeston',
       country: 'United States',
@@ -5464,7 +5464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-546',
-      lat: 41.8559, lng: -73.9771,
+      lat: 41.855900, lng: -73.977100,
       name: 'Ulster Park (69.206.50.63)',
       city: 'Ulster Park',
       country: 'United States',
@@ -5474,7 +5474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-547',
-      lat: 32.0176, lng: -80.9925,
+      lat: 32.017600, lng: -80.992500,
       name: 'Savannah (69.245.96.227)',
       city: 'Savannah',
       country: 'United States',
@@ -5484,7 +5484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-548',
-      lat: 30.2108, lng: -84.3205,
+      lat: 30.210800, lng: -84.320500,
       name: 'Crawfordville (69.246.166.112)',
       city: 'Crawfordville',
       country: 'United States',
@@ -5494,7 +5494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-549',
-      lat: 38.9406, lng: -84.3943,
+      lat: 38.940600, lng: -84.394300,
       name: 'Alexandria (69.61.154.11)',
       city: 'Alexandria',
       country: 'United States',
@@ -5504,7 +5504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-550',
-      lat: 28.0684, lng: -82.7593,
+      lat: 28.068400, lng: -82.759300,
       name: 'Palm Harbor (69.73.72.56)',
       city: 'Palm Harbor',
       country: 'United States',
@@ -5514,7 +5514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-551',
-      lat: 34.2149, lng: -119.1761,
+      lat: 34.214900, lng: -119.176100,
       name: 'Oxnard (69.75.205.10)',
       city: 'Oxnard',
       country: 'United States',
@@ -5524,7 +5524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-552',
-      lat: 36.4037, lng: -81.4929,
+      lat: 36.403700, lng: -81.492900,
       name: 'West Jefferson (69.77.155.105)',
       city: 'West Jefferson',
       country: 'United States',
@@ -5534,7 +5534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-553',
-      lat: 30.5154, lng: -97.6689,
+      lat: 30.515400, lng: -97.668900,
       name: 'Round Rock (70.114.166.58)',
       city: 'Round Rock',
       country: 'United States',
@@ -5544,7 +5544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-554',
-      lat: 29.6138, lng: -82.386,
+      lat: 29.613800, lng: -82.386000,
       name: 'Gainesville (70.171.34.64)',
       city: 'Gainesville',
       country: 'United States',
@@ -5554,7 +5554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-555',
-      lat: 36.0432, lng: -95.8072,
+      lat: 36.043200, lng: -95.807200,
       name: 'Broken Arrow (70.177.90.36)',
       city: 'Broken Arrow',
       country: 'United States',
@@ -5564,7 +5564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-556',
-      lat: 41.377, lng: -81.6588,
+      lat: 41.377000, lng: -81.658800,
       name: 'Independence (70.187.66.71)',
       city: 'Independence',
       country: 'United States',
@@ -5574,7 +5574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-557',
-      lat: 35.8692, lng: -78.5348,
+      lat: 35.869200, lng: -78.534800,
       name: 'Raleigh (70.62.124.242)',
       city: 'Raleigh',
       country: 'United States',
@@ -5584,7 +5584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-558',
-      lat: 34.7229, lng: -76.726,
+      lat: 34.722900, lng: -76.726000,
       name: 'Morehead City (70.63.123.20)',
       city: 'Morehead City',
       country: 'United States',
@@ -5594,7 +5594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-559',
-      lat: 36.0392, lng: -80.19,
+      lat: 36.039200, lng: -80.190000,
       name: 'Winston-Salem (70.63.66.98)',
       city: 'Winston-Salem',
       country: 'United States',
@@ -5604,7 +5604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-560',
-      lat: 49.1681, lng: -122.5845,
+      lat: 49.168100, lng: -122.584500,
       name: 'Langley (70.70.49.116)',
       city: 'Langley',
       country: 'Canada',
@@ -5614,7 +5614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-561',
-      lat: 51.1125, lng: -114.0489,
+      lat: 51.112500, lng: -114.048900,
       name: 'Calgary (70.77.97.228)',
       city: 'Calgary',
       country: 'Canada',
@@ -5624,7 +5624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-562',
-      lat: 49.2478, lng: -122.9938,
+      lat: 49.247800, lng: -122.993800,
       name: 'Burnaby (70.79.108.218)',
       city: 'Burnaby',
       country: 'Canada',
@@ -5634,7 +5634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-563',
-      lat: 33.8838, lng: -118.1261,
+      lat: 33.883800, lng: -118.126100,
       name: 'Bellflower (70.93.137.33)',
       city: 'Bellflower',
       country: 'United States',
@@ -5644,7 +5644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-564',
-      lat: 43.4219, lng: -88.1847,
+      lat: 43.421900, lng: -88.184700,
       name: 'West Bend (71.10.120.184)',
       city: 'West Bend',
       country: 'United States',
@@ -5654,7 +5654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-565',
-      lat: 40.6496, lng: -74.3505,
+      lat: 40.649600, lng: -74.350500,
       name: 'Westfield (71.104.79.43)',
       city: 'Westfield',
       country: 'United States',
@@ -5664,7 +5664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-566',
-      lat: 38.696, lng: -77.1995,
+      lat: 38.696000, lng: -77.199500,
       name: 'Lorton (71.163.92.65)',
       city: 'Lorton',
       country: 'United States',
@@ -5674,7 +5674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-567',
-      lat: 43.134, lng: -70.9265,
+      lat: 43.134000, lng: -70.926500,
       name: 'Durham (71.181.7.91)',
       city: 'Durham',
       country: 'United States',
@@ -5684,7 +5684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-568',
-      lat: 38.8406, lng: -76.7999,
+      lat: 38.840600, lng: -76.799900,
       name: 'Upper Marlboro (71.191.162.125)',
       city: 'Upper Marlboro',
       country: 'United States',
@@ -5694,7 +5694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-569',
-      lat: 39.3855, lng: -76.54,
+      lat: 39.385500, lng: -76.540000,
       name: 'Parkville (71.206.8.217)',
       city: 'Parkville',
       country: 'United States',
@@ -5704,7 +5704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-570',
-      lat: 26.5025, lng: -81.9276,
+      lat: 26.502500, lng: -81.927600,
       name: 'Fort Myers (71.208.230.73)',
       city: 'Fort Myers',
       country: 'United States',
@@ -5714,7 +5714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-571',
-      lat: 41.874, lng: -71.3844,
+      lat: 41.874000, lng: -71.384400,
       name: 'Pawtucket (71.245.70.114)',
       city: 'Pawtucket',
       country: 'United States',
@@ -5724,7 +5724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-572',
-      lat: 39.786, lng: -86.1589,
+      lat: 39.786000, lng: -86.158900,
       name: 'Indianapolis (71.46.76.214)',
       city: 'Indianapolis',
       country: 'United States',
@@ -5734,7 +5734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-573',
-      lat: 40.4562, lng: -79.8163,
+      lat: 40.456200, lng: -79.816300,
       name: 'Pittsburgh (71.60.4.245)',
       city: 'Pittsburgh',
       country: 'United States',
@@ -5744,7 +5744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-574',
-      lat: 37.6281, lng: -77.3376,
+      lat: 37.628100, lng: -77.337600,
       name: 'Mechanicsville (71.62.123.0)',
       city: 'Mechanicsville',
       country: 'United States',
@@ -5754,7 +5754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-575',
-      lat: 36.6883, lng: -79.8685,
+      lat: 36.688300, lng: -79.868500,
       name: 'Martinsville (71.63.52.7)',
       city: 'Martinsville',
       country: 'United States',
@@ -5764,7 +5764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-576',
-      lat: 38.617, lng: -90.2566,
+      lat: 38.617000, lng: -90.256600,
       name: 'St Louis (71.86.30.155)',
       city: 'St Louis',
       country: 'United States',
@@ -5774,7 +5774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-577',
-      lat: 32.3736, lng: -86.1833,
+      lat: 32.373600, lng: -86.183300,
       name: 'Montgomery (71.90.240.230)',
       city: 'Montgomery',
       country: 'United States',
@@ -5784,7 +5784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-578',
-      lat: 39.3809, lng: -119.6859,
+      lat: 39.380900, lng: -119.685900,
       name: 'Reno (71.93.88.23)',
       city: 'Reno',
       country: 'United States',
@@ -5794,7 +5794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-579',
-      lat: 46.0662, lng: -118.3514,
+      lat: 46.066200, lng: -118.351400,
       name: 'Walla Walla (72.10.7.18)',
       city: 'Walla Walla',
       country: 'United States',
@@ -5804,7 +5804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-580',
-      lat: 46.138, lng: -93.4708,
+      lat: 46.138000, lng: -93.470800,
       name: 'Isle (72.14.114.49)',
       city: 'Isle',
       country: 'United States',
@@ -5814,7 +5814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-581',
-      lat: 43.5553, lng: -111.8922,
+      lat: 43.555300, lng: -111.892200,
       name: 'Idaho Falls (72.24.106.212)',
       city: 'Idaho Falls',
       country: 'United States',
@@ -5824,7 +5824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-582',
-      lat: 41.8835, lng: -87.6305,
+      lat: 41.883500, lng: -87.630500,
       name: 'Chicago (72.250.58.167)',
       city: 'Chicago',
       country: 'United States',
@@ -5834,7 +5834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-583',
-      lat: 42.576, lng: -71.9883,
+      lat: 42.576000, lng: -71.988300,
       name: 'Gardner (73.100.98.146)',
       city: 'Gardner',
       country: 'United States',
@@ -5844,7 +5844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-584',
-      lat: 41.6836, lng: -72.9295,
+      lat: 41.683600, lng: -72.929500,
       name: 'Bristol (73.119.4.249)',
       city: 'Bristol',
       country: 'United States',
@@ -5854,7 +5854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-585',
-      lat: 41.8732, lng: -88.0002,
+      lat: 41.873200, lng: -88.000200,
       name: 'Lombard (73.168.25.9)',
       city: 'Lombard',
       country: 'United States',
@@ -5864,7 +5864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-586',
-      lat: 39.2733, lng: -74.5876,
+      lat: 39.273300, lng: -74.587600,
       name: 'Ocean City (73.178.15.135)',
       city: 'Ocean City',
       country: 'United States',
@@ -5874,7 +5874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-587',
-      lat: 39.8023, lng: -75.0641,
+      lat: 39.802300, lng: -75.064100,
       name: 'Blackwood (73.178.71.44)',
       city: 'Blackwood',
       country: 'United States',
@@ -5884,7 +5884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-588',
-      lat: 47.223, lng: -122.5361,
+      lat: 47.223000, lng: -122.536100,
       name: 'Tacoma (73.19.40.104)',
       city: 'Tacoma',
       country: 'United States',
@@ -5894,7 +5894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-589',
-      lat: 42.558, lng: -82.998,
+      lat: 42.558000, lng: -82.998000,
       name: 'Sterling Heights (73.191.222.45)',
       city: 'Sterling Heights',
       country: 'United States',
@@ -5904,7 +5904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-590',
-      lat: 26.3494, lng: -80.1501,
+      lat: 26.348700, lng: -80.150100,
       name: 'Boca Raton (73.205.25.22)',
       city: 'Boca Raton',
       country: 'United States',
@@ -5914,7 +5914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-591',
-      lat: 41.5636, lng: -88.2157,
+      lat: 41.563600, lng: -88.215700,
       name: 'Plainfield (73.246.67.197)',
       city: 'Plainfield',
       country: 'United States',
@@ -5924,7 +5924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-592',
-      lat: 38.6711, lng: -121.1495,
+      lat: 38.671100, lng: -121.149500,
       name: 'Folsom (73.66.47.132)',
       city: 'Folsom',
       country: 'United States',
@@ -5934,7 +5934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-593',
-      lat: 40.3052, lng: -79.5418,
+      lat: 40.305200, lng: -79.541800,
       name: 'Greensburg (73.79.220.183)',
       city: 'Greensburg',
       country: 'United States',
@@ -5944,7 +5944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-594',
-      lat: 41.0631, lng: -74.1437,
+      lat: 41.063100, lng: -74.143700,
       name: 'Ramsey (74.105.134.61)',
       city: 'Ramsey',
       country: 'United States',
@@ -5954,7 +5954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-595',
-      lat: 37.3268, lng: -87.4958,
+      lat: 37.326800, lng: -87.495800,
       name: 'Madisonville (74.130.201.155)',
       city: 'Madisonville',
       country: 'United States',
@@ -5964,7 +5964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-596',
-      lat: 35.1655, lng: -101.8857,
+      lat: 35.165500, lng: -101.885700,
       name: 'Amarillo (74.197.44.168)',
       city: 'Amarillo',
       country: 'United States',
@@ -5974,7 +5974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-597',
-      lat: 44.7499, lng: -93.2081,
+      lat: 44.749900, lng: -93.208100,
       name: 'Apple Valley (74.41.186.114)',
       city: 'Apple Valley',
       country: 'United States',
@@ -5984,7 +5984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-598',
-      lat: 40.6805, lng: -73.8442,
+      lat: 40.680500, lng: -73.844200,
       name: 'Queens (74.66.134.234)',
       city: 'Queens',
       country: 'United States',
@@ -5994,7 +5994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-599',
-      lat: 41.1462, lng: -73.9966,
+      lat: 41.146200, lng: -73.996600,
       name: 'New City (74.88.252.233)',
       city: 'New City',
       country: 'United States',
@@ -6004,7 +6004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-600',
-      lat: 40.7058, lng: -73.3155,
+      lat: 40.705800, lng: -73.315500,
       name: 'West Islip (74.90.183.250)',
       city: 'West Islip',
       country: 'United States',
@@ -6014,7 +6014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-601',
-      lat: 40.2876, lng: -74.1724,
+      lat: 40.287600, lng: -74.172400,
       name: 'Colts Neck (74.90.99.251)',
       city: 'Colts Neck',
       country: 'United States',
@@ -6024,7 +6024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-602',
-      lat: 36.6434, lng: -76.242,
+      lat: 36.643400, lng: -76.242000,
       name: 'Chesapeake (74.99.86.61)',
       city: 'Chesapeake',
       country: 'United States',
@@ -6034,7 +6034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-603',
-      lat: 38.4539, lng: -90.328,
+      lat: 38.453900, lng: -90.328000,
       name: 'St Louis (75.134.63.101)',
       city: 'St Louis',
       country: 'United States',
@@ -6044,7 +6044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-604',
-      lat: 34.0582, lng: -118.126,
+      lat: 34.058200, lng: -118.126000,
       name: 'Monterey Park (75.140.7.194)',
       city: 'Monterey Park',
       country: 'United States',
@@ -6054,7 +6054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-605',
-      lat: 42.1501, lng: -71.8684,
+      lat: 42.150100, lng: -71.868400,
       name: 'North Oxford (75.143.59.51)',
       city: 'North Oxford',
       country: 'United States',
@@ -6064,7 +6064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-606',
-      lat: 37.2567, lng: -93.2944,
+      lat: 37.256700, lng: -93.294400,
       name: 'Springfield (75.163.46.152)',
       city: 'Springfield',
       country: 'United States',
@@ -6074,7 +6074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-607',
-      lat: 33.8732, lng: -78.6142,
+      lat: 33.873200, lng: -78.614200,
       name: 'Little River (75.183.161.167)',
       city: 'Little River',
       country: 'United States',
@@ -6084,7 +6084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-608',
-      lat: 33.9133, lng: -80.3587,
+      lat: 33.913300, lng: -80.358700,
       name: 'Sumter (75.189.1.104)',
       city: 'Sumter',
       country: 'United States',
@@ -6094,7 +6094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-609',
-      lat: 37.7022, lng: -121.9358,
+      lat: 37.702200, lng: -121.935800,
       name: 'Dublin (75.58.9.32)',
       city: 'Dublin',
       country: 'United States',
@@ -6104,7 +6104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-610',
-      lat: 35.032, lng: -90.0139,
+      lat: 35.032000, lng: -90.013900,
       name: 'Memphis (75.66.208.33)',
       city: 'Memphis',
       country: 'United States',
@@ -6114,7 +6114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-611',
-      lat: 41.4344, lng: -81.6373,
+      lat: 41.434400, lng: -81.637300,
       name: 'Garfield Heights (75.81.219.109)',
       city: 'Garfield Heights',
       country: 'United States',
@@ -6124,7 +6124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-612',
-      lat: 47.1291, lng: -122.4094,
+      lat: 47.129100, lng: -122.409400,
       name: 'Tacoma (76.146.117.58)',
       city: 'Tacoma',
       country: 'United States',
@@ -6134,7 +6134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-613',
-      lat: 33.8778, lng: -118.2137,
+      lat: 33.877800, lng: -118.213700,
       name: 'Compton (76.168.67.199)',
       city: 'Compton',
       country: 'United States',
@@ -6144,7 +6144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-614',
-      lat: 33.7533, lng: -117.8578,
+      lat: 33.754800, lng: -117.857800,
       name: 'Santa Ana (76.175.9.47)',
       city: 'Santa Ana',
       country: 'United States',
@@ -6154,7 +6154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-615',
-      lat: 25.9244, lng: -97.4626,
+      lat: 25.924400, lng: -97.462600,
       name: 'Brownsville (76.186.183.37)',
       city: 'Brownsville',
       country: 'United States',
@@ -6164,7 +6164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-616',
-      lat: 37.9269, lng: -122.3313,
+      lat: 37.926900, lng: -122.331300,
       name: 'Richmond (76.191.171.79)',
       city: 'Richmond',
       country: 'United States',
@@ -6174,7 +6174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-617',
-      lat: 34.1994, lng: -118.5972,
+      lat: 34.199400, lng: -118.597200,
       name: 'Canoga Park (76.50.193.210)',
       city: 'Canoga Park',
       country: 'United States',
@@ -6184,7 +6184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-618',
-      lat: 34.6038, lng: -118.2295,
+      lat: 34.603800, lng: -118.229500,
       name: 'Palmdale (76.80.191.205)',
       city: 'Palmdale',
       country: 'United States',
@@ -6194,7 +6194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-619',
-      lat: 34.0308, lng: -118.473,
+      lat: 34.030800, lng: -118.473000,
       name: 'Santa Monica (76.94.198.84)',
       city: 'Santa Monica',
       country: 'United States',
@@ -6204,7 +6204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-620',
-      lat: 52.61885, lng: -1.1804,
+      lat: 52.618100, lng: -1.180400,
       name: 'Leicester (77.101.213.101)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -6214,7 +6214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-621',
-      lat: 32.1678, lng: 34.8205,
+      lat: 32.167800, lng: 34.820500,
       name: 'Herzliya (77.137.177.53)',
       city: 'Herzliya',
       country: 'Israel',
@@ -6224,7 +6224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-622',
-      lat: 51.8473, lng: -2.1803,
+      lat: 51.847300, lng: -2.180300,
       name: 'Gloucester (77.96.203.23)',
       city: 'Gloucester',
       country: 'United Kingdom',
@@ -6234,7 +6234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-623',
-      lat: 51.8352, lng: -2.2174,
+      lat: 51.834500, lng: -2.217400,
       name: 'Gloucester (77.96.240.67)',
       city: 'Gloucester',
       country: 'United Kingdom',
@@ -6244,7 +6244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-624',
-      lat: 53.4809, lng: -2.2374,
+      lat: 53.480900, lng: -2.237400,
       name: 'Manchester (77.98.8.148)',
       city: 'Manchester',
       country: 'United Kingdom',
@@ -6254,7 +6254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-625',
-      lat: 25.2925, lng: 51.5321,
+      lat: 25.292500, lng: 51.532100,
       name: 'Doha (78.101.24.89)',
       city: 'Doha',
       country: 'Qatar',
@@ -6264,7 +6264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-626',
-      lat: 51.5801, lng: -0.3793,
+      lat: 51.581600, lng: -0.379300,
       name: 'Pinner (78.145.70.93)',
       city: 'Pinner',
       country: 'United Kingdom',
@@ -6274,7 +6274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-627',
-      lat: 52.396, lng: 0.2581,
+      lat: 52.396000, lng: 0.258100,
       name: 'Ely (78.146.250.33)',
       city: 'Ely',
       country: 'United Kingdom',
@@ -6284,7 +6284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-628',
-      lat: 51.8338, lng: -2.2174,
+      lat: 51.835300, lng: -2.217400,
       name: 'Gloucester (78.149.150.236)',
       city: 'Gloucester',
       country: 'United Kingdom',
@@ -6294,7 +6294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-629',
-      lat: 39.9614, lng: -105.5108,
+      lat: 39.961400, lng: -105.510800,
       name: 'Nederland (8.39.228.68)',
       city: 'Nederland',
       country: 'United States',
@@ -6304,7 +6304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-630',
-      lat: 53.4003, lng: -2.2154,
+      lat: 53.400300, lng: -2.215400,
       name: 'Cheadle (80.1.213.108)',
       city: 'Cheadle',
       country: 'United Kingdom',
@@ -6314,7 +6314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-631',
-      lat: 31.9649, lng: 34.7876,
+      lat: 31.964200, lng: 34.787600,
       name: 'Rishon LeTsiyyon (80.178.205.174)',
       city: 'Rishon LeTsiyyon',
       country: 'Israel',
@@ -6324,7 +6324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-632',
-      lat: 50.4163, lng: -5.0768,
+      lat: 50.416300, lng: -5.076800,
       name: 'Newquay (80.189.16.50)',
       city: 'Newquay',
       country: 'United Kingdom',
@@ -6334,7 +6334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-633',
-      lat: 52.5874, lng: -2.138,
+      lat: 52.587400, lng: -2.138000,
       name: 'Wolverhampton (80.192.138.217)',
       city: 'Wolverhampton',
       country: 'United Kingdom',
@@ -6344,7 +6344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-634',
-      lat: 51.5826, lng: -0.1154,
+      lat: 51.582600, lng: -0.115400,
       name: 'Harringay (80.192.63.208)',
       city: 'Harringay',
       country: 'United Kingdom',
@@ -6354,7 +6354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-635',
-      lat: 51.3878, lng: -0.2945,
+      lat: 51.387800, lng: -0.294500,
       name: 'Surbiton (80.229.243.27)',
       city: 'Surbiton',
       country: 'United Kingdom',
@@ -6364,7 +6364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-636',
-      lat: 52.9707, lng: -0.2973,
+      lat: 52.970700, lng: -0.297300,
       name: 'Heckington (80.234.236.99)',
       city: 'Heckington',
       country: 'United Kingdom',
@@ -6374,7 +6374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-637',
-      lat: 52.652, lng: -1.0876,
+      lat: 52.651300, lng: -1.087600,
       name: 'Leicester (80.5.85.181)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -6384,7 +6384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-638',
-      lat: 52.5836, lng: -0.2528,
+      lat: 52.583600, lng: -0.252800,
       name: 'Peterborough (80.6.232.147)',
       city: 'Peterborough',
       country: 'United Kingdom',
@@ -6394,7 +6394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-639',
-      lat: 51.5005, lng: -0.1905,
+      lat: 51.500500, lng: -0.190500,
       name: 'Kensington (81.101.110.43)',
       city: 'Kensington',
       country: 'United Kingdom',
@@ -6404,7 +6404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-640',
-      lat: 50.8876, lng: -1.3131,
+      lat: 50.887600, lng: -1.313100,
       name: 'Southampton (81.105.186.81)',
       city: 'Southampton',
       country: 'United Kingdom',
@@ -6414,7 +6414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-641',
-      lat: 51.9322, lng: -0.4568,
+      lat: 51.932200, lng: -0.456800,
       name: 'Luton (81.106.98.94)',
       city: 'Luton',
       country: 'United Kingdom',
@@ -6424,7 +6424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-642',
-      lat: 51.753, lng: -0.3256,
+      lat: 51.753000, lng: -0.325600,
       name: 'St Albans (81.107.46.231)',
       city: 'St Albans',
       country: 'United Kingdom',
@@ -6434,7 +6434,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-643',
-      lat: 53.4367, lng: -2.9652,
+      lat: 53.436700, lng: -2.965200,
       name: 'Liverpool (81.110.10.220)',
       city: 'Liverpool',
       country: 'United Kingdom',
@@ -6444,7 +6444,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-644',
-      lat: 52.617725, lng: -1.17975,
+      lat: 52.618900, lng: -1.180400,
       name: 'Leicester (81.110.200.27)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -6454,7 +6454,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-645',
-      lat: 51.5826, lng: -0.555,
+      lat: 51.582600, lng: -0.555000,
       name: 'Gerrards Cross (81.133.93.10)',
       city: 'Gerrards Cross',
       country: 'United Kingdom',
@@ -6464,7 +6464,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-646',
-      lat: 56.4806, lng: -2.9358,
+      lat: 56.480600, lng: -2.935800,
       name: 'Dundee (81.135.100.243)',
       city: 'Dundee',
       country: 'United Kingdom',
@@ -6474,7 +6474,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-647',
-      lat: 51.504, lng: -0.3609,
+      lat: 51.504000, lng: -0.360900,
       name: 'Southall (81.143.204.247)',
       city: 'Southall',
       country: 'United Kingdom',
@@ -6484,7 +6484,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-648',
-      lat: 51.5563, lng: -0.5982,
+      lat: 51.556300, lng: -0.598200,
       name: 'Slough (81.143.4.33)',
       city: 'Slough',
       country: 'United Kingdom',
@@ -6494,7 +6494,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-649',
-      lat: 51.4425, lng: -0.9267,
+      lat: 51.442500, lng: -0.926700,
       name: 'Reading (81.153.13.19)',
       city: 'Reading',
       country: 'United Kingdom',
@@ -6504,7 +6504,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-650',
-      lat: 51.5112, lng: 0.03,
+      lat: 51.511200, lng: 0.030000,
       name: 'Newham (81.154.204.161)',
       city: 'Newham',
       country: 'United Kingdom',
@@ -6514,7 +6514,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-651',
-      lat: 51.3997, lng: -0.2515,
+      lat: 51.399700, lng: -0.251500,
       name: 'Kingston upon Thames (81.97.19.113)',
       city: 'Kingston upon Thames',
       country: 'United Kingdom',
@@ -6524,7 +6524,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-652',
-      lat: 51.3249, lng: -0.5681,
+      lat: 51.324900, lng: -0.568100,
       name: 'Woking (82.3.79.33)',
       city: 'Woking',
       country: 'United Kingdom',
@@ -6534,7 +6534,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-653',
-      lat: 52.0618, lng: 1.156,
+      lat: 52.061800, lng: 1.156000,
       name: 'Ipswich (82.30.23.249)',
       city: 'Ipswich',
       country: 'United Kingdom',
@@ -6544,7 +6544,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-654',
-      lat: 55.9495, lng: -3.1983,
+      lat: 55.949500, lng: -3.198300,
       name: 'Edinburgh (82.31.105.223)',
       city: 'Edinburgh',
       country: 'United Kingdom',
@@ -6554,7 +6554,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-655',
-      lat: 50.9467, lng: -1.002,
+      lat: 50.946700, lng: -1.002000,
       name: 'Waterlooville (82.5.106.18)',
       city: 'Waterlooville',
       country: 'United Kingdom',
@@ -6564,7 +6564,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-656',
-      lat: 52.6506, lng: -1.0876,
+      lat: 52.652100, lng: -1.087600,
       name: 'Leicester (82.6.250.249)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -6574,7 +6574,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-657',
-      lat: 48.8558, lng: 2.3494,
+      lat: 48.855800, lng: 2.349400,
       name: 'Unknown (82.64.239.105)',
       city: 'Unknown',
       country: 'France',
@@ -6584,7 +6584,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-658',
-      lat: 51.5648, lng: -0.1374,
+      lat: 51.564800, lng: -0.137400,
       name: 'Islington (82.69.5.114)',
       city: 'Islington',
       country: 'United Kingdom',
@@ -6594,7 +6594,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-659',
-      lat: 52.9598, lng: -7.2114,
+      lat: 52.959800, lng: -7.211400,
       name: 'Timahoe (83.70.32.5)',
       city: 'Timahoe',
       country: 'Ireland',
@@ -6604,7 +6604,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-660',
-      lat: 31.9635, lng: 34.7876,
+      lat: 31.965000, lng: 34.787600,
       name: 'Rishon LeTsiyyon (84.229.55.71)',
       city: 'Rishon LeTsiyyon',
       country: 'Israel',
@@ -6614,7 +6614,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-661',
-      lat: 52.4617, lng: -1.843,
+      lat: 52.461700, lng: -1.843000,
       name: 'Birmingham (84.66.108.146)',
       city: 'Birmingham',
       country: 'United Kingdom',
@@ -6624,7 +6624,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-662',
-      lat: 53.6875, lng: -1.6263,
+      lat: 53.687500, lng: -1.626300,
       name: 'Dewsbury (84.66.159.142)',
       city: 'Dewsbury',
       country: 'United Kingdom',
@@ -6634,7 +6634,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-663',
-      lat: 52.4486, lng: -1.5499,
+      lat: 52.448600, lng: -1.549900,
       name: 'Coventry (84.67.0.86)',
       city: 'Coventry',
       country: 'United Kingdom',
@@ -6644,7 +6644,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-664',
-      lat: 55.9947, lng: -3.7758,
+      lat: 55.994700, lng: -3.775800,
       name: 'Falkirk (84.68.67.203)',
       city: 'Falkirk',
       country: 'United Kingdom',
@@ -6654,7 +6654,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-665',
-      lat: 31.6656, lng: 34.5697,
+      lat: 31.665600, lng: 34.569700,
       name: 'Ashquelon (84.95.67.170)',
       city: 'Ashquelon',
       country: 'Israel',
@@ -6664,7 +6664,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-666',
-      lat: 32.079544, lng: 34.780288,
+      lat: 32.079600, lng: 34.780700,
       name: 'Tel Aviv (85.130.149.55)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -6674,7 +6674,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-667',
-      lat: 32.080189, lng: 34.779774,
+      lat: 32.080000, lng: 34.780007,
       name: 'Tel Aviv (85.130.203.49)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -6684,7 +6684,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-668',
-      lat: 32.080992, lng: 34.779957,
+      lat: 32.080800, lng: 34.780007,
       name: 'Tel Aviv (85.130.205.45)',
       city: 'Tel Aviv',
       country: 'Israel',
@@ -6694,7 +6694,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-669',
-      lat: 53.5956, lng: -1.6642,
+      lat: 53.595600, lng: -1.664200,
       name: 'Huddersfield (86.1.3.121)',
       city: 'Huddersfield',
       country: 'United Kingdom',
@@ -6704,7 +6704,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-670',
-      lat: 53.4783, lng: -2.1394,
+      lat: 53.478300, lng: -2.139400,
       name: 'Manchester (86.12.250.41)',
       city: 'Manchester',
       country: 'United Kingdom',
@@ -6714,7 +6714,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-671',
-      lat: 51.487, lng: 0.1812,
+      lat: 51.487000, lng: 0.181200,
       name: 'Erith (86.138.7.246)',
       city: 'Erith',
       country: 'United Kingdom',
@@ -6724,7 +6724,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-672',
-      lat: 51.3904, lng: -0.0992,
+      lat: 51.390400, lng: -0.099200,
       name: 'Croydon (86.140.141.147)',
       city: 'Croydon',
       country: 'United Kingdom',
@@ -6734,7 +6734,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-673',
-      lat: 51.5217, lng: -3.2037,
+      lat: 51.521000, lng: -3.203700,
       name: 'Cardiff (86.144.61.24)',
       city: 'Cardiff',
       country: 'United Kingdom',
@@ -6744,7 +6744,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-674',
-      lat: 51.51715, lng: -0.093,
+      lat: 51.516400, lng: -0.093000,
       name: 'City of London (86.154.209.184)',
       city: 'City of London',
       country: 'United Kingdom',
@@ -6754,7 +6754,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-675',
-      lat: 51.516025, lng: -0.09235,
+      lat: 51.517200, lng: -0.093000,
       name: 'City of London (86.156.237.203)',
       city: 'City of London',
       country: 'United Kingdom',
@@ -6764,7 +6764,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-676',
-      lat: 51.516025, lng: -0.09365,
+      lat: 51.515600, lng: -0.093000,
       name: 'City of London (86.159.84.56)',
       city: 'City of London',
       country: 'United Kingdom',
@@ -6774,7 +6774,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-677',
-      lat: 51.5975, lng: -0.1915,
+      lat: 51.597500, lng: -0.191500,
       name: 'Barnet (86.16.172.188)',
       city: 'Barnet',
       country: 'United Kingdom',
@@ -6784,7 +6784,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-678',
-      lat: 52.617725, lng: -1.18105,
+      lat: 52.617300, lng: -1.180400,
       name: 'Leicester (86.16.219.9)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -6794,7 +6794,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-679',
-      lat: 51.55, lng: 0.7833,
+      lat: 51.550000, lng: 0.783300,
       name: 'Southend-on-Sea (86.160.208.163)',
       city: 'Southend-on-Sea',
       country: 'United Kingdom',
@@ -6804,7 +6804,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-680',
-      lat: 53.7667, lng: -2.5333,
+      lat: 53.766700, lng: -2.533300,
       name: 'Blackburn (86.160.249.45)',
       city: 'Blackburn',
       country: 'United Kingdom',
@@ -6814,7 +6814,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-681',
-      lat: 53.5328, lng: -2.2794,
+      lat: 53.532800, lng: -2.279400,
       name: 'Manchester (86.165.89.94)',
       city: 'Manchester',
       country: 'United Kingdom',
@@ -6824,7 +6824,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-682',
-      lat: 55.9144, lng: -3.1637,
+      lat: 55.914400, lng: -3.163700,
       name: 'Edinburgh (86.166.99.6)',
       city: 'Edinburgh',
       country: 'United Kingdom',
@@ -6834,7 +6834,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-683',
-      lat: 50.7626, lng: -1.8142,
+      lat: 50.762600, lng: -1.814200,
       name: 'Bournemouth (86.17.228.86)',
       city: 'Bournemouth',
       country: 'United Kingdom',
@@ -6844,7 +6844,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-684',
-      lat: 51.4492, lng: -0.8798,
+      lat: 51.449200, lng: -0.879800,
       name: 'Reading (86.18.131.126)',
       city: 'Reading',
       country: 'United Kingdom',
@@ -6854,7 +6854,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-685',
-      lat: 52.7919, lng: 1.3797,
+      lat: 52.791900, lng: 1.379700,
       name: 'Norwich (86.180.20.220)',
       city: 'Norwich',
       country: 'United Kingdom',
@@ -6864,7 +6864,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-686',
-      lat: 54.5245, lng: -1.551,
+      lat: 54.524500, lng: -1.551000,
       name: 'Darlington (86.19.142.5)',
       city: 'Darlington',
       country: 'United Kingdom',
@@ -6874,7 +6874,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-687',
-      lat: 52.5883, lng: -1.9828,
+      lat: 52.587600, lng: -1.982800,
       name: 'Walsall (86.19.222.71)',
       city: 'Walsall',
       country: 'United Kingdom',
@@ -6884,7 +6884,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-688',
-      lat: 55.8048, lng: -4.0744,
+      lat: 55.804800, lng: -4.074400,
       name: 'Glasgow (86.2.109.196)',
       city: 'Glasgow',
       country: 'United Kingdom',
@@ -6894,7 +6894,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-689',
-      lat: 53.5621, lng: -0.0808,
+      lat: 53.562100, lng: -0.080800,
       name: 'Grimsby (86.20.39.20)',
       city: 'Grimsby',
       country: 'United Kingdom',
@@ -6904,7 +6904,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-690',
-      lat: 51.6131, lng: -4.0441,
+      lat: 51.613100, lng: -4.044100,
       name: 'Swansea (86.26.111.91)',
       city: 'Swansea',
       country: 'United Kingdom',
@@ -6914,7 +6914,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-691',
-      lat: 51.5203, lng: -3.2037,
+      lat: 51.521800, lng: -3.203700,
       name: 'Cardiff (86.3.25.248)',
       city: 'Cardiff',
       country: 'United Kingdom',
@@ -6924,7 +6924,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-692',
-      lat: 52.9648, lng: -1.2132,
+      lat: 52.964800, lng: -1.213200,
       name: 'Nottingham (86.30.167.79)',
       city: 'Nottingham',
       country: 'United Kingdom',
@@ -6934,7 +6934,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-693',
-      lat: 52.5199, lng: -1.9985,
+      lat: 52.519900, lng: -1.998500,
       name: 'West Bromwich (86.30.218.239)',
       city: 'West Bromwich',
       country: 'United Kingdom',
@@ -6944,7 +6944,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-694',
-      lat: 51.7822, lng: -1.4851,
+      lat: 51.782200, lng: -1.485100,
       name: 'Witney (88.202.240.69)',
       city: 'Witney',
       country: 'United Kingdom',
@@ -6954,7 +6954,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-695',
-      lat: 53.3068, lng: -6.2615,
+      lat: 53.306800, lng: -6.261500,
       name: 'Dublin (89.101.246.190)',
       city: 'Dublin',
       country: 'Ireland',
@@ -6964,7 +6964,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-696',
-      lat: 51.3391, lng: -0.7416,
+      lat: 51.339100, lng: -0.741600,
       name: 'Camberley (89.240.12.85)',
       city: 'Camberley',
       country: 'United Kingdom',
@@ -6974,7 +6974,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-697',
-      lat: 50.8435, lng: -0.2166,
+      lat: 50.843500, lng: -0.216600,
       name: 'Brighton (89.241.109.148)',
       city: 'Brighton',
       country: 'United Kingdom',
@@ -6984,7 +6984,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-698',
-      lat: 55.867, lng: -4.3056,
+      lat: 55.867000, lng: -4.305600,
       name: 'Glasgow (90.254.72.43)',
       city: 'Glasgow',
       country: 'United Kingdom',
@@ -6994,7 +6994,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-699',
-      lat: 51.4957, lng: -0.1224,
+      lat: 51.497200, lng: -0.122400,
       name: 'Unknown (91.102.60.11)',
       city: 'Unknown',
       country: 'United Kingdom',
@@ -7004,7 +7004,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-700',
-      lat: 51.4746, lng: -0.2517,
+      lat: 51.474600, lng: -0.251700,
       name: 'Barnes (91.143.66.85)',
       city: 'Barnes',
       country: 'United Kingdom',
@@ -7014,7 +7014,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-701',
-      lat: 52.5869, lng: -1.9828,
+      lat: 52.588400, lng: -1.982800,
       name: 'Walsall (92.20.192.24)',
       city: 'Walsall',
       country: 'United Kingdom',
@@ -7024,7 +7024,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-702',
-      lat: 52.6494, lng: -1.1203,
+      lat: 52.649400, lng: -1.120300,
       name: 'Leicester (92.20.210.223)',
       city: 'Leicester',
       country: 'United Kingdom',
@@ -7034,7 +7034,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-703',
-      lat: 24.453825, lng: 54.40535,
+      lat: 24.453400, lng: 54.406000,
       name: 'Abu Dhabi (92.96.95.203)',
       city: 'Abu Dhabi',
       country: 'United Arab Emirates',
@@ -7044,7 +7044,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-704',
-      lat: 54.8697, lng: -1.4201,
+      lat: 54.869700, lng: -1.420100,
       name: 'Sunderland (94.4.97.232)',
       city: 'Sunderland',
       country: 'United Kingdom',
@@ -7054,7 +7054,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-705',
-      lat: 45.5727, lng: -93.2244,
+      lat: 45.572700, lng: -93.224400,
       name: 'Cambridge (96.2.110.17)',
       city: 'Cambridge',
       country: 'United States',
@@ -7064,7 +7064,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-706',
-      lat: 42.4947, lng: -70.8499,
+      lat: 42.494700, lng: -70.849900,
       name: 'Marblehead (96.237.191.42)',
       city: 'Marblehead',
       country: 'United States',
@@ -7074,7 +7074,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-707',
-      lat: 39.2193, lng: -76.4761,
+      lat: 39.219300, lng: -76.476100,
       name: 'Sparrows Point (96.244.121.184)',
       city: 'Sparrows Point',
       country: 'United States',
@@ -7084,7 +7084,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-708',
-      lat: 38.9705, lng: -76.8388,
+      lat: 38.970500, lng: -76.838800,
       name: 'Lanham (96.255.200.210)',
       city: 'Lanham',
       country: 'United States',
@@ -7094,7 +7094,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-709',
-      lat: 39.0005, lng: -76.9712,
+      lat: 39.000500, lng: -76.971200,
       name: 'Hyattsville (96.255.47.158)',
       city: 'Hyattsville',
       country: 'United States',
@@ -7104,7 +7104,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-710',
-      lat: 38.5317, lng: -89.9988,
+      lat: 38.531700, lng: -89.998800,
       name: 'Swansea (96.36.175.62)',
       city: 'Swansea',
       country: 'United States',
@@ -7114,7 +7114,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-711',
-      lat: 46.5644, lng: -91.4082,
+      lat: 46.564400, lng: -91.408200,
       name: 'Iron River (96.47.115.190)',
       city: 'Iron River',
       country: 'United States',
@@ -7124,7 +7124,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-712',
-      lat: 53.6313, lng: -113.6363,
+      lat: 53.632800, lng: -113.636300,
       name: 'St. Albert (96.52.45.38)',
       city: 'St. Albert',
       country: 'Canada',
@@ -7134,7 +7134,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-713',
-      lat: 53.4179, lng: -113.5785,
+      lat: 53.417900, lng: -113.578500,
       name: 'Edmonton (96.53.155.0)',
       city: 'Edmonton',
       country: 'Canada',
@@ -7144,7 +7144,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-714',
-      lat: 28.3292, lng: -81.3559,
+      lat: 28.330700, lng: -81.355900,
       name: 'Kissimmee (97.100.156.121)',
       city: 'Kissimmee',
       country: 'United States',
@@ -7154,7 +7154,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-715',
-      lat: 28.4566, lng: -80.7978,
+      lat: 28.456600, lng: -80.797800,
       name: 'Cocoa (97.106.15.159)',
       city: 'Cocoa',
       country: 'United States',
@@ -7164,7 +7164,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-716',
-      lat: 43.4634, lng: -84.028,
+      lat: 43.463400, lng: -84.028000,
       name: 'Saginaw (97.95.41.136)',
       city: 'Saginaw',
       country: 'United States',
@@ -7174,7 +7174,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-717',
-      lat: 43.1139, lng: -79.0425,
+      lat: 43.113900, lng: -79.042500,
       name: 'Niagara Falls (98.1.77.213)',
       city: 'Niagara Falls',
       country: 'United States',
@@ -7184,7 +7184,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-718',
-      lat: 41.3893, lng: -81.3049,
+      lat: 41.389300, lng: -81.304900,
       name: 'Chagrin Falls (98.100.43.34)',
       city: 'Chagrin Falls',
       country: 'United States',
@@ -7194,7 +7194,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-719',
-      lat: 39.901, lng: -74.8235,
+      lat: 39.901000, lng: -74.823500,
       name: 'Medford (98.110.113.14)',
       city: 'Medford',
       country: 'United States',
@@ -7204,7 +7204,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-720',
-      lat: 41.0018, lng: -73.6657,
+      lat: 41.001800, lng: -73.665700,
       name: 'Port Chester (98.113.95.217)',
       city: 'Port Chester',
       country: 'United States',
@@ -7214,7 +7214,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-721',
-      lat: 43.6401, lng: -70.5213,
+      lat: 43.640100, lng: -70.521300,
       name: 'Buxton (98.13.65.55)',
       city: 'Buxton',
       country: 'United States',
@@ -7224,7 +7224,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-722',
-      lat: 40.7458, lng: -73.909,
+      lat: 40.747300, lng: -73.909000,
       name: 'Queens (98.14.154.129)',
       city: 'Queens',
       country: 'United States',
@@ -7234,7 +7234,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-723',
-      lat: 42.3315, lng: -83.3425,
+      lat: 42.331500, lng: -83.342500,
       name: 'Garden City (98.209.43.91)',
       city: 'Garden City',
       country: 'United States',
@@ -7244,7 +7244,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-724',
-      lat: 26.348, lng: -80.1501,
+      lat: 26.349500, lng: -80.150100,
       name: 'Boca Raton (98.211.146.153)',
       city: 'Boca Raton',
       country: 'United States',
@@ -7254,7 +7254,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-725',
-      lat: 42.0094, lng: -87.8354,
+      lat: 42.009400, lng: -87.835400,
       name: 'Park Ridge (98.212.142.202)',
       city: 'Park Ridge',
       country: 'United States',
@@ -7264,7 +7264,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-726',
-      lat: 42.1055, lng: -83.2795,
+      lat: 42.105500, lng: -83.279500,
       name: 'Flat Rock (98.243.162.27)',
       city: 'Flat Rock',
       country: 'United States',
@@ -7274,7 +7274,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-727',
-      lat: 37.6752, lng: -120.9465,
+      lat: 37.675200, lng: -120.946500,
       name: 'Modesto (98.255.230.202)',
       city: 'Modesto',
       country: 'United States',
@@ -7284,7 +7284,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-728',
-      lat: 38.6841, lng: -121.0676,
+      lat: 38.684100, lng: -121.067600,
       name: 'El Dorado Hills (98.41.12.94)',
       city: 'El Dorado Hills',
       country: 'United States',
@@ -7294,7 +7294,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-729',
-      lat: 41.85, lng: -87.7165,
+      lat: 41.850000, lng: -87.716500,
       name: 'Chicago (98.46.200.50)',
       city: 'Chicago',
       country: 'United States',
@@ -7304,7 +7304,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-730',
-      lat: 41.7011, lng: -86.872,
+      lat: 41.701100, lng: -86.872000,
       name: 'Michigan City (98.46.21.107)',
       city: 'Michigan City',
       country: 'United States',
@@ -7314,7 +7314,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-731',
-      lat: 45.08, lng: -93.0227,
+      lat: 45.080000, lng: -93.022700,
       name: 'White Bear Lake (98.61.116.187)',
       city: 'White Bear Lake',
       country: 'United States',
@@ -7324,7 +7324,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-732',
-      lat: 45.3973, lng: -75.6883,
+      lat: 45.397300, lng: -75.688300,
       name: 'Ottawa (99.209.87.86)',
       city: 'Ottawa',
       country: 'Canada',
@@ -7334,7 +7334,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-733',
-      lat: 43.8116, lng: -79.1893,
+      lat: 43.810900, lng: -79.189300,
       name: 'Scarborough (99.227.146.35)',
       city: 'Scarborough',
       country: 'Canada',
@@ -7344,7 +7344,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-734',
-      lat: 43.8102, lng: -79.1893,
+      lat: 43.811700, lng: -79.189300,
       name: 'Scarborough (99.227.253.23)',
       city: 'Scarborough',
       country: 'Canada',
@@ -7354,7 +7354,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-735',
-      lat: 43.7618, lng: -79.2703,
+      lat: 43.761800, lng: -79.270300,
       name: 'Scarborough (99.227.4.24)',
       city: 'Scarborough',
       country: 'Canada',
@@ -7364,7 +7364,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-736',
-      lat: 43.8137, lng: -79.4531,
+      lat: 43.813700, lng: -79.453100,
       name: 'Thornhill (99.228.169.102)',
       city: 'Thornhill',
       country: 'Canada',
@@ -7374,7 +7374,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-737',
-      lat: 43.8678, lng: -79.442,
+      lat: 43.867800, lng: -79.442000,
       name: 'Richmond Hill (99.228.21.156)',
       city: 'Richmond Hill',
       country: 'Canada',
@@ -7384,7 +7384,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-738',
-      lat: 43.7012, lng: -79.3877,
+      lat: 43.701200, lng: -79.387700,
       name: 'Toronto (99.239.214.173)',
       city: 'Toronto',
       country: 'Canada',
@@ -7394,7 +7394,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-739',
-      lat: 43.8784, lng: -79.2642,
+      lat: 43.878400, lng: -79.264200,
       name: 'Markham (99.241.231.44)',
       city: 'Markham',
       country: 'Canada',
@@ -7404,7 +7404,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-740',
-      lat: 43.7137, lng: -79.5964,
+      lat: 43.713700, lng: -79.596400,
       name: 'Etobicoke (99.253.50.117)',
       city: 'Etobicoke',
       country: 'Canada',
@@ -7414,7 +7414,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-741',
-      lat: 39.6345, lng: -84.1485,
+      lat: 39.634500, lng: -84.148500,
       name: 'Centerville (99.60.53.228)',
       city: 'Centerville',
       country: 'United States',
@@ -7424,7 +7424,7 @@ export async function fetchBlackeyeCameras(): Promise<CctvCamera[]> {
     },
     {
       id: 'blackeye-742',
-      lat: 36.213, lng: -86.3011,
+      lat: 36.213000, lng: -86.301100,
       name: 'Lebanon (99.98.179.232)',
       city: 'Lebanon',
       country: 'United States',
