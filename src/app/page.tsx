@@ -419,7 +419,7 @@ export default function Dashboard() {
               transition={{ delay: 0.8, duration: 0.5 }}
               className="absolute top-6 left-6 z-[2] font-mono text-[10px] tracking-[0.3em] text-[var(--gold-primary)]"
             >
-              BLACK GLOBE ®
+              VERSION 1.0
             </motion.div>
 
             {/* ── GIF Logo ── */}
