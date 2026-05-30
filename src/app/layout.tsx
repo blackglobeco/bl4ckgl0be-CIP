@@ -174,8 +174,8 @@ const jsonLd = {
 };
 
 import { Analytics } from "@vercel/analytics/next";
-
 import ErrorBoundary from '@/components/ErrorBoundary';
+import StartupSound from '@/components/StartupSound';
 
 export default function RootLayout({
   children,
@@ -200,6 +200,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased" style={{ backgroundColor: '#04040A' }}>
+        <StartupSound />
         <ErrorBoundary name="BLACK GLOBE Core">
           {children}
         </ErrorBoundary>
