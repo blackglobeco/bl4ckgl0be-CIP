@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const SITE_URL = "https://blackglobe.vercel.app";
+const SITE_URL = "https://blackglobe.qzz.io";
 const SITE_NAME = "BLACK GLOBE";
 const SITE_TITLE = "BLACK GLOBE — Cyber Intelligence Platform";
-const SITE_DESCRIPTION = "Live Tracking";
+const SITE_DESCRIPTION = "Cyber Intelligence Platform";
 
 export const viewport: Viewport = {
   themeColor: "#04040A",
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "BLACK GLOBE — Cyber Intelligence Platform",
-    description: "Live Tracking",
+    description: "Cyber Intelligence Platform",
     type: "website",
     siteName: SITE_NAME,
     locale: "en_US",
@@ -119,7 +119,7 @@ export const metadata: Metadata = {
   other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
-    "apple-mobile-web-app-title": "OSIRIS",
+    "apple-mobile-web-app-title": "BLACK GLOBE",
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#06060C",
     "msapplication-config": "none",
