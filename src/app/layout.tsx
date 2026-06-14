@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const SITE_URL = "https://blackglobe.qzz.io";
-const SITE_NAME = "BLACK CYBER";
-const SITE_TITLE = "BLACK CYBER — Cyber Intelligence Platform";
+const SITE_NAME = "BLACK GLOBE";
+const SITE_TITLE = "BLACK GLOBE — Cyber Intelligence Platform";
 const SITE_DESCRIPTION = "Cyber Intelligence Platform";
 
 export const viewport: Viewport = {
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "BLACK CYBER — Cyber Intelligence Platform",
+    title: "BLACK GLOBE — Cyber Intelligence Platform",
     description: "Cyber Intelligence Platform",
     type: "website",
     siteName: SITE_NAME,
@@ -101,14 +101,14 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "BLACK CYBER — Cyber Intelligence Platform",
+        alt: "BLACK GLOBE — Cyber Intelligence Platform",
         type: "image/png",
       },
     ],
   },
   instagram: {
     card: "summary_large_image",
-    title: "BLACK CYBER — Cyber Intelligence Platform",
+    title: "BLACK GLOBE — Cyber Intelligence Platform",
     description: "Live Tracking",
     creator: "@blackglobe.io",
     site: "@blackglobe.io",
@@ -119,7 +119,7 @@ export const metadata: Metadata = {
   other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
-    "apple-mobile-web-app-title": "BLACK CYBER",
+    "apple-mobile-web-app-title": "BLACK GLOBE",
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#06060C",
     "msapplication-config": "none",
@@ -130,7 +130,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "BLACK CYBER — Cyber Intelligence Platform",
+  name: "BLACK GLOBE — Cyber Intelligence Platform",
   alternateName: ["BLACKGLOBE", "BLACKGLOBEIO", "BLACKGLOBE.IO, BLACKGLOBE.QZZ.IO"],
   url: SITE_URL,
   description: SITE_DESCRIPTION,
