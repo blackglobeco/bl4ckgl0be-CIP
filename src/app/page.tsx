@@ -220,7 +220,7 @@ export default function Dashboard() {
           setLocationLabel(label);
           lastGeocodedPos.current = coords;
         }
-      } catch (e) { console.warn('[BLACK GLOBE] Suppressed error:', e instanceof Error ? e.message : e); }
+      } catch (e) { console.warn('[BLACK CYBER] Suppressed error:', e instanceof Error ? e.message : e); }
     }, 3000); // 3s debounce (was 1.5s)
   }, []);
 
@@ -230,7 +230,7 @@ export default function Dashboard() {
     try {
       const res = await fetch(`/api/region-dossier?lat=${coords.lat}&lng=${coords.lng}`);
       if (res.ok) setRegionDossier(await res.json());
-    } catch (e) { console.warn('[BLACK GLOBE] Suppressed error:', e instanceof Error ? e.message : e); } finally { setDossierLoading(false); }
+    } catch (e) { console.warn('[BLACK CYBER] Suppressed error:', e instanceof Error ? e.message : e); } finally { setDossierLoading(false); }
   }, []);
 
   // Entity click handler (hoisted from JSX to comply with Rules of Hooks — Fixes #113)
@@ -255,7 +255,7 @@ export default function Dashboard() {
         setBackendStatus('connected');
       }
     } catch (e) {
-      console.warn('[BLACK GLOBE] Suppressed error:', e instanceof Error ? e.message : e);
+      console.warn('[BLACK CYBER] Suppressed error:', e instanceof Error ? e.message : e);
       setBackendStatus('error');
     }
   }, []);
@@ -272,7 +272,7 @@ export default function Dashboard() {
       try {
         const r = await fetch('/api/space-weather');
         if (r.ok) setSpaceWeather(await r.json());
-      } catch (e) { console.warn('[BLACK GLOBE] Suppressed error:', e instanceof Error ? e.message : e); }
+      } catch (e) { console.warn('[BLACK CYBER] Suppressed error:', e instanceof Error ? e.message : e); }
     }, 5000);
 
     // Polling — OPTIMIZED intervals to minimize edge requests
@@ -431,15 +431,15 @@ export default function Dashboard() {
             >
               <img
                 src="/blackglobe.gif"
-                alt="Black Globe"
+                alt="Black Cyber"
                 className="w-full h-full object-contain"
                 draggable={false}
               />
             </motion.div>
 
-            {/* ── BLACK GLOBE title — letter-by-letter stagger ── */}
+            {/* ── BLACK CYBER title — letter-by-letter stagger ── */}
             <div className="flex items-center gap-[2px] mb-3 z-[2]">
-              {'BLACK GLOBE'.split('').map((letter, i) => (
+              {'BLACK CYBER'.split('').map((letter, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
@@ -605,7 +605,7 @@ export default function Dashboard() {
     {/* Animated GIF Logo */}
     <img
       src="/blackglobe.gif"
-      alt="Black Globe Logo"
+      alt="Black CYBER Logo"
       className="relative z-10 w-6 h-6 md:w-8 md:h-8 object-contain rounded-full animate-glow-pulse"
       draggable={false}
     />
@@ -616,7 +616,7 @@ export default function Dashboard() {
   <div className="flex flex-col">
     <div className="flex items-center gap-2">
       <h1 className="text-base md:text-xl font-bold tracking-[0.4em] md:tracking-[0.5em] text-[var(--text-heading)] font-mono">
-        BLACK GLOBE
+        BLACK CYBER
       </h1>
     </div>
 
