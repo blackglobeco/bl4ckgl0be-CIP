@@ -644,7 +644,7 @@ export default function Dashboard() {
         <span className="hidden lg:inline-flex items-center gap-1">
           <Wifi className="w-3 h-3 text-[var(--cyan-primary)]" />
           <span className="text-[var(--cyan-primary)] font-bold">{Object.values(activeLayers).filter(Boolean).length}</span>
-          <span className="text-[var(--text-muted)]/60">FEEDS</span>
+          <span style={{ color: 'rgba(92, 90, 84, 0.6)' }}>FEEDS</span>
         </span>
 
         <UptimeClock />
@@ -1007,7 +1007,7 @@ export default function Dashboard() {
       <GlobalStatusBar />
 
       {/* Shortcut hint */}
-      <div className="desktop-only absolute bottom-[26px] right-5 z-[200] pointer-events-none text-[6px] font-mono text-[var(--text-muted)]/40 tracking-widest">
+      <div className="desktop-only absolute bottom-[26px] right-5 z-[200] pointer-events-none text-[6px] font-mono tracking-widest" style={{ color: 'rgba(92, 90, 84, 0.4)' }}>
         [?] SHORTCUTS · [F] FULLSCREEN · [S] SHARE · [R] RESET VIEW
       </div>
 
