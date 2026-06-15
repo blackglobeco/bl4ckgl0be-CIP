@@ -3,20 +3,19 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// All colors hardcoded — no CSS variables in className, only in style props
 const C = {
-  bg:         'rgba(8, 10, 20, 0.92)',
-  bgLabel:    'rgba(8, 10, 20, 0.98)',
-  border:     'rgba(255, 255, 255, 0.08)',
-  textPrimary:'#E8E6E0',
-  textMuted:  '#5C5A54',
-  textDim:    'rgba(92, 90, 84, 0.6)',
-  dotDim:     'rgba(92, 90, 84, 0.35)',
-  gold:       '#D4AF37',
-  cyan:       '#00E5FF',
-  green:      '#00E676',
-  separator:  'rgba(255, 255, 255, 0.15)',
-  cyber:      '#E040FB',
+  bg:          'rgba(8, 10, 20, 0.92)',
+  bgLabel:     'rgba(8, 10, 20, 0.98)',
+  border:      'rgba(255, 255, 255, 0.08)',
+  textPrimary: '#E8E6E0',
+  textMuted:   '#5C5A54',
+  textClosed:  '#7A7875',   // closed exchange — visible grey (was too dim before)
+  dotOpen:     '#00E676',
+  dotClosed:   '#4A4845',
+  gold:        '#D4AF37',
+  green:       '#00E676',
+  separator:   'rgba(255, 255, 255, 0.2)',
+  cyber:       '#E040FB',
 };
 
 interface Exchange { name: string; country: string; open: boolean; }
@@ -77,13 +76,8 @@ export default function GlobalStatusBar() {
     <>
       {exchanges.map(ex => (
         <span key={ex.name} style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', margin: '0 6px' }}>
-          <span style={{
-            width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
-            backgroundColor: ex.open ? C.green : C.dotDim,
-          }} />
-          <span style={{ color: ex.open ? C.textPrimary : C.textDim }}>
-            {ex.name}
-          </span>
+          <span style={{ width: '5px', height: '5px', borderRadius: '50%', flexShrink: 0, backgroundColor: ex.open ? C.dotOpen : C.dotClosed }} />
+          <span style={{ color: ex.open ? C.textPrimary : C.textClosed }}>{ex.name}</span>
         </span>
       ))}
       <span style={{ color: C.separator, margin: '0 4px' }}>|</span>
@@ -126,14 +120,9 @@ export default function GlobalStatusBar() {
         letterSpacing: '0.05em',
         color: C.textPrimary,
       }}>
-        {/* Static MKT label */}
         <div style={{
-          flexShrink: 0,
-          padding: '0 8px',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
+          flexShrink: 0, padding: '0 8px', height: '100%',
+          display: 'flex', alignItems: 'center', gap: '4px',
           borderRight: `1px solid ${C.border}`,
           backgroundColor: C.bgLabel,
           pointerEvents: 'auto',
@@ -142,7 +131,6 @@ export default function GlobalStatusBar() {
           <span style={{ color: C.gold, fontWeight: 700 }}>{openCount}/{exchanges.length}</span>
         </div>
 
-        {/* Scrolling ticker */}
         <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
           <div className="animate-ticker" style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
             {tickerContent}
@@ -151,7 +139,6 @@ export default function GlobalStatusBar() {
         </div>
       </div>
 
-      {/* Hover tooltip */}
       {hoveredRisk && (
         <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', zIndex: 300, pointerEvents: 'none' }}>
           <div className="glass-panel" style={{ padding: '8px 12px', fontSize: '10px', fontFamily: 'monospace', textAlign: 'center', whiteSpace: 'nowrap', borderColor: `${riskColor(hoveredRisk.risk_level)}40` }}>
