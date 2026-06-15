@@ -95,9 +95,9 @@ export default function GlobalStatusBar() {
       transition={{ delay: 4, duration: 0.8 }}
       className="hidden md:block absolute bottom-0 left-0 right-0 z-[198] pointer-events-none"
     >
-      <div className="h-[22px] overflow-hidden bg-[var(--bg-panel)]/80 border-t border-[var(--border-secondary)]/50 flex items-center text-[8px] font-mono tracking-wider backdrop-blur-sm">
+      <div className="h-[22px] overflow-hidden border-t flex items-center text-[8px] font-mono tracking-wider" style={{ backgroundColor: 'rgba(8, 10, 20, 0.88)', borderColor: 'rgba(255,255,255,0.08)', color: '#E8E6E0' }}>
         {/* Static label */}
-        <div className="flex-shrink-0 px-2 h-full flex items-center gap-1 border-r border-[var(--border-secondary)]/50 bg-[var(--bg-panel)] pointer-events-auto">
+        <div className="flex-shrink-0 px-2 h-full flex items-center gap-1 pointer-events-auto" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(8, 10, 20, 0.95)' }}>
           <span className="text-[var(--text-muted)]">MKT</span>
           <span className="text-[var(--gold-primary)] font-bold">{openCount}/{exchanges.length}</span>
         </div>
