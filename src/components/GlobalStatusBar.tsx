@@ -61,8 +61,11 @@ export default function GlobalStatusBar() {
     <>
       {exchanges.map(ex => (
         <span key={ex.name} className="inline-flex items-center gap-0.5 mx-2">
-          <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${ex.open ? 'bg-[var(--alert-green)]' : 'bg-[var(--text-muted)]/30'}`} />
-          <span className={`${ex.open ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)]/40'}`}>{ex.name}</span>
+          <span
+            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ backgroundColor: ex.open ? 'var(--alert-green)' : 'rgba(92, 90, 84, 0.3)' }}
+          />
+          <span style={{ color: ex.open ? 'var(--text-primary)' : 'rgba(92, 90, 84, 0.6)' }}>{ex.name}</span>
         </span>
       ))}
       <span className="text-[var(--border-primary)] mx-1">|</span>
