@@ -3,6 +3,22 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+// All colors hardcoded — no CSS variables in className, only in style props
+const C = {
+  bg:         'rgba(8, 10, 20, 0.92)',
+  bgLabel:    'rgba(8, 10, 20, 0.98)',
+  border:     'rgba(255, 255, 255, 0.08)',
+  textPrimary:'#E8E6E0',
+  textMuted:  '#5C5A54',
+  textDim:    'rgba(92, 90, 84, 0.6)',
+  dotDim:     'rgba(92, 90, 84, 0.35)',
+  gold:       '#D4AF37',
+  cyan:       '#00E5FF',
+  green:      '#00E676',
+  separator:  'rgba(255, 255, 255, 0.15)',
+  cyber:      '#E040FB',
+};
+
 interface Exchange { name: string; country: string; open: boolean; }
 interface CountryRisk { code: string; risk_score: number; risk_level: string; tags: string[]; }
 
@@ -39,7 +55,7 @@ export default function GlobalStatusBar() {
       } catch (e) { console.warn('[OSIRIS] Suppressed error:', e instanceof Error ? e.message : e); }
     };
     fetchData();
-    const iv = setInterval(fetchData, 1800000); // 30 min (was 5 min)
+    const iv = setInterval(fetchData, 1800000);
     return () => clearInterval(iv);
   }, []);
 
@@ -60,30 +76,32 @@ export default function GlobalStatusBar() {
   const tickerContent = (
     <>
       {exchanges.map(ex => (
-        <span key={ex.name} className="inline-flex items-center gap-0.5 mx-2">
-          <span
-            className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-            style={{ backgroundColor: ex.open ? 'var(--alert-green)' : 'rgba(92, 90, 84, 0.3)' }}
-          />
-          <span style={{ color: ex.open ? 'var(--text-primary)' : 'rgba(92, 90, 84, 0.6)' }}>{ex.name}</span>
+        <span key={ex.name} style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', margin: '0 6px' }}>
+          <span style={{
+            width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0,
+            backgroundColor: ex.open ? C.green : C.dotDim,
+          }} />
+          <span style={{ color: ex.open ? C.textPrimary : C.textDim }}>
+            {ex.name}
+          </span>
         </span>
       ))}
-      <span className="text-[var(--border-primary)] mx-1">|</span>
+      <span style={{ color: C.separator, margin: '0 4px' }}>|</span>
       {topRisks.map(r => (
         <span
           key={r.code}
-          className="inline-flex items-center gap-0.5 mx-1.5 relative cursor-help pointer-events-auto"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', margin: '0 6px', cursor: 'help', pointerEvents: 'auto', position: 'relative' }}
           onMouseEnter={() => setHoveredRisk(r)}
           onMouseLeave={() => setHoveredRisk(null)}
         >
-          <span className="text-[10px]">{countryFlag(r.code)}</span>
-          <span style={{ color: riskColor(r.risk_level) }} className="font-bold">{r.risk_score}</span>
+          <span style={{ fontSize: '10px' }}>{countryFlag(r.code)}</span>
+          <span style={{ color: riskColor(r.risk_level), fontWeight: 700 }}>{r.risk_score}</span>
         </span>
       ))}
-      <span className="text-[var(--border-primary)] mx-1">|</span>
-      <span className="inline-flex items-center gap-1 mx-2">
-        <span className="text-[#E040FB]">CYBER</span>
-        <span className="text-[var(--text-primary)]">{cveCount} CVEs</span>
+      <span style={{ color: C.separator, margin: '0 4px' }}>|</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', margin: '0 8px' }}>
+        <span style={{ color: C.cyber }}>CYBER</span>
+        <span style={{ color: C.textPrimary }}>{cveCount} CVEs</span>
       </span>
     </>
   );
@@ -93,44 +111,62 @@ export default function GlobalStatusBar() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 4, duration: 0.8 }}
-      className="hidden md:block absolute bottom-0 left-0 right-0 z-[198] pointer-events-none"
+      style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 198, pointerEvents: 'none', display: 'none' }}
+      className="md:!block"
     >
-      <div className="h-[22px] overflow-hidden border-t flex items-center text-[8px] font-mono tracking-wider" style={{ backgroundColor: 'rgba(8, 10, 20, 0.88)', borderColor: 'rgba(255,255,255,0.08)', color: '#E8E6E0' }}>
-        {/* Static label */}
-        <div className="flex-shrink-0 px-2 h-full flex items-center gap-1 pointer-events-auto" style={{ borderRight: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'rgba(8, 10, 20, 0.95)' }}>
-          <span className="text-[var(--text-muted)]">MKT</span>
-          <span className="text-[var(--gold-primary)] font-bold">{openCount}/{exchanges.length}</span>
+      <div style={{
+        height: '22px',
+        overflow: 'hidden',
+        backgroundColor: C.bg,
+        borderTop: `1px solid ${C.border}`,
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '8px',
+        fontFamily: 'monospace',
+        letterSpacing: '0.05em',
+        color: C.textPrimary,
+      }}>
+        {/* Static MKT label */}
+        <div style={{
+          flexShrink: 0,
+          padding: '0 8px',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          borderRight: `1px solid ${C.border}`,
+          backgroundColor: C.bgLabel,
+          pointerEvents: 'auto',
+        }}>
+          <span style={{ color: C.textMuted }}>MKT</span>
+          <span style={{ color: C.gold, fontWeight: 700 }}>{openCount}/{exchanges.length}</span>
         </div>
 
-        {/* CSS-animated ticker */}
-        <div className="flex-1 overflow-hidden relative">
-          <div className="flex items-center animate-ticker whitespace-nowrap">
+        {/* Scrolling ticker */}
+        <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+          <div className="animate-ticker" style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}>
             {tickerContent}
             {tickerContent}
           </div>
         </div>
       </div>
 
-      {/* Hover tooltip for risk scores */}
+      {/* Hover tooltip */}
       {hoveredRisk && (
-        <div
-          className="absolute bottom-[28px] left-1/2 -translate-x-1/2 z-[300] pointer-events-none"
-        >
-          <div className="glass-panel px-3 py-2 text-[10px] font-mono text-center whitespace-nowrap" style={{ borderColor: `${riskColor(hoveredRisk.risk_level)}40` }}>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-[12px]">{countryFlag(hoveredRisk.code)}</span>
-              <span className="font-bold" style={{ color: riskColor(hoveredRisk.risk_level) }}>
-                {hoveredRisk.risk_level}
-              </span>
-              <span className="text-[var(--text-muted)]">Score: {hoveredRisk.risk_score}/100</span>
+        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', zIndex: 300, pointerEvents: 'none' }}>
+          <div className="glass-panel" style={{ padding: '8px 12px', fontSize: '10px', fontFamily: 'monospace', textAlign: 'center', whiteSpace: 'nowrap', borderColor: `${riskColor(hoveredRisk.risk_level)}40` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span style={{ fontSize: '12px' }}>{countryFlag(hoveredRisk.code)}</span>
+              <span style={{ fontWeight: 700, color: riskColor(hoveredRisk.risk_level) }}>{hoveredRisk.risk_level}</span>
+              <span style={{ color: C.textMuted }}>Score: {hoveredRisk.risk_score}/100</span>
             </div>
-            <div className="text-[9px] text-[var(--text-secondary)]">
+            <div style={{ fontSize: '9px', color: '#9B978E' }}>
               {RISK_TOOLTIPS[hoveredRisk.risk_level] || 'Risk assessment based on global threat data'}
             </div>
             {hoveredRisk.tags?.length > 0 && (
-              <div className="flex gap-1 mt-1 justify-center flex-wrap">
+              <div style={{ display: 'flex', gap: '4px', marginTop: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
                 {hoveredRisk.tags.slice(0, 3).map(t => (
-                  <span key={t} className="px-1.5 py-0.5 rounded text-[8px]" style={{ backgroundColor: `${riskColor(hoveredRisk.risk_level)}15`, color: riskColor(hoveredRisk.risk_level) }}>
+                  <span key={t} style={{ padding: '2px 6px', borderRadius: '3px', fontSize: '8px', backgroundColor: `${riskColor(hoveredRisk.risk_level)}15`, color: riskColor(hoveredRisk.risk_level) }}>
                     {t}
                   </span>
                 ))}
