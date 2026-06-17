@@ -15,6 +15,7 @@ import ViewPresets from '@/components/ViewPresets';
 import KeyboardShortcuts from '@/components/KeyboardShortcuts';
 import GlobalStatusBar from '@/components/GlobalStatusBar';
 import LiveAlerts from '@/components/LiveAlerts';
+import InstallPrompt from '@/components/InstallPrompt';
 
 const OsirisMap = dynamic(() => import('@/components/OsirisMap'), { ssr: false });
 const LayerPanel = dynamic(() => import('@/components/LayerPanel'));
@@ -810,6 +811,9 @@ export default function Dashboard() {
       {/* ═══ MOBILE UI ═══ */}
       {isMobile && (
         <>
+          {/* PWA Install Prompt */}
+          <InstallPrompt />
+
           {/* Mobile Bottom Navigation */}
           <div className="mobile-nav">
             <div className="glass-panel mobile-nav-inner">
