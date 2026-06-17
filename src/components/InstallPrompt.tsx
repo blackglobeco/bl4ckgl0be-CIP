@@ -160,7 +160,7 @@ export default function InstallPrompt() {
                 ) : (
                   <Download className="w-4 h-4" />
                 )}
-                {installing ? 'INSTALLING...' : '⬇ INSTALL APP'}
+                {installing ? 'INSTALLING...' : 'INSTALL APP'}
               </button>
             )}
           </div>
