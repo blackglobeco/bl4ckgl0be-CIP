@@ -133,7 +133,7 @@ export default function InstallPrompt() {
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/8">
                   <Share className="w-4 h-4 text-[var(--cyan-primary)] flex-shrink-0" />
                   <span className="text-[10px] font-mono text-[var(--text-primary)]">
-                    Tap <span className="text-[var(--cyan-primary)] font-bold">Share</span> in Safari
+                    Tap <span className="text-[var(--cyan-primary)] font-bold">Share</span> in browser
                   </span>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/8">
