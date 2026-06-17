@@ -653,6 +653,9 @@ export default function Dashboard() {
         <a href='https://t.me/+UM8VfYx30xllYzY9' target='_blank' className="pointer-events-auto hover:opacity-80 transition-opacity ml-1 flex items-center">
           <span className="px-3 py-1 rounded-sm border border-[var(--gold-primary)]/40 bg-[var(--gold-primary)]/10 text-[var(--gold-primary)] text-[11px] font-bold tracking-[0.2em]">➤ JOIN US</span>
         </a>
+        <a href='https://t.me/evablackglobeonbot' target='_blank' className="pointer-events-auto hover:opacity-80 transition-opacity ml-1 flex items-center">
+          <span className="px-3 py-1 rounded-sm border border-[var(--cyan-primary)]/40 bg-[var(--cyan-primary)]/10 text-[var(--cyan-primary)] text-[11px] font-bold tracking-[0.2em]">➤ CONTACT US</span>
+        </a>
       </motion.div>
 
       {/* ── MOBILE: Compact top status ── */}
@@ -661,6 +664,10 @@ export default function Dashboard() {
           <a href='https://t.me/+UM8VfYx30xllYzY9' target='_blank' className="glass-panel px-2 py-1 flex items-center gap-1.5 text-[7px] font-mono tracking-widest hover:opacity-80 transition-opacity border-[var(--gold-primary)]/40 bg-[var(--gold-primary)]/10">
             <div className="w-1 h-1 rounded-full bg-[var(--gold-primary)] animate-osiris-pulse" />
             <span className="text-[var(--gold-primary)] font-bold">➤ JOIN US</span>
+          </a>
+          <a href='https://t.me/evablackglobeonbot' target='_blank' className="glass-panel px-2 py-1 flex items-center gap-1.5 text-[7px] font-mono tracking-widest hover:opacity-80 transition-opacity border-[var(--cyan-primary)]/40 bg-[var(--cyan-primary)]/10">
+            <div className="w-1 h-1 rounded-full bg-[var(--cyan-primary)] animate-osiris-pulse" />
+            <span className="text-[var(--cyan-primary)] font-bold">➤ CONTACT US</span>
           </a>
         </motion.div>
       )}
