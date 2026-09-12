@@ -136,6 +136,14 @@ const JET_CRUISE_KTS = 300;
 
 const ADSB_MAX_DIST = 250; // nm — hard cap the provider enforces
 const ADSBFI_BASE = 'https://opendata.adsb.fi/api/v2';
+// The geographic lookup has moved: adsb.fi's own docs mark
+// v2/lat/{lat}/lon/{lon}/dist/{dist} as deprecated ("kept for backward
+// compatibility... the v3 endpoint should be used for all new integrations").
+// It still answers 200 but its ac[] came back empty across all 30 regions in
+// testing — including zones that cannot plausibly be quiet airspace (NYC,
+// Central Europe, Japan) — so this route uses v3 for that call specifically.
+// /mil is unaffected by this and stays on v2, where it's still current.
+const ADSBFI_V3_GEO_BASE = 'https://opendata.adsb.fi/api/v3';
 
 // adsb.fi allows roughly one request per second and soft-throttles over that
 // by returning 200 with an empty ac[] rather than 429, so a parallel fanout
@@ -145,6 +153,41 @@ const ADSBFI_GAP_MS = 1100;
 
 const FETCH_HEADERS = { 'Accept': 'application/json' };
 
+// undici's fetch (Node's built-in fetch, used by Next.js on Vercel) throws a
+// generic "TypeError: fetch failed" on connection-level failures — the
+// useful detail (ECONNRESET, UND_ERR_CONNECT_TIMEOUT, DNS failure, etc.) is
+// nested in error.cause, which .message alone doesn't include. This is a
+// known Vercel/undici issue (see VERCEL_UNDICI=1 env var) rather than
+// anything provider-specific, so it's worth unwrapping to tell those apart
+// from an actual HTTP-level rejection.
+function describeError(e: unknown): string {
+  if (!(e instanceof Error)) return String(e);
+  const cause = (e as Error & { cause?: unknown }).cause;
+  const causeStr = cause instanceof Error ? `${cause.name}: ${cause.message}` : cause ? String(cause) : null;
+  return causeStr ? `${e.name}: ${e.message} (cause: ${causeStr})` : `${e.name}: ${e.message}`;
+}
+
+// Small retry helper for connection-level failures (undici's intermittent
+// "fetch failed" on Vercel serverless cold starts). Does not retry on a
+// normal HTTP error response — only on the fetch call itself throwing.
+//
+// initFactory, not a static init: an AbortSignal.timeout() starts counting
+// down the moment it's created, so a single init object shared across
+// attempts hands the second attempt an already-fired signal — it fails
+// instantly instead of getting its own fresh timeout window.
+async function fetchWithRetry(url: string, initFactory: () => RequestInit, attempts = 2): Promise<Response> {
+  let lastErr: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fetch(url, initFactory());
+    } catch (e) {
+      lastErr = e;
+      if (i < attempts - 1) await new Promise(r => setTimeout(r, 500 * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 // adsb.fi serves /mil but returns 400 for /ladd, /pia and /squawk/{code}, so
 // the global type feeds collapse to the military one.
 //
@@ -153,7 +196,7 @@ const FETCH_HEADERS = { 'Accept': 'application/json' };
 // response instead of looking identical to 30 quiet patches of sky.
 async function fetchAdsbFiRegion(lat: number, lon: number): Promise<{ ac: any[]; error: string | null }> {
   try {
-    const res = await fetch(`${ADSBFI_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
+    const res = await fetch(`${ADSBFI_V3_GEO_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
       signal: AbortSignal.timeout(12000),
       headers: FETCH_HEADERS,
     });
@@ -165,7 +208,7 @@ async function fetchAdsbFiRegion(lat: number, lon: number): Promise<{ ac: any[];
     await res.body?.cancel().catch(() => {});
     return { ac: [], error: `HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ''}` };
   } catch (e) {
-    return { ac: [], error: e instanceof Error ? `${e.name}: ${e.message}` : String(e) };
+    return { ac: [], error: describeError(e) };
   }
 }
 
@@ -289,14 +332,14 @@ async function getOpenSkyToken(): Promise<string | null> {
   if (!id || !secret) { osTokenLastError = 'no credentials configured'; return null; }
   if (osToken && Date.now() < osTokenExpiry) { osTokenLastError = null; return osToken; }
   try {
-    const res = await fetch(
+    const res = await fetchWithRetry(
       'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
-      {
+      () => ({
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
-        signal: AbortSignal.timeout(10000),
-      }
+        signal: AbortSignal.timeout(8000),
+      })
     );
     if (!res.ok) {
       const body = await res.text().catch(() => '');
@@ -315,7 +358,7 @@ async function getOpenSkyToken(): Promise<string | null> {
     osTokenLastError = null;
     return osToken;
   } catch (e) {
-    osTokenLastError = e instanceof Error ? `token ${e.name}: ${e.message}` : String(e);
+    osTokenLastError = `token ${describeError(e)}`;
     console.warn('[BLACK GLOBE] OpenSky token error:', osTokenLastError);
     return null;
   }
@@ -352,6 +395,16 @@ export async function GET() {
 
   const JAMMING_NACAP_THRESHOLD = 4;
 
+  // Vercel kills the whole function at maxDuration (60s) regardless of our
+  // own try/catch — that's a platform-level kill, not a JS exception we can
+  // catch and fall back from. So the regional sweep needs to know its own
+  // budget and bail out with partial results well before that wall, rather
+  // than trusting it'll finish in time and finding out the hard way (504,
+  // no response at all — worse than the empty-data problem this route
+  // exists to fix).
+  const FUNCTION_BUDGET_MS = 45000; // maxDuration(60s) minus headroom for classification + response
+  const hardDeadline = now + FUNCTION_BUDGET_MS;
+
   fetchPromise = (async () => {
     const allRaw: any[] = [];
     const seenHex = new Set<string>();
@@ -375,22 +428,31 @@ export async function GET() {
           ? 'skipped — snapshot still fresh'
           : 'pending';
 
-    const token = skipOpenSky ? null : await getOpenSkyToken();
-    if (!skipOpenSky && !token && osTokenLastError && osTokenLastError !== 'no credentials configured') {
-      openSkyStatus = `token error: ${osTokenLastError}`;
-    }
-    const osInit: RequestInit = token
-      ? { signal: AbortSignal.timeout(30000), headers: { Authorization: `Bearer ${token}` } }
-      : { signal: AbortSignal.timeout(30000) };
+    // Token acquisition + states/all fetch happen inside one branch, raced
+    // against the mil feed — not awaited beforehand. Blocking on the token
+    // first (as an earlier version of this route did) serialized an entire
+    // extra network round trip ahead of everything else, which is exactly
+    // the kind of dead time that pushed a slow cold start over the 60s wall.
+    const osStatesBranch: Promise<Response> = (async () => {
+      if (skipOpenSky) throw new Error('OpenSky in cooldown');
+      const token = await getOpenSkyToken();
+      if (!token && osTokenLastError && osTokenLastError !== 'no credentials configured') {
+        openSkyStatus = `token error: ${osTokenLastError}`;
+      }
+      // extended=1 appends the ADS-B emitter category as an 18th field.
+      // Without it the state vector is 17 long and s[17] is undefined,
+      // which would leave every category_os test in classifyFlight() dead.
+      return fetchWithRetry(
+        'https://opensky-network.org/api/states/all?extended=1',
+        () => token
+          ? { signal: AbortSignal.timeout(20000), headers: { Authorization: `Bearer ${token}` } }
+          : { signal: AbortSignal.timeout(20000) }
+      );
+    })();
 
     const [milRes, osRes] = await Promise.allSettled([
       fetch(`${ADSBFI_BASE}/mil`, { signal: AbortSignal.timeout(15000), headers: FETCH_HEADERS }),
-      skipOpenSky
-        ? Promise.reject(new Error('OpenSky in cooldown'))
-        // extended=1 appends the ADS-B emitter category as an 18th field.
-        // Without it the state vector is 17 long and s[17] is undefined,
-        // which would leave every category_os test in classifyFlight() dead.
-        : fetch('https://opensky-network.org/api/states/all?extended=1', osInit),
+      osStatesBranch,
     ]);
 
     // Drain the military feed — parse on ok, discard the body otherwise to free the connection.
@@ -449,9 +511,7 @@ export async function GET() {
         await osRes.value.body?.cancel().catch(() => {});
       }
     } else if (!skipOpenSky) {
-      openSkyStatus = osRes.reason instanceof Error
-        ? `${osRes.reason.name}: ${osRes.reason.message}`
-        : String(osRes.reason);
+      openSkyStatus = describeError(osRes.reason);
     }
 
     ingestAc(osSnapshot, allRaw, seenHex);
@@ -462,18 +522,32 @@ export async function GET() {
     // state. adsb.fi's geographic endpoint is metered more tightly than /mil
     // and answers 200 with an empty ac[] once its budget is spent rather than
     // 429, so sweeping it every cycle would quietly exhaust it and look like
-    // empty airspace. Paced at ~1 req/s; 30 regions ≈ 33s, inside maxDuration.
+    // empty airspace. Paced at ~1 req/s; 30 regions ≈ 33-40s in the best case,
+    // but Phase 1 (mil + OpenSky) can itself eat 15-28s on a cold start, so
+    // this loop checks hardDeadline every iteration and stops with whatever
+    // it's gathered rather than risk the platform killing the function
+    // outright at maxDuration — a 504 with zero data is strictly worse than
+    // an incomplete-but-real 200.
     // Distinct region errors, capped so a systematic failure (30 identical
     // messages) doesn't bloat the response — one example of each kind is
     // enough to diagnose it.
     const regionalErrors = new Map<string, number>();
     let regionalOkCount = 0;
+    let regionalStoppedEarly = false;
 
     if (!openSkyWorked) {
       source = 'regional';
       console.warn('[BLACK GLOBE] no OpenSky snapshot — falling back to adsb.fi regional sweep');
 
       for (const r of REGIONS) {
+        if (Date.now() > hardDeadline) {
+          regionalStoppedEarly = true;
+          console.warn(
+            `[BLACK GLOBE] regional sweep hit time budget after ${regionalOkCount + regionalErrors.size} ` +
+            `of ${REGIONS.length} zones — returning partial results instead of risking a platform timeout`
+          );
+          break;
+        }
         const { ac, error } = await fetchAdsbFiRegion(r.lat, r.lon);
         if (error) {
           regionalErrors.set(error, (regionalErrors.get(error) || 0) + 1);
@@ -547,6 +621,7 @@ export async function GET() {
         // had, rather than genuinely quiet airspace.
         adsbfi_regional_ok: openSkyWorked ? null : regionalOkCount,
         adsbfi_regional_errors: openSkyWorked ? null : Object.fromEntries(regionalErrors),
+        adsbfi_regional_stopped_early: openSkyWorked ? null : regionalStoppedEarly,
         opensky: osSnapshot.length,
         opensky_auth: hasOpenSkyCreds(),
         opensky_age_s: osSnapshotTime ? Math.round((Date.now() - osSnapshotTime) / 1000) : null,
