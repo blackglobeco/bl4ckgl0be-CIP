@@ -147,7 +147,11 @@ const FETCH_HEADERS = { 'Accept': 'application/json' };
 
 // adsb.fi serves /mil but returns 400 for /ladd, /pia and /squawk/{code}, so
 // the global type feeds collapse to the military one.
-async function fetchAdsbFiRegion(lat: number, lon: number): Promise<any[]> {
+//
+// Returns both the aircraft array and a diagnostic string (null on success)
+// so a systematic failure across the regional sweep is visible in the
+// response instead of looking identical to 30 quiet patches of sky.
+async function fetchAdsbFiRegion(lat: number, lon: number): Promise<{ ac: any[]; error: string | null }> {
   try {
     const res = await fetch(`${ADSBFI_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
       signal: AbortSignal.timeout(12000),
@@ -155,11 +159,14 @@ async function fetchAdsbFiRegion(lat: number, lon: number): Promise<any[]> {
     });
     if (res.ok) {
       const data = await res.json();
-      return data.ac || [];
+      return { ac: data.ac || [], error: null };
     }
-    await res.body?.cancel();
-  } catch {}
-  return [];
+    const body = await res.text().catch(() => '');
+    await res.body?.cancel().catch(() => {});
+    return { ac: [], error: `HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ''}` };
+  } catch (e) {
+    return { ac: [], error: e instanceof Error ? `${e.name}: ${e.message}` : String(e) };
+  }
 }
 
 function classifyFlight(f: any) {
@@ -272,12 +279,15 @@ const OPENSKY_COOLDOWN = 15 * 60 * 1000; // 15 min
 // vars (free at opensky-network.org) moves onto the per-account pool.
 let osToken: string | null = null;
 let osTokenExpiry = 0;
+// Last reason getOpenSkyToken() didn't return a usable token — surfaced in
+// the response's providers block instead of only going to console.warn.
+let osTokenLastError: string | null = null;
 
 async function getOpenSkyToken(): Promise<string | null> {
   const id = process.env.OPENSKY_CLIENT_ID;
   const secret = process.env.OPENSKY_CLIENT_SECRET;
-  if (!id || !secret) return null;
-  if (osToken && Date.now() < osTokenExpiry) return osToken;
+  if (!id || !secret) { osTokenLastError = 'no credentials configured'; return null; }
+  if (osToken && Date.now() < osTokenExpiry) { osTokenLastError = null; return osToken; }
   try {
     const res = await fetch(
       'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
@@ -288,17 +298,25 @@ async function getOpenSkyToken(): Promise<string | null> {
         signal: AbortSignal.timeout(10000),
       }
     );
-    if (!res.ok) { console.warn('[BLACK GLOBE] OpenSky token failed:', res.status); return null; }
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      osTokenLastError = `token HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ''}`;
+      console.warn('[BLACK GLOBE] OpenSky token failed:', osTokenLastError);
+      return null;
+    }
     const data = await res.json();
     if (!data.access_token) {
-      console.warn('[BLACK GLOBE] OpenSky token response missing access_token');
+      osTokenLastError = 'token response missing access_token';
+      console.warn('[BLACK GLOBE]', osTokenLastError);
       return null;
     }
     osToken = data.access_token;
     osTokenExpiry = Date.now() + ((data.expires_in || 1800) - 60) * 1000;
+    osTokenLastError = null;
     return osToken;
   } catch (e) {
-    console.warn('[BLACK GLOBE] OpenSky token error:', e);
+    osTokenLastError = e instanceof Error ? `token ${e.name}: ${e.message}` : String(e);
+    console.warn('[BLACK GLOBE] OpenSky token error:', osTokenLastError);
     return null;
   }
 }
@@ -348,7 +366,19 @@ export async function GET() {
       Date.now() < openSkyCooldownUntil ||
       Date.now() - osSnapshotTime < openSkyInterval();
 
+    // Reason the current cycle ends up with no fresh OpenSky snapshot —
+    // reported in providers.opensky_status instead of only reachable via logs.
+    let openSkyStatus: string =
+      Date.now() < openSkyCooldownUntil
+        ? `cooling down until ${new Date(openSkyCooldownUntil).toISOString()} (last 429)`
+        : Date.now() - osSnapshotTime < openSkyInterval()
+          ? 'skipped — snapshot still fresh'
+          : 'pending';
+
     const token = skipOpenSky ? null : await getOpenSkyToken();
+    if (!skipOpenSky && !token && osTokenLastError && osTokenLastError !== 'no credentials configured') {
+      openSkyStatus = `token error: ${osTokenLastError}`;
+    }
     const osInit: RequestInit = token
       ? { signal: AbortSignal.timeout(30000), headers: { Authorization: `Bearer ${token}` } }
       : { signal: AbortSignal.timeout(30000) };
@@ -384,6 +414,7 @@ export async function GET() {
     if (osRes.status === 'fulfilled') {
       if (osRes.value.status === 429) {
         openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN;
+        openSkyStatus = 'HTTP 429 — cooling down 15 min';
         console.warn('[BLACK GLOBE] OpenSky 429 — cooling down 15 min');
         await osRes.value.body?.cancel();
       } else if (osRes.value.ok) {
@@ -403,14 +434,24 @@ export async function GET() {
               category_os: s[17],
             }));
             osSnapshotTime = Date.now();
+            openSkyStatus = 'ok';
+          } else {
+            openSkyStatus = `200 OK but only ${states.length} states — treated as unusable (threshold 100)`;
           }
         } catch (e) {
+          openSkyStatus = e instanceof Error ? `parse error: ${e.name}: ${e.message}` : `parse error: ${e}`;
           console.warn('[BLACK GLOBE] OpenSky parse error:', e);
         }
       } else {
+        const body = await osRes.value.text().catch(() => '');
+        openSkyStatus = `HTTP ${osRes.value.status}${body ? `: ${body.slice(0, 200)}` : ''}`;
         console.warn('[BLACK GLOBE] OpenSky returned', osRes.value.status);
-        await osRes.value.body?.cancel();
+        await osRes.value.body?.cancel().catch(() => {});
       }
+    } else if (!skipOpenSky) {
+      openSkyStatus = osRes.reason instanceof Error
+        ? `${osRes.reason.name}: ${osRes.reason.message}`
+        : String(osRes.reason);
     }
 
     ingestAc(osSnapshot, allRaw, seenHex);
@@ -422,20 +463,33 @@ export async function GET() {
     // and answers 200 with an empty ac[] once its budget is spent rather than
     // 429, so sweeping it every cycle would quietly exhaust it and look like
     // empty airspace. Paced at ~1 req/s; 30 regions ≈ 33s, inside maxDuration.
+    // Distinct region errors, capped so a systematic failure (30 identical
+    // messages) doesn't bloat the response — one example of each kind is
+    // enough to diagnose it.
+    const regionalErrors = new Map<string, number>();
+    let regionalOkCount = 0;
+
     if (!openSkyWorked) {
       source = 'regional';
       console.warn('[BLACK GLOBE] no OpenSky snapshot — falling back to adsb.fi regional sweep');
 
       for (const r of REGIONS) {
-        ingestAc(await fetchAdsbFiRegion(r.lat, r.lon), allRaw, seenHex);
+        const { ac, error } = await fetchAdsbFiRegion(r.lat, r.lon);
+        if (error) {
+          regionalErrors.set(error, (regionalErrors.get(error) || 0) + 1);
+        } else {
+          regionalOkCount++;
+        }
+        ingestAc(ac, allRaw, seenHex);
         await new Promise(resolve => setTimeout(resolve, ADSBFI_GAP_MS));
       }
 
-      if (allRaw.length === 0) {
+      if (allRaw.length === milCount) {
         console.error(
-          '[BLACK GLOBE] every flight provider returned zero aircraft — ' +
+          '[BLACK GLOBE] regional sweep added zero aircraft on top of the mil feed — ' +
           'set OPENSKY_CLIENT_ID/OPENSKY_CLIENT_SECRET (free at opensky-network.org); ' +
-          'the anonymous 400 credits/day pool cannot sustain a live map'
+          'the anonymous 400 credits/day pool cannot sustain a live map. ' +
+          'Regional errors: ' + JSON.stringify(Object.fromEntries(regionalErrors))
         );
       }
     } else {
@@ -485,9 +539,20 @@ export async function GET() {
       providers: {
         adsbfi_mil: milCount,
         adsbfi_regional: openSkyWorked ? 0 : allRaw.length - milCount,
+        // Only populated during a regional sweep. regional_ok is how many of
+        // the 30 zones returned a normal (possibly empty) 200; anything in
+        // regional_errors means that zone's request itself failed — a
+        // non-zero count across most/all zones points at adsb.fi blocking or
+        // rate-limiting this deployment's IP, the same failure mode adsb.lol
+        // had, rather than genuinely quiet airspace.
+        adsbfi_regional_ok: openSkyWorked ? null : regionalOkCount,
+        adsbfi_regional_errors: openSkyWorked ? null : Object.fromEntries(regionalErrors),
         opensky: osSnapshot.length,
         opensky_auth: hasOpenSkyCreds(),
         opensky_age_s: osSnapshotTime ? Math.round((Date.now() - osSnapshotTime) / 1000) : null,
+        // Why this cycle's OpenSky call did or didn't produce a snapshot —
+        // 'ok', a skip reason, or the actual HTTP/parse/token error.
+        opensky_status: openSkyStatus,
       },
       timestamp: new Date().toISOString(),
     };
