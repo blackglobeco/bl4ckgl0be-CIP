@@ -136,14 +136,6 @@ const JET_CRUISE_KTS = 300;
 
 const ADSB_MAX_DIST = 250; // nm — hard cap the provider enforces
 const ADSBFI_BASE = 'https://opendata.adsb.fi/api/v2';
-// The geographic lookup has moved: adsb.fi's own docs mark
-// v2/lat/{lat}/lon/{lon}/dist/{dist} as deprecated ("kept for backward
-// compatibility... the v3 endpoint should be used for all new integrations").
-// It still answers 200 but its ac[] came back empty across all 30 regions in
-// testing — including zones that cannot plausibly be quiet airspace (NYC,
-// Central Europe, Japan) — so this route uses v3 for that call specifically.
-// /mil is unaffected by this and stays on v2, where it's still current.
-const ADSBFI_V3_GEO_BASE = 'https://opendata.adsb.fi/api/v3';
 
 // adsb.fi allows roughly one request per second and soft-throttles over that
 // by returning 200 with an empty ac[] rather than 429, so a parallel fanout
@@ -153,36 +145,6 @@ const ADSBFI_GAP_MS = 1100;
 
 const FETCH_HEADERS = { 'Accept': 'application/json' };
 
-// undici's fetch (Node's built-in fetch, used by Next.js on Vercel) throws a
-// generic "TypeError: fetch failed" on connection-level failures — the
-// useful detail (ECONNRESET, UND_ERR_CONNECT_TIMEOUT, DNS failure, etc.) is
-// nested in error.cause, which .message alone doesn't include. This is a
-// known Vercel/undici issue (see VERCEL_UNDICI=1 env var) rather than
-// anything provider-specific, so it's worth unwrapping to tell those apart
-// from an actual HTTP-level rejection.
-function describeError(e: unknown): string {
-  if (!(e instanceof Error)) return String(e);
-  const cause = (e as Error & { cause?: unknown }).cause;
-  const causeStr = cause instanceof Error ? `${cause.name}: ${cause.message}` : cause ? String(cause) : null;
-  return causeStr ? `${e.name}: ${e.message} (cause: ${causeStr})` : `${e.name}: ${e.message}`;
-}
-
-// Small retry helper for connection-level failures (undici's intermittent
-// "fetch failed" on Vercel serverless cold starts). Does not retry on a
-// normal HTTP error response — only on the fetch call itself throwing.
-async function fetchWithRetry(url: string, init: RequestInit, attempts = 2): Promise<Response> {
-  let lastErr: unknown;
-  for (let i = 0; i < attempts; i++) {
-    try {
-      return await fetch(url, init);
-    } catch (e) {
-      lastErr = e;
-      if (i < attempts - 1) await new Promise(r => setTimeout(r, 500 * (i + 1)));
-    }
-  }
-  throw lastErr;
-}
-
 // adsb.fi serves /mil but returns 400 for /ladd, /pia and /squawk/{code}, so
 // the global type feeds collapse to the military one.
 //
@@ -191,7 +153,7 @@ async function fetchWithRetry(url: string, init: RequestInit, attempts = 2): Pro
 // response instead of looking identical to 30 quiet patches of sky.
 async function fetchAdsbFiRegion(lat: number, lon: number): Promise<{ ac: any[]; error: string | null }> {
   try {
-    const res = await fetch(`${ADSBFI_V3_GEO_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
+    const res = await fetch(`${ADSBFI_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
       signal: AbortSignal.timeout(12000),
       headers: FETCH_HEADERS,
     });
@@ -203,7 +165,7 @@ async function fetchAdsbFiRegion(lat: number, lon: number): Promise<{ ac: any[];
     await res.body?.cancel().catch(() => {});
     return { ac: [], error: `HTTP ${res.status}${body ? `: ${body.slice(0, 200)}` : ''}` };
   } catch (e) {
-    return { ac: [], error: describeError(e) };
+    return { ac: [], error: e instanceof Error ? `${e.name}: ${e.message}` : String(e) };
   }
 }
 
@@ -327,7 +289,7 @@ async function getOpenSkyToken(): Promise<string | null> {
   if (!id || !secret) { osTokenLastError = 'no credentials configured'; return null; }
   if (osToken && Date.now() < osTokenExpiry) { osTokenLastError = null; return osToken; }
   try {
-    const res = await fetchWithRetry(
+    const res = await fetch(
       'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
       {
         method: 'POST',
@@ -353,7 +315,7 @@ async function getOpenSkyToken(): Promise<string | null> {
     osTokenLastError = null;
     return osToken;
   } catch (e) {
-    osTokenLastError = `token ${describeError(e)}`;
+    osTokenLastError = e instanceof Error ? `token ${e.name}: ${e.message}` : String(e);
     console.warn('[BLACK GLOBE] OpenSky token error:', osTokenLastError);
     return null;
   }
@@ -428,7 +390,7 @@ export async function GET() {
         // extended=1 appends the ADS-B emitter category as an 18th field.
         // Without it the state vector is 17 long and s[17] is undefined,
         // which would leave every category_os test in classifyFlight() dead.
-        : fetchWithRetry('https://opensky-network.org/api/states/all?extended=1', osInit),
+        : fetch('https://opensky-network.org/api/states/all?extended=1', osInit),
     ]);
 
     // Drain the military feed — parse on ok, discard the body otherwise to free the connection.
@@ -487,7 +449,9 @@ export async function GET() {
         await osRes.value.body?.cancel().catch(() => {});
       }
     } else if (!skipOpenSky) {
-      openSkyStatus = describeError(osRes.reason);
+      openSkyStatus = osRes.reason instanceof Error
+        ? `${osRes.reason.name}: ${osRes.reason.message}`
+        : String(osRes.reason);
     }
 
     ingestAc(osSnapshot, allRaw, seenHex);
