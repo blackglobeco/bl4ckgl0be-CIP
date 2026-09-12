@@ -1,19 +1,72 @@
 
 import { NextResponse } from 'next/server';
 
+export const maxDuration = 60;
+
 /**
  * OSIRIS — Flight Data API
- * Fetches real-time aircraft positions from adsb.lol (no API key required)
- * Covers 6 global regions for maximum coverage
+ *
+ * adsb.lol/v2 (the original data source for this route) now returns 200 with
+ * an always-empty {"ac":[],"total":0}, and the two obvious replacements —
+ * api.airplanes.live and api.adsb.one — both 403 every endpoint. All three
+ * failure modes are silent: a 403 body is just discarded, and an empty ac[]
+ * is indistinguishable from genuinely quiet airspace. Because nothing ever
+ * throws, the map degraded to zero aircraft without any error surfacing.
+ *
+ * This version fans out to two independent providers instead of one:
+ *   - OpenSky Network `/states/all` — primary global snapshot. Works
+ *     anonymously (400 credits/day) or authenticated (4000 credits/day) if
+ *     OPENSKY_CLIENT_ID / OPENSKY_CLIENT_SECRET are set in the environment.
+ *   - adsb.fi — a still-functioning tar1090/ADSBExchange-v2-shaped feed.
+ *     Its dedicated `/mil` endpoint is polled every cycle for military
+ *     traffic; its geographic `/lat/.../lon/.../dist/...` endpoint is only
+ *     swept regionally as a last resort if OpenSky returns nothing at all.
+ *
+ * Per-provider counts are included in the response (`providers`) so the next
+ * feed that goes dark is visible in the payload instead of silently emptying
+ * the map again.
  */
 
+// 30 regions covering every major aviation corridor at 250 nm radius.
+// Only used as a fallback sweep when OpenSky has no usable snapshot.
 const REGIONS = [
-  { lat: 39.8, lon: -98.5, dist: 2000 },   // North America
-  { lat: 50.0, lon: 15.0, dist: 2000 },     // Europe
-  { lat: 35.0, lon: 105.0, dist: 2000 },    // Asia
-  { lat: -25.0, lon: 133.0, dist: 2000 },   // Australia
-  { lat: 0.0, lon: 20.0, dist: 2500 },      // Africa
-  { lat: -15.0, lon: -60.0, dist: 2000 },   // South America
+  // North America
+  { lat: 39.8,  lon: -98.5 }, // Central US
+  { lat: 41.0,  lon: -74.0 }, // Northeast (NYC/Boston/DC)
+  { lat: 33.0,  lon: -84.0 }, // Southeast (Atlanta)
+  { lat: 42.0,  lon: -88.0 }, // Midwest (Chicago)
+  { lat: 30.0,  lon: -97.0 }, // Texas (Dallas/Houston)
+  { lat: 47.0,  lon:-122.0 }, // Pacific Northwest (Seattle)
+  { lat: 34.0,  lon:-118.0 }, // SoCal (LA)
+  { lat: 45.0,  lon: -73.0 }, // Canada East (Montreal/Toronto)
+  { lat: 49.0,  lon: -97.0 }, // Canada Prairies
+  // Europe
+  { lat: 50.0,  lon:  15.0 }, // Central Europe
+  { lat: 51.5,  lon:  -1.0 }, // UK / Ireland
+  { lat: 47.0,  lon:   2.0 }, // France / Alps
+  { lat: 40.0,  lon:  -4.0 }, // Iberia
+  { lat: 42.0,  lon:  13.0 }, // Italy / Adriatic
+  { lat: 60.0,  lon:  15.0 }, // Scandinavia
+  { lat: 52.0,  lon:  22.0 }, // Eastern Europe / Baltics
+  { lat: 39.0,  lon:  35.0 }, // Turkey / Aegean
+  // Middle East & South Asia
+  { lat: 25.0,  lon:  45.0 }, // Arabian Gulf (Dubai/Riyadh)
+  { lat: 22.0,  lon:  78.0 }, // India
+  // East Asia & Pacific
+  { lat: 35.0,  lon: 105.0 }, // China
+  { lat: 35.0,  lon: 136.0 }, // Japan
+  { lat: 37.0,  lon: 127.0 }, // Korea
+  { lat: 13.0,  lon: 100.0 }, // SE Asia (Bangkok)
+  { lat:  1.0,  lon: 104.0 }, // Singapore / Malacca Strait
+  // Australia
+  { lat:-25.0,  lon: 133.0 }, // Central Australia
+  { lat:-33.0,  lon: 151.0 }, // Eastern Australia (Sydney)
+  // Africa
+  { lat:  0.0,  lon:  20.0 }, // Central Africa
+  { lat:-26.0,  lon:  28.0 }, // South Africa
+  // South America
+  { lat:-15.0,  lon: -60.0 }, // Brazil Central
+  { lat:-23.0,  lon: -46.0 }, // São Paulo / Rio
 ];
 
 // Helicopter type codes
@@ -51,22 +104,61 @@ const MILITARY_INDICATORS = new Set([
   'EUFI','RFAL','TORD','TYP','GR4',
 ]);
 
+// Airliner and regional types. A typed airliner stays commercial whatever
+// its callsign says.
+const AIRLINER_TYPES = new Set([
+  'A319','A320','A321','A332','A333','A339','A343','A359','A388',
+  'B737','B738','B739','B38M','B39M','B752','B753','B763','B764',
+  'B772','B77L','B77W','B788','B789','B78X',
+  'E170','E175','E190','E195','CRJ7','CRJ9','AT43','AT72','DH8D',
+]);
+
+// Fractional-ownership and charter operators file under a 3-letter ICAO
+// designator exactly like an airline, so AIRLINE_CODE_RE matches them and
+// they would otherwise be counted as commercial traffic.
+const BIZJET_OPERATORS = new Set([
+  'EJA','EJM','NJE','LXJ','FJO','VJT','XOJ','JTL','WUP','GAJ','DPJ','CLY','TWY',
+]);
+
 const AIRLINE_CODE_RE = /^([A-Z]{3})\d/;
 
-async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
+// A callsign that is not an airline designator + flight number is a
+// registration: what general-aviation aircraft broadcast once the hyphen is
+// stripped — DMMKG (D-MMKG), HBYKO (HB-YKO), OEDLH (OE-DLH), N425RS, CGABC.
+const CALLSIGN_RE = /^[A-Z0-9]{3,8}$/;
+
+// Business jets cruise in the mid-thirties at transonic speed; nothing flying
+// under a civil registration reaches FL280 at 300 kt without turbofans. This
+// is the only bizjet/piston discriminator available for OpenSky aircraft,
+// which carry no aircraft type at all.
+const JET_CRUISE_ALT_M = 8500;
+const JET_CRUISE_KTS = 300;
+
+const ADSB_MAX_DIST = 250; // nm — hard cap the provider enforces
+const ADSBFI_BASE = 'https://opendata.adsb.fi/api/v2';
+
+// adsb.fi allows roughly one request per second and soft-throttles over that
+// by returning 200 with an empty ac[] rather than 429, so a parallel fanout
+// would look like it succeeded while returning nothing. The regional sweep
+// is paced instead of parallelized.
+const ADSBFI_GAP_MS = 1100;
+
+const FETCH_HEADERS = { 'Accept': 'application/json' };
+
+// adsb.fi serves /mil but returns 400 for /ladd, /pia and /squawk/{code}, so
+// the global type feeds collapse to the military one.
+async function fetchAdsbFiRegion(lat: number, lon: number): Promise<any[]> {
   try {
-    const url = `https://api.adsb.lol/v2/lat/${region.lat}/lon/${region.lon}/dist/${region.dist}`;
-    const res = await fetch(url, {
+    const res = await fetch(`${ADSBFI_BASE}/lat/${lat}/lon/${lon}/dist/${ADSB_MAX_DIST}`, {
       signal: AbortSignal.timeout(12000),
-      headers: { 'Accept': 'application/json' },
+      headers: FETCH_HEADERS,
     });
     if (res.ok) {
       const data = await res.json();
       return data.ac || [];
     }
-  } catch (e) {
-    console.warn(`Region fetch failed for lat=${region.lat}:`, e);
-  }
+    await res.body?.cancel();
+  } catch {}
   return [];
 }
 
@@ -87,20 +179,42 @@ function classifyFlight(f: any) {
   const altMeters = typeof altRaw === 'number' ? altRaw * 0.3048 : 0;
   const speedKnots = typeof f.gs === 'number' ? Math.round(f.gs * 10) / 10 : null;
   const heading = f.track || 0;
-  const isHeli = HELI_TYPES.has(modelUpper);
+  const isHeli = HELI_TYPES.has(modelUpper) || f.category_os === 8;
   const isGrounded = typeof altRaw === 'number' && altRaw < 100;
+
+  const isOsMilitary = f.category_os === 14;
+  const isOsHighPerf = f.category_os === 7;
+  const isOsLight = f.category_os === 2;
+  // Large / high-vortex large / heavy — airline or cargo metal by weight alone.
+  const isOsHeavy = f.category_os === 4 || f.category_os === 5 || f.category_os === 6;
 
   // Extract airline code
   const airlineMatch = AIRLINE_CODE_RE.exec(callsign);
   const airlineCode = airlineMatch ? airlineMatch[1] : '';
 
+  // OpenSky supplies no aircraft type, and its ADS-B emitter category is "no
+  // information" for the large majority of aircraft even with extended=1.
+  // Every type-based test below therefore only fires on the adsb.fi feeds.
+  // The callsign is the field OpenSky always fills, so the airline-designator
+  // test is what carries the split for the bulk of the map.
+  const isGaCallsign = !airlineCode && CALLSIGN_RE.test(flightStr);
+  const cruisesLikeAJet =
+    altMeters > JET_CRUISE_ALT_M && (speedKnots ?? 0) > JET_CRUISE_KTS;
+
   // Classification
   let category: 'commercial' | 'private' | 'jet' | 'military' = 'commercial';
-  if (dbFlags & 1 || MILITARY_INDICATORS.has(modelUpper) || (f.flight || '').match(/^(RCH|KING|DUKE|EVAC|JAKE|REACH|CONVOY)\d/i)) {
+  if (isOsMilitary || dbFlags & 1 || MILITARY_INDICATORS.has(modelUpper) || (f.flight || '').match(/^(RCH|KING|DUKE|EVAC|JAKE|REACH|CONVOY)\d/i)) {
     category = 'military';
-  } else if (PRIVATE_JET_TYPES.has(modelUpper)) {
+  } else if (AIRLINER_TYPES.has(modelUpper) || isOsHeavy) {
+    category = 'commercial';
+  } else if (
+    BIZJET_OPERATORS.has(airlineCode) ||
+    PRIVATE_JET_TYPES.has(modelUpper) ||
+    isOsHighPerf ||
+    (isGaCallsign && cruisesLikeAJet)
+  ) {
     category = 'jet';
-  } else if (!airlineCode && modelUpper && !['A319','A320','A321','A332','A333','A339','A343','A359','A388','B737','B738','B739','B38M','B39M','B752','B753','B763','B764','B772','B77L','B77W','B788','B789','B78X','E170','E175','E190','E195','CRJ7','CRJ9','AT43','AT72','DH8D'].includes(modelUpper)) {
+  } else if (isGaCallsign || isOsLight) {
     category = 'private';
   }
 
@@ -124,16 +238,77 @@ function classifyFlight(f: any) {
   };
 }
 
-// In-memory cache to prevent global fan-out abuse
-// NOTE (Issue #110): This cache is per-isolate in serverless environments (Vercel).
-// Multiple isolates may each hold their own cache, but this is acceptable because:
-// 1. It coalesces concurrent requests within the same isolate
-// 2. It prevents hammering adsb.lol which would cause rate-limit bans
-// For a globally shared cache, migrate to Vercel KV or similar persistent store.
+// In-memory cache — per-isolate in serverless environments (Vercel), which
+// is fine: it coalesces concurrent requests within an isolate and keeps us
+// inside provider budgets even if several isolates each hold their own copy.
 let cachedData: any = null;
 let lastFetchTime = 0;
-const CACHE_TTL = 45000; // 45 seconds cache window
+// 90s TTL keeps us within the authenticated OpenSky budget (4000 credits/day,
+// 4 credits/call ≈ one call per 86s). A shorter TTL on the anonymous pool
+// (400 credits/day) burns the whole day's budget in well under an hour.
+const CACHE_TTL = 90000;
 let fetchPromise: Promise<any> | null = null;
+
+// OpenSky's budget is per day, not per request, so it needs its own interval
+// separate from the response cache above.
+const hasOpenSkyCreds = () =>
+  Boolean(process.env.OPENSKY_CLIENT_ID && process.env.OPENSKY_CLIENT_SECRET);
+const openSkyInterval = () => (hasOpenSkyCreds() ? 90000 : 900000);
+
+// The last good OpenSky snapshot is kept and reused between calls so the map
+// doesn't swing between a full snapshot and near-empty every cycle while
+// waiting out the anonymous interval. providers.opensky_age_s reports how
+// stale it is.
+let osSnapshot: any[] = [];
+let osSnapshotTime = 0;
+
+// Back off from OpenSky after a 429 so the daily quota can reset rather than
+// keep re-poking a throttled endpoint.
+let openSkyCooldownUntil = 0;
+const OPENSKY_COOLDOWN = 15 * 60 * 1000; // 15 min
+
+// OpenSky OAuth2 — optional but recommended. Without keys: anonymous, works
+// but on a much smaller daily credit pool shared per-IP. Setting these env
+// vars (free at opensky-network.org) moves onto the per-account pool.
+let osToken: string | null = null;
+let osTokenExpiry = 0;
+
+async function getOpenSkyToken(): Promise<string | null> {
+  const id = process.env.OPENSKY_CLIENT_ID;
+  const secret = process.env.OPENSKY_CLIENT_SECRET;
+  if (!id || !secret) return null;
+  if (osToken && Date.now() < osTokenExpiry) return osToken;
+  try {
+    const res = await fetch(
+      'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
+        signal: AbortSignal.timeout(10000),
+      }
+    );
+    if (!res.ok) { console.warn('[BLACK GLOBE] OpenSky token failed:', res.status); return null; }
+    const data = await res.json();
+    if (!data.access_token) {
+      console.warn('[BLACK GLOBE] OpenSky token response missing access_token');
+      return null;
+    }
+    osToken = data.access_token;
+    osTokenExpiry = Date.now() + ((data.expires_in || 1800) - 60) * 1000;
+    return osToken;
+  } catch (e) {
+    console.warn('[BLACK GLOBE] OpenSky token error:', e);
+    return null;
+  }
+}
+
+function ingestAc(raw: any[], into: any[], seen: Set<string>) {
+  for (const ac of raw) {
+    const hex = (ac.hex || '').toLowerCase().trim();
+    if (hex && !seen.has(hex)) { seen.add(hex); into.push(ac); }
+  }
+}
 
 export async function GET() {
   const now = Date.now();
@@ -153,36 +328,121 @@ export async function GET() {
         headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' },
       });
     } catch {
-      // Fallback to error if the pending fetch failed
       return NextResponse.json({ error: 'Failed to fetch flight data' }, { status: 500 });
     }
   }
 
   const JAMMING_NACAP_THRESHOLD = 4;
 
-  // Start new global fetch
   fetchPromise = (async () => {
-    // Fetch all 6 regions in parallel
-    const regionResults = await Promise.allSettled(
-      REGIONS.map(r => fetchRegion(r))
-    );
-
     const allRaw: any[] = [];
     const seenHex = new Set<string>();
+    let source: string;
 
-    for (const result of regionResults) {
-      if (result.status === 'fulfilled') {
-        for (const ac of result.value) {
-          const hex = (ac.hex || '').toLowerCase().trim();
-          if (hex && !seenHex.has(hex)) {
-            seenHex.add(hex);
-            allRaw.push(ac);
-          }
+    // ── Phase 1 + 2 in parallel: global military feed AND OpenSky simultaneously ──
+    // Running them together keeps total wall-clock time to max(mil_feed, opensky)
+    // instead of sum. The military feed runs every cycle regardless of OpenSky
+    // status, so military traffic stays live even while an anonymous OpenSky
+    // snapshot is waiting out its interval.
+    const skipOpenSky =
+      Date.now() < openSkyCooldownUntil ||
+      Date.now() - osSnapshotTime < openSkyInterval();
+
+    const token = skipOpenSky ? null : await getOpenSkyToken();
+    const osInit: RequestInit = token
+      ? { signal: AbortSignal.timeout(30000), headers: { Authorization: `Bearer ${token}` } }
+      : { signal: AbortSignal.timeout(30000) };
+
+    const [milRes, osRes] = await Promise.allSettled([
+      fetch(`${ADSBFI_BASE}/mil`, { signal: AbortSignal.timeout(15000), headers: FETCH_HEADERS }),
+      skipOpenSky
+        ? Promise.reject(new Error('OpenSky in cooldown'))
+        // extended=1 appends the ADS-B emitter category as an 18th field.
+        // Without it the state vector is 17 long and s[17] is undefined,
+        // which would leave every category_os test in classifyFlight() dead.
+        : fetch('https://opensky-network.org/api/states/all?extended=1', osInit),
+    ]);
+
+    // Drain the military feed — parse on ok, discard the body otherwise to free the connection.
+    if (milRes.status === 'fulfilled') {
+      if (milRes.value.ok) {
+        try {
+          const data = await milRes.value.json();
+          ingestAc(data.ac || [], allRaw, seenHex);
+        } catch (e) {
+          console.warn('[BLACK GLOBE] adsb.fi mil parse error:', e);
         }
+      } else {
+        console.warn('[BLACK GLOBE] adsb.fi mil feed returned', milRes.value.status);
+        await milRes.value.body?.cancel();
+      }
+    }
+    const milCount = allRaw.length;
+
+    // Refresh the OpenSky snapshot when one was due; otherwise the existing
+    // one carries over untouched.
+    if (osRes.status === 'fulfilled') {
+      if (osRes.value.status === 429) {
+        openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN;
+        console.warn('[BLACK GLOBE] OpenSky 429 — cooling down 15 min');
+        await osRes.value.body?.cancel();
+      } else if (osRes.value.ok) {
+        try {
+          const data = await osRes.value.json();
+          const states = data.states || [];
+          if (states.length > 100) {
+            osSnapshot = states.map((s: any[]) => ({
+              hex: s[0],
+              flight: s[1]?.trim(),
+              lon: s[5],
+              lat: s[6],
+              alt_baro: typeof s[7] === 'number' ? s[7] * 3.28084 : null,
+              gs: typeof s[9] === 'number' ? s[9] * 1.94384 : null,
+              track: s[10],
+              squawk: s[14],
+              category_os: s[17],
+            }));
+            osSnapshotTime = Date.now();
+          }
+        } catch (e) {
+          console.warn('[BLACK GLOBE] OpenSky parse error:', e);
+        }
+      } else {
+        console.warn('[BLACK GLOBE] OpenSky returned', osRes.value.status);
+        await osRes.value.body?.cancel();
       }
     }
 
-    // Classify all flights
+    ingestAc(osSnapshot, allRaw, seenHex);
+    const openSkyWorked = osSnapshot.length > 0;
+
+    // ── Phase 3: Regional sweep — last resort only ──────────────────────────
+    // Runs only when there is no OpenSky snapshot at all, never as the steady
+    // state. adsb.fi's geographic endpoint is metered more tightly than /mil
+    // and answers 200 with an empty ac[] once its budget is spent rather than
+    // 429, so sweeping it every cycle would quietly exhaust it and look like
+    // empty airspace. Paced at ~1 req/s; 30 regions ≈ 33s, inside maxDuration.
+    if (!openSkyWorked) {
+      source = 'regional';
+      console.warn('[BLACK GLOBE] no OpenSky snapshot — falling back to adsb.fi regional sweep');
+
+      for (const r of REGIONS) {
+        ingestAc(await fetchAdsbFiRegion(r.lat, r.lon), allRaw, seenHex);
+        await new Promise(resolve => setTimeout(resolve, ADSBFI_GAP_MS));
+      }
+
+      if (allRaw.length === 0) {
+        console.error(
+          '[BLACK GLOBE] every flight provider returned zero aircraft — ' +
+          'set OPENSKY_CLIENT_ID/OPENSKY_CLIENT_SECRET (free at opensky-network.org); ' +
+          'the anonymous 400 credits/day pool cannot sustain a live map'
+        );
+      }
+    } else {
+      source = hasOpenSkyCreds() ? 'opensky-auth' : 'opensky-anon';
+    }
+
+    // ── Classify ──────────────────────────────────────────────────────────
     const commercial: any[] = [];
     const privateFl: any[] = [];
     const jets: any[] = [];
@@ -211,16 +471,24 @@ export async function GET() {
       }
     }
 
-    // Aggregate GPS jamming zones (grid-based)
-    const jammingZones = aggregateJamming(gpsJamming, JAMMING_NACAP_THRESHOLD);
-
     return {
       commercial_flights: commercial,
       private_flights: privateFl,
       private_jets: jets,
       military_flights: military,
-      gps_jamming: jammingZones,
+      gps_jamming: aggregateJamming(gpsJamming, JAMMING_NACAP_THRESHOLD),
       total: allRaw.length,
+      source,
+      // Per-provider counts so a feed that starts answering 200 with no
+      // aircraft is visible in the payload rather than silently emptying
+      // the map, the way the old single-source adsb.lol call did.
+      providers: {
+        adsbfi_mil: milCount,
+        adsbfi_regional: openSkyWorked ? 0 : allRaw.length - milCount,
+        opensky: osSnapshot.length,
+        opensky_auth: hasOpenSkyCreds(),
+        opensky_age_s: osSnapshotTime ? Math.round((Date.now() - osSnapshotTime) / 1000) : null,
+      },
       timestamp: new Date().toISOString(),
     };
   })();
@@ -230,19 +498,22 @@ export async function GET() {
     cachedData = data;
     lastFetchTime = Date.now();
     fetchPromise = null;
-
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+        'Cache-Control': data.total < 100 ? 'no-store, max-age=0' : 'public, s-maxage=30, stale-while-revalidate=60',
       },
     });
   } catch (error) {
-    console.error('Flight fetch error:', error);
+    console.error('[BLACK GLOBE] Flight fetch error:', error);
     fetchPromise = null;
-    return NextResponse.json(
-      { error: 'Failed to fetch flight data' },
-      { status: 500 }
-    );
+    // Stale-cache fallback: return last known good data instead of a blank map
+    if (cachedData) {
+      console.warn('[BLACK GLOBE] Returning stale flight cache as fallback');
+      return NextResponse.json({ ...cachedData, source: (cachedData.source || 'unknown') + '+stale' }, {
+        headers: { 'Cache-Control': 'no-store, max-age=0' },
+      });
+    }
+    return NextResponse.json({ error: 'Failed to fetch flight data' }, { status: 500 });
   }
 }
 
@@ -273,4 +544,3 @@ function aggregateJamming(points: any[], threshold: number) {
       count: z.count,
     }));
 }
-
