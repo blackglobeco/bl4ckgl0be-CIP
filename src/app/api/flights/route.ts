@@ -167,6 +167,17 @@ function describeError(e: unknown): string {
   return causeStr ? `${e.name}: ${e.message} (cause: ${causeStr})` : `${e.name}: ${e.message}`;
 }
 
+// Distinguishes a connection-level failure (TCP connect timeout, DNS
+// failure, connection refused/reset) from an HTTP-level one (4xx/5xx). Seen
+// in practice: opensky-network.org sometimes never completes the TCP
+// handshake at all from certain Vercel deployments/regions — a structural,
+// not transient, block. Retrying that within the same request just repeats
+// the same ~10s wait for no benefit, so this failure type triggers a cooldown
+// instead of a retry.
+function isConnectionError(e: unknown): boolean {
+  return /ConnectTimeoutError|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ECONNRESET|UND_ERR_CONNECT_TIMEOUT|fetch failed/i.test(describeError(e));
+}
+
 // Small retry helper for connection-level failures (undici's intermittent
 // "fetch failed" on Vercel serverless cold starts). Does not retry on a
 // normal HTTP error response — only on the fetch call itself throwing.
@@ -312,10 +323,16 @@ const openSkyInterval = () => (hasOpenSkyCreds() ? 90000 : 900000);
 let osSnapshot: any[] = [];
 let osSnapshotTime = 0;
 
-// Back off from OpenSky after a 429 so the daily quota can reset rather than
-// keep re-poking a throttled endpoint.
+// Back off from OpenSky after a 429, or after a connection-level failure
+// (TCP connect timeout to opensky-network.org — seen in practice from some
+// Vercel deployments/regions, and structural rather than transient: retrying
+// within the same request just repeats the same ~10s wait for no benefit).
+// Either way, re-attempting on every single cold invocation wastes most of
+// the function's time budget on a doomed connection instead of leaving that
+// time for the adsb.fi regional sweep, which does work.
 let openSkyCooldownUntil = 0;
-const OPENSKY_COOLDOWN = 15 * 60 * 1000; // 15 min
+const OPENSKY_COOLDOWN_429 = 15 * 60 * 1000; // 15 min — quota-based, likely to reset
+const OPENSKY_COOLDOWN_CONN_FAIL = 10 * 60 * 1000; // 10 min — network-level, re-check periodically in case routing changes
 
 // OpenSky OAuth2 — optional but recommended. Without keys: anonymous, works
 // but on a much smaller daily credit pool shared per-IP. Setting these env
@@ -338,8 +355,9 @@ async function getOpenSkyToken(): Promise<string | null> {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
-        signal: AbortSignal.timeout(8000),
-      })
+        signal: AbortSignal.timeout(11000),
+      }),
+      1 // no retry: a connect-level failure here is structural, not transient — see isConnectionError
     );
     if (!res.ok) {
       const body = await res.text().catch(() => '');
@@ -360,6 +378,10 @@ async function getOpenSkyToken(): Promise<string | null> {
   } catch (e) {
     osTokenLastError = `token ${describeError(e)}`;
     console.warn('[BLACK GLOBE] OpenSky token error:', osTokenLastError);
+    if (isConnectionError(e)) {
+      openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN_CONN_FAIL;
+      console.warn(`[BLACK GLOBE] OpenSky connection-level failure — cooling down ${OPENSKY_COOLDOWN_CONN_FAIL / 60000} min`);
+    }
     return null;
   }
 }
@@ -423,7 +445,7 @@ export async function GET() {
     // reported in providers.opensky_status instead of only reachable via logs.
     let openSkyStatus: string =
       Date.now() < openSkyCooldownUntil
-        ? `cooling down until ${new Date(openSkyCooldownUntil).toISOString()} (last 429)`
+        ? `cooling down until ${new Date(openSkyCooldownUntil).toISOString()} (last attempt: 429 or connection failure)`
         : Date.now() - osSnapshotTime < openSkyInterval()
           ? 'skipped — snapshot still fresh'
           : 'pending';
@@ -445,8 +467,9 @@ export async function GET() {
       return fetchWithRetry(
         'https://opensky-network.org/api/states/all?extended=1',
         () => token
-          ? { signal: AbortSignal.timeout(20000), headers: { Authorization: `Bearer ${token}` } }
-          : { signal: AbortSignal.timeout(20000) }
+          ? { signal: AbortSignal.timeout(12000), headers: { Authorization: `Bearer ${token}` } }
+          : { signal: AbortSignal.timeout(12000) },
+        1 // no retry: see isConnectionError — a connect-level failure here is structural
       );
     })();
 
@@ -475,7 +498,7 @@ export async function GET() {
     // one carries over untouched.
     if (osRes.status === 'fulfilled') {
       if (osRes.value.status === 429) {
-        openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN;
+        openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN_429;
         openSkyStatus = 'HTTP 429 — cooling down 15 min';
         console.warn('[BLACK GLOBE] OpenSky 429 — cooling down 15 min');
         await osRes.value.body?.cancel();
@@ -512,6 +535,10 @@ export async function GET() {
       }
     } else if (!skipOpenSky) {
       openSkyStatus = describeError(osRes.reason);
+      if (isConnectionError(osRes.reason)) {
+        openSkyCooldownUntil = Date.now() + OPENSKY_COOLDOWN_CONN_FAIL;
+        console.warn(`[BLACK GLOBE] OpenSky connection-level failure — cooling down ${OPENSKY_COOLDOWN_CONN_FAIL / 60000} min`);
+      }
     }
 
     ingestAc(osSnapshot, allRaw, seenHex);
